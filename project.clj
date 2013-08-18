@@ -6,6 +6,7 @@
   :plugins [[lein-ring "0.8.5"]]
   :ring {:handler pimy.handler/app
          :auto-reload? true
-         :auto-refresh? true}
+         :auto-refresh? true
+         :open-browser? false}
   :profiles
   {:dev {:dependencies [[ring-mock "0.1.5"]]}})
