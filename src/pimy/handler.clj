@@ -8,13 +8,17 @@
 
 (defroutes api-routes
   (context "/api" []
-    (GET "/" []
+    (OPTIONS "/" []
       (->
-       (response {:version "0.1.0"})
-       (header "Allow" "OPTIONS"))))
+        (response {:version "0.1.0"})
+        (header "Allow" "OPTIONS")))
+    (ANY "/" []
+      (->
+        (response nil)
+        (status 405)
+        (header "Allow" "OPTIONS"))))
   (route/not-found "Not found"))
 
 (def app
   (-> (handler/api api-routes)
-      (wrap-restful-params)
-      (wrap-restful-response)))
+    (wrap-restful-response)))
