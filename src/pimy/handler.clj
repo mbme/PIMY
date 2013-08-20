@@ -21,7 +21,9 @@
   (route/not-found "Not found"))
 
 (def app
-  (-> (handler/api api-routes)
+  (->
+    (handler/api api-routes)
     (wrap-request-logger)
+    (wrap-exception-handler)
     (wrap-response-logger)
     (wrap-restful-response)))
