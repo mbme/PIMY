@@ -1,6 +1,7 @@
 (ns pimy.handler
   (:use compojure.core
         ring.util.response
+        pimy.middleware
         [ring.middleware.format-params :only [wrap-restful-params]]
         [ring.middleware.format-response :only [wrap-restful-response]])
   (:require [compojure.handler :as handler]
@@ -21,4 +22,6 @@
 
 (def app
   (-> (handler/api api-routes)
+    (wrap-request-logger)
+    (wrap-response-logger)
     (wrap-restful-response)))
