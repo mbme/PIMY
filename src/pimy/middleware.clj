@@ -2,8 +2,10 @@
   (:use compojure.core
         ring.util.response
         [cheshire.custom :only [JSONable]]
-        [clojure.string :only [upper-case]])
-  (:require [clojure.tools.logging :as log])
+        [clojure.string :only [upper-case]]
+        [clojure.java.io :only [resource]])
+  (:require [clojure.tools.logging :as log]
+            [clojure.edn :as edn])
   (:import (com.fasterxml.jackson.core JsonGenerator)))
 
 (defn wrap-exception-handler
@@ -42,3 +44,6 @@
               (.writeFieldName jg "message")
               (.writeString jg (.getMessage e))
               (.writeEndObject jg))})
+
+(def config (edn/read-string (slurp (resource "properties.edn"))))
+(log/info "version" (:version config))

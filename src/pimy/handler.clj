@@ -1,16 +1,12 @@
 (ns pimy.handler
   (:use compojure.core
-        ring.util.response
         pimy.middleware
         [pimy.http :as http]
-        [ring.middleware.format-response :only [wrap-restful-response]]
-        [clojure.java.io :only [resource]])
-  (:require [compojure.handler :as handler]
-            [compojure.route :as route]
-            [clojure.edn :as edn]))
-
-(def config (edn/read-string (slurp (resource "properties.edn"))))
-(println (:version config))
+        ring.util.response
+        [ring.middleware.format-response :only [wrap-json-response]])
+  (:require [compojure
+             [handler :as handler]
+             [route :as route]]))
 
 (defroutes api-routes
   (context "/api" []
@@ -43,4 +39,4 @@
     (wrap-request-logger)
     (wrap-exception-handler)
     (wrap-response-logger)
-    (wrap-restful-response)))
+    (wrap-json-response)))
