@@ -1,4 +1,4 @@
-(defproject pimy "0.1.0-SNAPSHOT"
+(defproject pimy "0.1.1"
   :description "FIXME: write description"
   :dependencies [[org.clojure/clojure "1.5.1"]
 
@@ -9,6 +9,7 @@
                  [log4j/log4j "1.2.17"]
 
                  [org.clojure/java.jdbc "0.3.0-alpha4"]
+                 [com.mchange/c3p0 "0.9.2.1"]
                  [com.h2database/h2 "1.3.173"]]
   :plugins [[lein-ring "0.8.5"]]
   :ring {:handler pimy.handler/app

@@ -1,4 +1,4 @@
-(ns pimy.middleware
+(ns pimy.utils
   (:use compojure.core
         ring.util.response
         [cheshire.custom :only [JSONable]]
