@@ -1,6 +1,6 @@
 (ns pimy.handler
   (:use compojure.core
-        pimy.middleware
+        pimy.utils
         [pimy.http :as http]
         ring.util.response
         [ring.middleware.format-response :only [wrap-json-response]])
