@@ -1,6 +1,9 @@
-(ns pimy.db
-  (:import com.mchange.v2.c3p0.ComboPooledDataSource)
-  (:use [pimy.utils :only config]))
+(ns pimy.storage.db
+  (:import com.mchange.v2.c3p0.ComboPooledDataSource
+           org.h2.tools.RunScript)
+  (:require [clojure.java.jdbc :as sql]
+            [clojure.java.io :as io])
+  (:use [pimy.utils :only [config]]))
 
 (def db-config
   {:classname "org.h2.Driver"
@@ -26,3 +29,10 @@
 
 (defn db-connection [] @pooled-db)
 
+(defn sql-connection [db-connection]
+  (.getConnection (:datasource (force db-connection))))
+
+(defn create-db []
+  (RunScript/execute
+    (sql-connection (db-connection))
+    (io/reader (io/resource "schema.sql"))))
