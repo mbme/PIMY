@@ -1,5 +1,6 @@
 (ns pimy.storage
-  (:use pimy.db)
+  (:use pimy.db
+        [pimy.utils :only [check-validity]])
   (:require [clojure.java.jdbc :as sql]
             [clj-time.core :as time]
             [clj-time.coerce :as time-conv]
@@ -9,6 +10,10 @@
   (assoc record :created (time-conv/to-timestamp (time/now))))
 (defn- updated-now [record]
   (assoc record :last_update (time-conv/to-timestamp (time/now))))
+(defn- get-record-id [result]
+  (first (vals result)))
+
+(def new-rec-validator #{:title :text })
 
 (defn get-record [id]
   (sql/with-connection (db-connection)
@@ -19,7 +24,10 @@
 
 (defn create-record [record]
   (log/debug "Creating record" record)
-  (sql/with-connection (db-connection)
-    (let [result (sql/insert-record :records (updated-now (created-now record)))]
-      (first (vals result)))))
+  (let [errs (check-validity record new-rec-validator)]
+    (if (empty? errs)
+      (sql/with-connection (db-connection)
+        (get-record-id (sql/insert-record
+                         :records (updated-now (created-now record)))))
+      (throw (IllegalArgumentException. (str errs))))))
 
