@@ -8,6 +8,9 @@
             [clojure.edn :as edn])
   (:import (com.fasterxml.jackson.core JsonGenerator)))
 
+(def config (edn/read-string (slurp (resource "properties.edn"))))
+(log/info "version" (:version config))
+
 (defn wrap-exception-handler
   [handler]
   (fn [req]
@@ -45,5 +48,14 @@
               (.writeString jg (.getMessage e))
               (.writeEndObject jg))})
 
-(def config (edn/read-string (slurp (resource "properties.edn"))))
-(log/info "version" (:version config))
+(def not-nil? (complement nil?))
+
+(defn check-key [key m validators]
+  (if (contains? validators key)
+    (if (nil? (m key))
+      {:msg "Required field is nil" :key key :val (m key)})
+    (if (not-nil? (m key))
+      {:msg "Unexpected field" :key key :val (m key)})))
+
+(defn check-validity [m required-fields]
+  (filter not-nil? (map #(check-key % m required-fields) (keys m))))
