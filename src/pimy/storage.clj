@@ -15,7 +15,7 @@
 
 (def new-rec-validator #{:title :text })
 
-(defn get-record [id]
+(defn read-record [id]
   (sql/with-connection (db-connection)
     (sql/with-query-results results
       ["SELECT * FROM records WHERE id = ?" id]
