@@ -1,4 +1,4 @@
-(defproject pimy "0.1.1"
+(defproject pimy "0.1.2"
   :description "FIXME: write description"
   :dependencies [[org.clojure/clojure "1.5.1"]
 
