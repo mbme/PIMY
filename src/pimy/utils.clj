@@ -50,12 +50,20 @@
 
 (def not-nil? (complement nil?))
 
-(defn check-key [key m validators]
-  (if (contains? validators key)
-    (if (nil? (m key))
-      {:msg "Required field is nil" :key key :val (m key)})
-    (if (not-nil? (m key))
-      {:msg "Unexpected field" :key key :val (m key)})))
+;; %1 key %2 value
+(def constraints {:required #(if (not-nil? %2)
+                               nil
+                               {:msg "Required field is nil" :key %1 :val %2})
+                  :required-nil #(if (not-nil? %2)
+                                   {:msg "Field must be nil" :key %1 :val %2}
+                                   nil)})
+
+(defn check-constraint
+  [constraint fields m]
+  (let [validator (constraints constraint)]
+    (map #(validator % (m %)) fields)))
 
 (defn check-validity [m required-fields]
-  (filter not-nil? (map #(check-key % m required-fields) (keys m))))
+  (filter not-nil?
+    (apply concat
+      (map #(check-constraint %1 (%1 required-fields) m) (keys required-fields)))))
