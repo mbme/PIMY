@@ -49,21 +49,3 @@
               (.writeEndObject jg))})
 
 (def not-nil? (complement nil?))
-
-;; %1 key %2 value
-(def constraints {:required #(if (not-nil? %2)
-                               nil
-                               {:msg "Required field is nil" :key %1 :val %2})
-                  :required-nil #(if (not-nil? %2)
-                                   {:msg "Field must be nil" :key %1 :val %2}
-                                   nil)})
-
-(defn check-constraint
-  [constraint fields m]
-  (let [validator (constraints constraint)]
-    (map #(validator % (m %)) fields)))
-
-(defn check-validity [m required-fields]
-  (filter not-nil?
-    (apply concat
-      (map #(check-constraint %1 (%1 required-fields) m) (keys required-fields)))))

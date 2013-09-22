@@ -1,6 +1,7 @@
 (ns pimy.storage
   (:use pimy.db
-        [pimy.utils :only [check-validity]])
+        pimy.utils
+        [clojure.string :only [join]])
   (:require [clojure.java.jdbc :as sql]
             [clj-time.core :as time]
             [clj-time.coerce :as time-conv]
@@ -10,13 +11,9 @@
   []
   (time-conv/to-timestamp (time/now)))
 
-(defn- created-at
-  [record date]
-  (assoc record :created date))
-
-(defn- updated-at
-  [record date]
-  (assoc record :last_update date))
+(defn- created-now
+  [record]
+  (assoc record :created (now)))
 
 (defn- get-record-id
   [result]
@@ -26,19 +23,26 @@
   [m]
   (into {} (remove (comp nil? val) m)))
 
-(def validators {:for-create {:required-nil [:id :created :last_update ] :required [:title :text ]}
-                 :for-update {:required [:id :last_update ]}})
+(defn- check-validity [m required-fields]
+  (filter not-nil?
+    (map #(if (nil? (m %1)) %1 nil) required-fields)))
+
+(defn get-fields
+  "Returns specified fields from map.
+  If they are nil or missing - throw IllegalStateException"
+  [m & fields]
+  (let [missing-fields (check-validity m fields)]
+    (if (empty? missing-fields)
+      (select-keys m fields)
+      (throw (IllegalArgumentException. (str "Missing fields: " (join ", " missing-fields)))))
+    ))
 
 (defn create-record [record]
   (log/debug "Creating record" record)
-  (let [errs (check-validity record (validators :for-create ))
-        now (now)
-        rec (updated-at (created-at record now) now)]
-    (if (empty? errs)
-      (sql/with-connection (db-connection)
-        (get-record-id (sql/insert-record
-                         :records rec)))
-      (throw (IllegalArgumentException. (apply str errs))))))
+  (let [rec (created-now (get-fields record :title :text ))]
+    (sql/with-connection (db-connection)
+      (get-record-id (sql/insert-record :records rec)))
+    ))
 
 (defn read-record [id]
   (sql/with-connection (db-connection)
@@ -48,12 +52,11 @@
 
 (defn update-record [record]
   (log/debug "Updating record" record)
-  (let [rec (updated-at (remove-nil (select-keys record [:id :title :text ])) (now))
-        errs (check-validity rec (validators :for-update ))]
-    (if (empty? errs)
-      (sql/with-connection (db-connection)
-        (if (= 0 (first (sql/update-values :records ["id=?" (rec :id )] rec)))
-          (throw (IllegalArgumentException. (str "can't find record with id" (rec :id ))))
-          (rec :id )))
-      (throw (IllegalArgumentException. (apply str errs))))))
+  (let [rec (get-fields record :id :title :text )
+        id (rec :id )]
+    (sql/with-connection (db-connection)
+      (if (= 0 (first (sql/update-values :records ["id=?" id] rec)))
+        (throw (IllegalArgumentException. (str "can't find record with id=" id)))
+        id))
+    ))
 
