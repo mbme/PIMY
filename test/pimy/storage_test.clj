@@ -38,7 +38,6 @@
       (is (= (retrieved_rec :text ) (rec :text )))
       (is (not-nil? (retrieved_rec :created )))
       (is (not-nil? (retrieved_rec :last_update )))
-      (is (false? (retrieved_rec :deleted )))
 
       (is (nil? (storage/read-record (+ rec_id 1))))
       ))
@@ -48,6 +47,7 @@
       (let [bad1 {:text "test"}
             rec {:title "test" :text "some text"}
             rec_id (storage/create-record rec)
+            retrieved_rec1 (storage/read-record rec_id)
             ok {:id rec_id :title "new_title" :text "new_text"}
             upd_id (storage/update-record ok)
             retrieved_rec (storage/read-record upd_id)]
@@ -57,7 +57,6 @@
         (is (= rec_id upd_id))
         (is (= (retrieved_rec :title ) "new_title"))
         (is (= (retrieved_rec :text ) "new_text"))
-        (is (false? (retrieved_rec :deleted )))
         (is (not= (retrieved_rec :created ) (retrieved_rec :last_update ))
           ":last_update must not be the same as :created")
         ))

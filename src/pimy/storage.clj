@@ -11,10 +11,6 @@
   []
   (time-conv/to-timestamp (time/now)))
 
-(defn- created-now
-  [record]
-  (assoc record :created (now)))
-
 (defn- get-record-id
   [result]
   (first (vals result)))
@@ -39,7 +35,8 @@
 
 (defn create-record [record]
   (log/debug "Creating record" record)
-  (let [rec (created-now (get-fields record :title :text ))]
+  (let [now (now)
+        rec (assoc (get-fields record :title :text ) :created now :last_update now)]
     (sql/with-connection (db-connection)
       (get-record-id (sql/insert-record :records rec)))
     ))
@@ -52,7 +49,7 @@
 
 (defn update-record [record]
   (log/debug "Updating record" record)
-  (let [rec (get-fields record :id :title :text )
+  (let [rec (assoc (get-fields record :id :title :text ) :last_update (now))
         id (rec :id )]
     (sql/with-connection (db-connection)
       (if (= 0 (first (sql/update-values :records ["id=?" id] rec)))
