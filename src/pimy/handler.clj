@@ -10,6 +10,8 @@
 
 (defroutes api-routes
   (context "/api" []
+    (GET "/" []
+      {:body {:version (config :version )}})
     (OPTIONS "/" []
       (http/options [:options ] {:version (:version config)}))
     (ANY "/" []
