@@ -1,5 +1,5 @@
-(defproject pimy "0.1.2"
-  :description "FIXME: write description"
+(defproject pimy "0.1.3"
+  :description "I'm sure it's my personal PIM"
   :dependencies [[org.clojure/clojure "1.5.1"]
 
                  [compojure "1.1.5"]
@@ -15,4 +15,5 @@
   :ring {:handler pimy.handler/app
          :auto-reload? true
          :auto-refresh? true}
-  :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}})
+  :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}
+             :test {:resource-paths ["test-resources"]}})
