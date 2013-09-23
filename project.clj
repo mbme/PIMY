@@ -16,4 +16,5 @@
          :auto-reload? true
          :auto-refresh? true}
   :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}
-             :test {:resource-paths ["test-resources"]}})
+             :test {:resource-paths ["test-resources"]}}
+  :aliases {"serv" ["ring" "server-headless"]})
