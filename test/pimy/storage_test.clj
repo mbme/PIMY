@@ -70,4 +70,11 @@
           "must be an error if updating non existing record")
         ))
     )
+
+  (testing "Delete record"
+    (let [rec {:title "some title" :text "some text"}
+          rec_id (storage/create-record rec)]
+      (is (storage/delete-record rec_id) "We should delete existing record")
+      (is (not (storage/delete-record (+ rec_id 1))) "We can't delete missing record")
+      ))
   )
