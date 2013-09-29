@@ -8,9 +8,9 @@
   (pimy.db/create-db)
 
   (testing "Successfull creation of record"
-    (let [rec {:id nil :created nil :last_update nil :title "test" :text "some text"}
-          rec1 {:id 2 :created nil :last_update nil :title "test" :text "some text"}
-          rec2 {:title "test" :text "some text"}]
+    (let [rec {:id nil :created nil :last_update nil :title "test" :text "some text" :type "ARTICLE"}
+          rec1 {:id 2 :created nil :last_update nil :title "test" :text "some text" :type "ARTICLE"}
+          rec2 {:title "test" :text "some text" :type "ARTICLE"}]
 
       (is (= (storage/create-record rec) 1))
       (is (= (storage/create-record rec1) 2))
@@ -21,15 +21,19 @@
     (let [
            bad_rec_1 {:id nil :created nil :last_update "test" :title "test" :text nil}
            bad_rec_2 {:id nil :created "test" :last_update nil :title nil :text "some text"}
+           bad_rec_3 {:id nil :created "test" :last_update nil :title "test" :text "some text"}
+           bad_rec_4 {:id nil :created "test" :last_update nil :title "test" :text "some text" :type "WRONG"}
            ]
 
       (is (thrown? IllegalArgumentException (storage/create-record bad_rec_1)))
       (is (thrown? IllegalArgumentException (storage/create-record bad_rec_2)))
+      (is (thrown? IllegalArgumentException (storage/create-record bad_rec_3)))
+      (is (thrown? IllegalArgumentException (storage/create-record bad_rec_4)))
       ))
 
 
   (testing "Reading record"
-    (let [rec {:title "test" :text "some text"}
+    (let [rec {:title "test" :text "some text" :type "ARTICLE"}
           rec_id (storage/create-record rec)
           retrieved_rec (storage/read-record rec_id)]
 
@@ -45,7 +49,7 @@
   (testing "Updating record"
     (testing "general update"
       (let [bad1 {:text "test"}
-            rec {:title "test" :text "some text"}
+            rec {:title "test" :text "some text" :type "ARTICLE"}
             rec_id (storage/create-record rec)
             retrieved_rec1 (storage/read-record rec_id)
             ok {:id rec_id :title "new_title" :text "new_text"}
@@ -62,7 +66,7 @@
         ))
 
     (testing "update of missing record"
-      (let [rec {:title "test" :text "some text"}
+      (let [rec {:title "test" :text "some text" :type "ARTICLE"}
             rec_id (storage/create-record rec)
             bad {:id (inc rec_id) :title "new_title" :text "new_text"}]
 
@@ -72,7 +76,7 @@
     )
 
   (testing "Delete record"
-    (let [rec {:title "some title" :text "some text"}
+    (let [rec {:title "some title" :text "some text" :type "ARTICLE"}
           rec_id (storage/create-record rec)]
       (is (storage/delete-record rec_id) "We should delete existing record")
       (is (not (storage/delete-record (+ rec_id 1))) "We can't delete missing record")
