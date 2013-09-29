@@ -15,10 +15,6 @@
   [result]
   (first (vals result)))
 
-(defn- remove-nil
-  [m]
-  (into {} (remove (comp nil? val) m)))
-
 (defn- check-validity [m required-fields]
   (filter not-nil?
     (map #(if (nil? (m %1)) %1 nil) required-fields)))
@@ -39,7 +35,7 @@
   [record]
   (log/debug "Creating record" record)
   (let [now (now)
-        rec (assoc (get-fields record :title :text ) :created now :last_update now)]
+        rec (assoc (get-fields record :title :text :type) :created now :last_update now)]
     (sql/with-connection (db-connection)
       (get-record-id (sql/insert-record :records rec)))
     ))
