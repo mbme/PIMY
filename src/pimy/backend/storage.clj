@@ -1,5 +1,5 @@
-(ns pimy.storage
-  (:use pimy.db
+(ns pimy.backend.storage
+  (:use pimy.backend.db
         pimy.utils
         [clojure.string :only [join]])
   (:require [clojure.java.jdbc :as sql]
@@ -19,7 +19,7 @@
   (filter not-nil?
     (map #(if (nil? (m %1)) %1 nil) required-fields)))
 
-(defn get-fields
+(defn- get-fields
   "Returns specified fields from map.
   If they are nil or missing - throw IllegalStateException"
   [m & fields]
@@ -29,21 +29,22 @@
       (throw (IllegalArgumentException. (str "Missing fields: " (join ", " missing-fields)))))
     ))
 
+
 (defn create-record
   "Creates record and returns its id or throws
   error if required fields missing"
   [record]
   (log/debug "Creating record" record)
   (let [now (now)
-        rec (assoc (get-fields record :title :text :type) :created now :last_update now)]
-    (sql/with-connection (db-connection)
+        rec (assoc (get-fields record :title :text :type ) :created now :last_update now)]
+    (sql/with-connection (db-conn)
       (get-record-id (sql/insert-record :records rec)))
     ))
 
 (defn read-record
   "Return record with gived id or nil"
   [id]
-  (sql/with-connection (db-connection)
+  (sql/with-connection (db-conn)
     (sql/with-query-results results
       ["SELECT * FROM records WHERE id = ?" id]
       (cond (empty? results) nil :else (first results)))))
@@ -56,7 +57,7 @@
   (log/debug "Updating record" record)
   (let [rec (assoc (get-fields record :id :title :text ) :last_update (now))
         id (rec :id )]
-    (sql/with-connection (db-connection)
+    (sql/with-connection (db-conn)
       (if (= 0 (first (sql/update-values :records ["id=?" id] rec)))
         (throw (IllegalArgumentException. (str "can't find record with id=" id)))
         id))
@@ -66,7 +67,7 @@
   "Returns true if record has beed deleted false othervise"
   [id]
   (log/debug "Deleting record" id)
-  (sql/with-connection (db-connection)
+  (sql/with-connection (db-conn)
     (= 1 (first (sql/delete-rows :records ["id=?" id])))
     ))
 
