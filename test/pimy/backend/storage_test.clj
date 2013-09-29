@@ -1,11 +1,11 @@
-(ns pimy.storage-test
+(ns pimy.backend.storage-test
   (:use clojure.test
         [pimy.utils :only [not-nil?]])
-  (:require [pimy.db]
-            [pimy.storage :as storage]))
+  (:require [pimy.backend.db]
+            [pimy.backend.storage :as storage]))
 
 (deftest test-record
-  (pimy.db/create-db)
+  (pimy.backend.db/setup-db)
 
   (testing "Successfull creation of record"
     (let [rec {:id nil :created nil :last_update nil :title "test" :text "some text" :type "ARTICLE"}
