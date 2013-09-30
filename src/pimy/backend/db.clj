@@ -1,21 +1,20 @@
 (ns pimy.backend.db
   (:import org.h2.tools.RunScript)
   (:require [clojure.tools.logging :as log]
+            [clojure.string :as str]
             [clojure.java.io :as io])
   (:use [pimy.utils :only [config]]
-        [korma.db]))
+        [korma.db]
+        [korma.core]))
 
-;db configuration
-(def db-config
-  {:classname "org.h2.Driver"
-   :subprotocol "h2"
-   :subname (:db_url config)
-   :user (:db_user config)
-   :password (:db_password config)})
+(def db-config (h2 {:db (:db_url config)
+                    :user (:db_user config)
+                    :password (:db_password config)
+                    :naming {:keys str/lower-case
+                             :fields str/upper-case}}))
 
 ;db instance
-(defdb db (delay-pool db-config))
-
+(defdb db db-config)
 (defn db-conn [] (get-connection db))
 
 (defn sql-connection
