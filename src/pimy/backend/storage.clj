@@ -1,16 +1,25 @@
 (ns pimy.backend.storage
   (:use pimy.backend.db
-        pimy.utils
+        [pimy.utils :only [now not-nil?]]
+        metis.core
         [clojure.string :only [join]])
   (:require [clojure.java.jdbc :as sql]
-            [clj-time.core :as time]
-            [clj-time.coerce :as time-conv]
             [clojure.tools.logging :as log]
-            [pimy.backend.models :as m]))
+            [pimy.backend.models :as models]))
 
-(defn- now
-  []
-  (time-conv/to-timestamp (time/now)))
+
+(defvalidator record-validator
+  [:title :presence ]
+  [:text :presence ]
+  [:type :inclusion {:in models/record_types}])
+
+(defn validate&get
+  [m & fields]
+  (let [errs (record-validator m)]
+    (if (empty? errs)
+      (select-keys m fields)
+      (throw (IllegalArgumentException. (str errs)))
+      )))
 
 (defn- get-record-id
   [result]
@@ -30,22 +39,17 @@
       (throw (IllegalArgumentException. (str "Missing fields: " (join ", " missing-fields)))))
     ))
 
-
 (defn create-record
   "Creates record and returns its id or throws
   error if required fields missing"
   [record]
   (log/debug "Creating record" record)
-  (let [now (now)
-        rec (assoc (get-fields record :title :text :type ) :created_on now :updated_on now)]
-    (sql/with-connection (db-conn)
-      (get-record-id (sql/insert-record :records rec)))
-    ))
+  (models/create-record (validate&get record :title :text :type )))
 
 (defn read-record
   "Return record with gived id or nil"
   [id]
-  (m/get-record id))
+  (if (number? id) (models/get-record id)))
 
 (defn update-record
   "Updates record fields and return record id or

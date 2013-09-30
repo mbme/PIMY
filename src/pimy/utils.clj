@@ -2,9 +2,11 @@
   (:use compojure.core
         ring.util.response
         [cheshire.custom :only [JSONable]]
-        [clojure.string :only [upper-case]]
+        [clojure.string :only [upper-case blank?]]
         [clojure.java.io :only [resource]])
   (:require [clojure.tools.logging :as log]
+            [clj-time.core :as time]
+            [clj-time.coerce :as time-conv]
             [clojure.edn :as edn])
   (:import (com.fasterxml.jackson.core JsonGenerator)))
 
@@ -49,3 +51,8 @@
               (.writeEndObject jg))})
 
 (def not-nil? (complement nil?))
+
+(defn now [] (time-conv/to-timestamp (time/now)))
+
+(def not-blank? (complement blank?))
+

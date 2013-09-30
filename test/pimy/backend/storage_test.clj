@@ -46,6 +46,12 @@
       (is (nil? (storage/read-record (+ rec_id 1))))
       ))
 
+  (testing "Failed reading of record with bad id"
+    (let [rec {:title "test" :text "some text" :type "ARTICLE"}
+          rec_id (storage/create-record rec)]
+      (is (nil? (storage/read-record "test")))
+      ))
+
   (testing "Updating record"
     (testing "general update"
       (let [bad1 {:text "test"}
