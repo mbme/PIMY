@@ -5,7 +5,8 @@
   (:require [clojure.java.jdbc :as sql]
             [clj-time.core :as time]
             [clj-time.coerce :as time-conv]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [pimy.backend.models :as m]))
 
 (defn- now
   []
@@ -36,7 +37,7 @@
   [record]
   (log/debug "Creating record" record)
   (let [now (now)
-        rec (assoc (get-fields record :title :text :type ) :created now :last_update now)]
+        rec (assoc (get-fields record :title :text :type ) :created_on now :updated_on now)]
     (sql/with-connection (db-conn)
       (get-record-id (sql/insert-record :records rec)))
     ))
@@ -44,10 +45,7 @@
 (defn read-record
   "Return record with gived id or nil"
   [id]
-  (sql/with-connection (db-conn)
-    (sql/with-query-results results
-      ["SELECT * FROM records WHERE id = ?" id]
-      (cond (empty? results) nil :else (first results)))))
+  (m/get-record id))
 
 (defn update-record
   "Updates record fields and return record id or
@@ -55,7 +53,7 @@
   or some fields missing"
   [record]
   (log/debug "Updating record" record)
-  (let [rec (assoc (get-fields record :id :title :text ) :last_update (now))
+  (let [rec (assoc (get-fields record :id :title :text ) :updated_on (now))
         id (rec :id )]
     (sql/with-connection (db-conn)
       (if (= 0 (first (sql/update-values :records ["id=?" id] rec)))

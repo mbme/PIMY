@@ -8,8 +8,8 @@
   (pimy.backend.db/setup-db)
 
   (testing "Successfull creation of record"
-    (let [rec {:id nil :created nil :last_update nil :title "test" :text "some text" :type "ARTICLE"}
-          rec1 {:id 2 :created nil :last_update nil :title "test" :text "some text" :type "ARTICLE"}
+    (let [rec {:id nil :created_on nil :updated_on nil :title "test" :text "some text" :type "ARTICLE"}
+          rec1 {:id 2 :created_on nil :updated_on nil :title "test" :text "some text" :type "ARTICLE"}
           rec2 {:title "test" :text "some text" :type "ARTICLE"}]
 
       (is (= (storage/create-record rec) 1))
@@ -19,10 +19,10 @@
 
   (testing "Failed creation of record"
     (let [
-           bad_rec_1 {:id nil :created nil :last_update "test" :title "test" :text nil}
-           bad_rec_2 {:id nil :created "test" :last_update nil :title nil :text "some text"}
-           bad_rec_3 {:id nil :created "test" :last_update nil :title "test" :text "some text"}
-           bad_rec_4 {:id nil :created "test" :last_update nil :title "test" :text "some text" :type "WRONG"}
+           bad_rec_1 {:id nil :created_on nil :updated_on "test" :title "test" :text nil}
+           bad_rec_2 {:id nil :created_on "test" :updated_on nil :title nil :text "some text"}
+           bad_rec_3 {:id nil :created_on "test" :updated_on nil :title "test" :text "some text"}
+           bad_rec_4 {:id nil :created_on "test" :updated_on nil :title "test" :text "some text" :type "WRONG"}
            ]
 
       (is (thrown? IllegalArgumentException (storage/create-record bad_rec_1)))
@@ -40,8 +40,8 @@
       (is (= (retrieved_rec :id ) rec_id))
       (is (= (retrieved_rec :title ) (rec :title )))
       (is (= (retrieved_rec :text ) (rec :text )))
-      (is (not-nil? (retrieved_rec :created )))
-      (is (not-nil? (retrieved_rec :last_update )))
+      (is (not-nil? (retrieved_rec :created_on )))
+      (is (not-nil? (retrieved_rec :updated_on )))
 
       (is (nil? (storage/read-record (+ rec_id 1))))
       ))
@@ -61,8 +61,8 @@
         (is (= rec_id upd_id))
         (is (= (retrieved_rec :title ) "new_title"))
         (is (= (retrieved_rec :text ) "new_text"))
-        (is (not= (retrieved_rec :created ) (retrieved_rec :last_update ))
-          ":last_update must not be the same as :created")
+        (is (not= (retrieved_rec :created_on ) (retrieved_rec :updated_on ))
+          ":updated_on must not be the same as :created_on")
         ))
 
     (testing "update of missing record"
