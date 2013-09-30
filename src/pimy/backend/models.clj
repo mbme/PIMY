@@ -28,6 +28,13 @@
       (first))
     ))
 
+(defn update-record
+  [rec]
+  (let [record (assoc rec :updated_on (now))]
+    (println (update records
+               (set-fields record)
+               (where {:id (record :id )})))
+    ))
 
 (defentity tags
   (table :TAGS )
