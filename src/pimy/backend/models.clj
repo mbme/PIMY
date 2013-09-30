@@ -31,9 +31,15 @@
 (defn update-record
   [rec]
   (let [record (assoc rec :updated_on (now))]
-    (println (update records
-               (set-fields record)
-               (where {:id (record :id )})))
+    (update records
+      (set-fields record)
+      (where {:id (record :id )}))
+    ))
+
+(defn delete-record
+  [id]
+  (delete records
+    (where {:id id})
     ))
 
 (defentity tags

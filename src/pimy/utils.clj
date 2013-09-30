@@ -56,3 +56,7 @@
 
 (def not-blank? (complement blank?))
 
+(defn throw-IAE
+  [& errs]
+  (throw (IllegalArgumentException. (str errs))))
+

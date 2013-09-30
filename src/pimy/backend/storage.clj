@@ -1,10 +1,8 @@
 (ns pimy.backend.storage
   (:use pimy.backend.db
-        [pimy.utils :only [now not-nil?]]
-        metis.core
-        [clojure.string :only [join]])
-  (:require [clojure.java.jdbc :as sql]
-            [clojure.tools.logging :as log]
+        [pimy.utils :only [now not-nil? throw-IAE]]
+        metis.core)
+  (:require [clojure.tools.logging :as log]
             [pimy.backend.models :as models]))
 
 (defn read-record
@@ -13,10 +11,12 @@
   (if (number? id) (models/get-record id)))
 
 (defn existing-rec-id
-  [map key _]
-  (when-not (read-record (get map key))
-    "not existing record"
-    ))
+  ([map key _]
+    (existing-rec-id (get map key)))
+  ([id]
+    (when-not (read-record id)
+      "not existing record"
+      )))
 
 (defvalidator record-validator
   [:id :existing-rec-id {:except :create}]
@@ -28,7 +28,7 @@
   [m mode]
   (let [errs (record-validator m mode)]
     (if-not (empty? errs)
-      (throw (IllegalArgumentException. (str errs))))
+      (throw-IAE errs))
     ))
 
 (defn create-record
@@ -53,7 +53,9 @@
   "Returns true if record has beed deleted false othervise"
   [id]
   (log/debug "Deleting record" id)
-  (sql/with-connection (db-conn)
-    (= 1 (first (sql/delete-rows :records ["id=?" id])))
+  (let [err (existing-rec-id id)]
+    (if (nil? err)
+      (models/delete-record id)
+      (throw-IAE err id))
     ))
 
