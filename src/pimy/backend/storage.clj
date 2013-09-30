@@ -7,36 +7,28 @@
             [clojure.tools.logging :as log]
             [pimy.backend.models :as models]))
 
+(defn read-record
+  "Return record with gived id or nil"
+  [id]
+  (if (number? id) (models/get-record id)))
+
+(defn existing-rec-id
+  [map key _]
+  (when-not (read-record (get map key))
+    "not existing record"
+    ))
 
 (defvalidator record-validator
+  [:id :existing-rec-id {:except :create}]
   [:title :presence ]
   [:text :presence ]
-  [:type :inclusion {:in models/record_types}])
+  [:type :inclusion {:in models/record_types :only :create}])
 
-(defn validate&get
-  [m & fields]
-  (let [errs (record-validator m)]
-    (if (empty? errs)
-      (select-keys m fields)
-      (throw (IllegalArgumentException. (str errs)))
-      )))
-
-(defn- get-record-id
-  [result]
-  (first (vals result)))
-
-(defn- check-validity [m required-fields]
-  (filter not-nil?
-    (map #(if (nil? (m %1)) %1 nil) required-fields)))
-
-(defn- get-fields
-  "Returns specified fields from map.
-  If they are nil or missing - throw IllegalStateException"
-  [m & fields]
-  (let [missing-fields (check-validity m fields)]
-    (if (empty? missing-fields)
-      (select-keys m fields)
-      (throw (IllegalArgumentException. (str "Missing fields: " (join ", " missing-fields)))))
+(defn check-record
+  [m mode]
+  (let [errs (record-validator m mode)]
+    (if-not (empty? errs)
+      (throw (IllegalArgumentException. (str errs))))
     ))
 
 (defn create-record
@@ -44,12 +36,8 @@
   error if required fields missing"
   [record]
   (log/debug "Creating record" record)
-  (models/create-record (validate&get record :title :text :type )))
-
-(defn read-record
-  "Return record with gived id or nil"
-  [id]
-  (if (number? id) (models/get-record id)))
+  (check-record record :create )
+  (models/create-record (select-keys record [:title :text :type ])))
 
 (defn update-record
   "Updates record fields and return record id or
@@ -57,13 +45,9 @@
   or some fields missing"
   [record]
   (log/debug "Updating record" record)
-  (let [rec (assoc (get-fields record :id :title :text ) :updated_on (now))
-        id (rec :id )]
-    (sql/with-connection (db-conn)
-      (if (= 0 (first (sql/update-values :records ["id=?" id] rec)))
-        (throw (IllegalArgumentException. (str "can't find record with id=" id)))
-        id))
-    ))
+  (check-record record :update )
+  (models/update-record (select-keys record [:id :title :text ]))
+  (record :id ))
 
 (defn delete-record
   "Returns true if record has beed deleted false othervise"
