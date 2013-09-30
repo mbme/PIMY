@@ -4,8 +4,7 @@
             [clojure.string :as str]
             [clojure.java.io :as io])
   (:use [pimy.utils :only [config]]
-        [korma.db]
-        [korma.core]))
+        [korma.db]))
 
 (def db-config (h2 {:db (:db_url config)
                     :user (:db_user config)

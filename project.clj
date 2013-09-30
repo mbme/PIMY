@@ -11,6 +11,8 @@
                                                     com.sun.jdmk/jmxtools
                                                     com.sun.jmx/jmxri]]
 
+                 [metis "0.3.3"]
+
                  [korma "0.3.0-RC5"]
                  [com.h2database/h2 "1.3.173"]]
   :plugins [[lein-ring "0.8.5"]]
