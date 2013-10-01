@@ -4,6 +4,10 @@
   (:require [pimy.backend.db]
             [pimy.backend.storage :as storage]))
 
+(defmacro is-IAE?
+  [& body]
+  `(is (~'thrown? IllegalArgumentException ~(first body)) ~(second body)))
+
 (deftest test-record
   (pimy.backend.db/setup-db)
 
@@ -25,10 +29,10 @@
            bad_rec_4 {:id nil :created_on "test" :updated_on nil :title "test" :text "some text" :type "WRONG"}
            ]
 
-      (is (thrown? IllegalArgumentException (storage/create-record bad_rec_1)))
-      (is (thrown? IllegalArgumentException (storage/create-record bad_rec_2)))
-      (is (thrown? IllegalArgumentException (storage/create-record bad_rec_3)))
-      (is (thrown? IllegalArgumentException (storage/create-record bad_rec_4)))
+      (is-IAE? (storage/create-record bad_rec_1))
+      (is-IAE? (storage/create-record bad_rec_2))
+      (is-IAE? (storage/create-record bad_rec_3))
+      (is-IAE? (storage/create-record bad_rec_4))
       ))
 
 
@@ -62,8 +66,7 @@
             upd_id (storage/update-record ok)
             retrieved_rec (storage/read-record upd_id)]
 
-        (is (thrown? IllegalArgumentException (storage/update-record bad1))
-          "must be an error if missing id")
+        (is-IAE? (storage/update-record bad1) "must be an error if missing id")
         (is (= rec_id upd_id))
         (is (= (retrieved_rec :title ) "new_title"))
         (is (= (retrieved_rec :text ) "new_text"))
@@ -76,8 +79,7 @@
             rec_id (storage/create-record rec)
             bad {:id (inc rec_id) :title "new_title" :text "new_text"}]
 
-        (is (thrown? IllegalArgumentException (storage/update-record bad))
-          "must be an error if updating non existing record")
+        (is-IAE? (storage/update-record bad) "must be an error if updating non existing record")
         ))
     )
 
@@ -85,6 +87,6 @@
     (let [rec {:title "some title" :text "some text" :type "ARTICLE"}
           rec_id (storage/create-record rec)]
       (is (nil? (storage/delete-record rec_id)) "We should delete existing record")
-      (is (thrown? IllegalArgumentException (storage/delete-record (+ rec_id 1))) "We can't delete missing record")
+      (is-IAE? (storage/delete-record (+ rec_id 1)) "We can't delete missing record")
       ))
   )
