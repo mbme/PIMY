@@ -13,12 +13,18 @@
 
                  [metis "0.3.3"]
 
-                 [korma "0.3.0-RC5"]
+                 [com.j256.ormlite/ormlite-jdbc "4.47"]
                  [com.h2database/h2 "1.3.173"]]
   :plugins [[lein-ring "0.8.5"]]
   :ring {:handler pimy.handler/app
          :auto-reload? true
          :auto-refresh? true}
+
+  :javac-options ["-target" "1.7" "-source" "1.7" "-Xlint:-options"]
+  :java-source-paths ["src/java"]
+
+  :source-paths ["src/clojure"]
+
   :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}
              :test {:resource-paths ["test-resources"]}}
   :aliases {"serv" ["ring" "server-headless"]})
