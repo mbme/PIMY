@@ -22,6 +22,7 @@
   [:id :existing-rec-id {:except :create}]
   [:title :presence ]
   [:text :presence ]
+  [:tags :length {:greater-than 0}]
   [:type :inclusion {:in models/record_types :only :create}])
 
 (defn check-record
@@ -37,7 +38,7 @@
   [record]
   (log/debug "Creating record" record)
   (check-record record :create )
-  (models/create-record (select-keys record [:title :text :type ])))
+  (models/create-record (select-keys record [:title :text :type :tags ])))
 
 (defn update-record
   "Updates record fields and return record id or
@@ -46,7 +47,7 @@
   [record]
   (log/debug "Updating record" record)
   (check-record record :update )
-  (models/update-record (select-keys record [:id :title :text ]))
+  (models/update-record (select-keys record [:id :title :text :tags ]))
   (record :id ))
 
 (defn delete-record
