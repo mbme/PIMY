@@ -3,4 +3,5 @@
   :db_url "mem:pimy"
   :db_user ""
   :db_password ""
+  :db_driver "org.h2.Driver"
   }
