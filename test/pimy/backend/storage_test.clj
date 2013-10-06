@@ -35,55 +35,54 @@
       {:title "test" :text "ok" :tags ["tag"]}
       {}
       ))
-  ;
-  ;  (testing "Reading record"
-  ;    (let [rec (valid-rec)
-  ;          rec_id ((storage/create-record rec) :id )
-  ;          rec1 (storage/read-record rec_id)]
-  ;      (println "------------------------------------")
-  ;      (println rec1)
-  ;      (is (= (rec1 :id ) rec_id))
-  ;      (is (= (rec1 :title ) (rec :title )))
-  ;      (is (= (rec1 :text ) (rec :text )))
-  ;      (is (not-nil? (rec1 :created_on )))
-  ;      (is (not-nil? (rec1 :updated_on )))
-  ;      (is (= (rec1 :created_on ) (rec1 :updated_on )))
-  ;      ))
-  ;
-  ;  (testing "Failed reading of record with bad id"
-  ;    (let [rec_id ((storage/create-record (valid-rec)) :id )]
-  ;      (is (nil? (storage/read-record (+ rec_id 1))))
-  ;      (is (nil? (storage/read-record "test")))
-  ;      ))
-  ;
-  ;  (testing "Updating record"
-  ;    (testing "general update"
-  ;      (let [rec (valid-rec)
-  ;            rec1 (storage/create-record rec)
-  ;            ok {:id (rec1 :id ) :title "new_title" :text "new_text" :tags ["new one"]}
-  ;            upd_id (storage/update-record ok)
-  ;            retrieved_rec (storage/read-record upd_id)]
-  ;
-  ;        (is (= (rec1 :id ) upd_id))
-  ;        (is (= (retrieved_rec :title ) "new_title"))
-  ;        (is (= (retrieved_rec :text ) "new_text"))
-  ;        (is (not= (retrieved_rec :created_on ) (retrieved_rec :updated_on ))
-  ;          ":updated_on must not be the same as :created_on")
-  ;        ))
-  ;
-  ;    (testing "update of missing record"
-  ;      (let [rec (valid-rec)
-  ;            rec_id ((storage/create-record rec) :id )
-  ;            bad {:id (inc rec_id) :title "new_title" :text "new_text"}]
-  ;
-  ;        (is-IAE? (storage/update-record bad) "must be an error if updating non existing record")
-  ;        ))
-  ;    )
-  ;
-  ;  (testing "Delete record"
-  ;    (let [rec (valid-rec)
-  ;          rec_id ((storage/create-record rec) :id )]
-  ;      (is (nil? (storage/delete-record rec_id)) "We should delete existing record")
-  ;      (is-IAE? (storage/delete-record (+ rec_id 1)) "We can't delete missing record")
-  ;      ))
+
+  (testing "Reading record"
+    (let [rec (valid-rec)
+          rec_id ((storage/create-record rec) :id )
+          rec1 (storage/read-record rec_id)]
+
+      (is (= (rec1 :id ) rec_id))
+      (is (= (rec1 :title ) (rec :title )))
+      (is (= (rec1 :text ) (rec :text )))
+      (is (not-nil? (rec1 :created_on )))
+      (is (not-nil? (rec1 :updated_on )))
+      (is (= (rec1 :created_on ) (rec1 :updated_on )))
+      ))
+
+  (testing "Failed reading of record with bad id"
+    (let [rec_id ((storage/create-record (valid-rec)) :id )]
+      (is (nil? (storage/read-record (+ rec_id 1))))
+      (is (nil? (storage/read-record "test")))
+      ))
+
+  (testing "Updating record"
+    (testing "general update"
+      (let [rec (valid-rec)
+            rec1 (storage/create-record rec)
+            ok {:id (rec1 :id ) :title "new_title" :text "new_text" :tags ["new one"]}
+            upd_id (storage/update-record ok)
+            retrieved_rec (storage/read-record upd_id)]
+
+        (is (= (rec1 :id ) upd_id))
+        (is (= (retrieved_rec :title ) "new_title"))
+        (is (= (retrieved_rec :text ) "new_text"))
+        (is (not= (retrieved_rec :created_on ) (retrieved_rec :updated_on ))
+          ":updated_on must not be the same as :created_on")
+        ))
+
+    (testing "update of missing record"
+      (let [rec (valid-rec)
+            rec_id ((storage/create-record rec) :id )
+            bad {:id (inc rec_id) :title "new_title" :text "new_text"}]
+
+        (is-IAE? (storage/update-record bad) "must be an error if updating non existing record")
+        ))
+    )
+
+  (testing "Delete record"
+    (let [rec (valid-rec)
+          rec_id ((storage/create-record rec) :id )]
+      (is (nil? (storage/delete-record rec_id)) "We should delete existing record")
+      (is-IAE? (storage/delete-record (+ rec_id 1)) "We can't delete missing record")
+      ))
   )

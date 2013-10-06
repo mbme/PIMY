@@ -6,13 +6,20 @@ import com.j256.ormlite.field.DatabaseField;
  * Class to map tags table.
  */
 public class Tag {
-    @DatabaseField(generatedId = true)
+
+    public static final String FIELD_USAGES = "USAGES";
+
+    public static final String FIELD_ID = "ID";
+
+    public static final String FIELD_NAME = "NAME";
+
+    @DatabaseField(generatedId = true, columnName = FIELD_ID)
     private Long id;
 
-    @DatabaseField(canBeNull = false, unique = true, width = 64)
+    @DatabaseField(canBeNull = false, unique = true, width = 64, columnName = FIELD_NAME)
     private String name;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, columnName = FIELD_USAGES)
     private Integer usages;
 
     public Long getId() {

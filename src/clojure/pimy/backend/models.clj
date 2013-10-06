@@ -28,49 +28,27 @@
   (to-bean map Record))
 
 (defn from-rec [rec]
-  (-> rec
-    (bean)
-    (dissoc :class )
-    (rename-keys db->map)
+  (if-not (nil? rec)
+    (-> rec
+      (bean)
+      (dissoc :class )
+      (rename-keys db->map))
     ))
 
 (defn create-record
   [rec]
   (from-rec (.createRecord db (to-rec rec))))
 
-;
-;(defn get-record
-;  [id]
-;  (first
-;    (select records
-;      (where {:id id}))
-;    ))
-;
-;(defn create-record
-;  [rec]
-;  (transaction
-;    (let [now (now)
-;          tags (map #(get-or-create-tag %) (rec :tags ))
-;          record (-> (dissoc rec :tags )
-;                   (assoc :created_on now)
-;                   (assoc :updated_on now))
-;          rec_id (-> (insert records (values record))
-;                   (vals)
-;                   (first))]
-;      (tag-record tags rec_id)
-;      (get-record rec_id)
-;      )))
-;
-;(defn update-record
-;  [rec]
-;  (let [record (assoc rec :updated_on (now))]
-;    (update records
-;      (set-fields record)
-;      (where {:id (record :id )}))
-;    ))
-;
-;(defn delete-record
-;  [id]
-;  (delete records
-;    (where {:id id})
-;    ))
+
+(defn get-record
+  [id]
+  (from-rec (.readRecord db id)))
+
+
+(defn update-record
+  [rec]
+  (from-rec (.updateRecord db (to-rec rec))))
+
+(defn delete-record
+  [id]
+  (.deleteRecord db id))
