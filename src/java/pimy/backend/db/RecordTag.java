@@ -8,13 +8,20 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "records_tags")
 public class RecordTag {
-    @DatabaseField(generatedId = true)
+
+    public static final String FIELD_ID = "ID";
+
+    public static final String FIELD_RECORD_ID = "RECORD_ID";
+
+    public static final String FIELD_TAG_ID = "TAG_ID";
+
+    @DatabaseField(generatedId = true, columnName = FIELD_ID)
     private Long id;
 
-    @DatabaseField(foreign = true, columnName = "record_id", canBeNull = false)
+    @DatabaseField(foreign = true, columnName = FIELD_RECORD_ID, canBeNull = false)
     private Record record;
 
-    @DatabaseField(foreign = true, columnName = "tag_id", canBeNull = false)
+    @DatabaseField(foreign = true, columnName = FIELD_TAG_ID, canBeNull = false)
     private Tag tag;
 
     public Long getId() {
