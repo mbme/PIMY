@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
  * Class to map tags table.
  */
 public class Tag {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private Long id;
 
     @DatabaseField(canBeNull = false, unique = true, width = 64)
@@ -37,5 +37,10 @@ public class Tag {
 
     public void setUsages(Integer usages) {
         this.usages = usages;
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" + "id=" + id + ", name='" + name + '\'' + ", usages=" + usages + '}';
     }
 }

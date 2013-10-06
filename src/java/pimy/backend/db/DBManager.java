@@ -4,6 +4,8 @@ import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.db.H2DatabaseType;
@@ -33,7 +35,9 @@ public class DBManager {
         connectionSource.setMaxConnectionAgeMillis(5 * 60 * 1000);
         // change the check-every milliseconds from 30 seconds to 60
         connectionSource.setCheckConnectionsEveryMillis(60 * 1000);
-        //todo auto initialize with reflection/search in package
+        connectionSource.initialize();
+
+        // todo auto initialize with reflection/search in package
         recordsDao = DaoManager.createDao(connectionSource, Record.class);
         tagsDao = DaoManager.createDao(connectionSource, Tag.class);
         recordTagsDao = DaoManager.createDao(connectionSource, RecordTag.class);
@@ -43,5 +47,16 @@ public class DBManager {
         TableUtils.createTableIfNotExists(connectionSource, Record.class);
         TableUtils.createTableIfNotExists(connectionSource, Tag.class);
         TableUtils.createTableIfNotExists(connectionSource, RecordTag.class);
+    }
+
+    public Record createRecord(Record record) throws SQLException {
+        DateTime dateTime = DateTime.now();
+
+        record.setCreatedOn(dateTime);
+        record.setUpdatedOn(dateTime);
+
+        recordsDao.create(record);
+
+        return record;
     }
 }

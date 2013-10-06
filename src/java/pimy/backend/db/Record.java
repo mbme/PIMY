@@ -5,13 +5,11 @@ import org.joda.time.DateTime;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
-import java.util.List;
-
 /**
  * Class to map records table.
  */
 public class Record {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private Long id;
 
     @DatabaseField(canBeNull = false, width = 512)
@@ -53,12 +51,12 @@ public class Record {
         this.text = text;
     }
 
-    public RecordType getType() {
-        return type;
+    public String getType() {
+        return type == null ? null : this.type.toString();
     }
 
-    public void setType(RecordType type) {
-        this.type = type;
+    public void setType(String type) {
+        this.type = type == null ? null : RecordType.valueOf(type);
     }
 
     public DateTime getCreatedOn() {
@@ -75,5 +73,11 @@ public class Record {
 
     public void setUpdatedOn(DateTime updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" + "id=" + id + ", title='" + title + '\'' + ", text='" + text + '\'' + ", type=" + type
+                + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + '}';
     }
 }
