@@ -1,10 +1,11 @@
 (ns pimy.backend.storage
+  (:import [pimy.backend.db DBManager])
   (:use [pimy.utils :only [now not-nil? throw-IAE]]
         metis.core)
   (:require [clojure.tools.logging :as log]
             [pimy.backend.models :as models]))
 
-(defn initialize [] (nil? nil))
+(defn initialize [] (.createTables models/db))
 
 ;(defn read-record
 ;  "Return record with gived id or nil"

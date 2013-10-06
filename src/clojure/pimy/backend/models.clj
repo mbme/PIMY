@@ -1,5 +1,42 @@
 (ns pimy.backend.models
-  (:use [pimy.utils :only [now]]))
+  (:import [org.apache.commons.beanutils BeanUtils]
+           [pimy.backend.db Record DBManager RecordType]
+           [java.util HashMap])
+  (:use [pimy.utils :only [now config]]
+        [clojure.set :only [rename-keys map-invert]]
+        [clojure.walk :only [stringify-keys]]))
+
+(defn to-java-map [map]
+  (HashMap. (stringify-keys map)))
+
+(def db (DBManager. (to-java-map config)))
+
+(def record_types (map str (RecordType/values)))
+
+(def db->map {:createdOn :created_on, :updatedOn :updated_on})
+(def map->db (map-invert db->map))
+
+(defn to-bean [map clazz]
+  (let [instance (eval `(new ~clazz))]
+    (BeanUtils/populate
+      instance
+      (stringify-keys (rename-keys map map->db)))
+    instance
+    ))
+
+(defn to-rec [map]
+  (to-bean map Record))
+
+(defn from-rec [rec]
+  (-> rec
+    (bean)
+    (dissoc :class )
+    (rename-keys db->map)
+    ))
+
+(defn create-record
+  [rec]
+  (from-rec (.createRecord db (to-rec rec))))
 
 ;
 ;(defn get-record

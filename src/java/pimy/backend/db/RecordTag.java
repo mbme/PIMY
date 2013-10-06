@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "records_tags")
 public class RecordTag {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private Long id;
 
     @DatabaseField(foreign = true, columnName = "record_id", canBeNull = false)
@@ -39,5 +39,10 @@ public class RecordTag {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+    }
+
+    @Override
+    public String toString() {
+        return "RecordTag{" + "id=" + id + ", record=" + record + ", tag=" + tag + '}';
     }
 }
