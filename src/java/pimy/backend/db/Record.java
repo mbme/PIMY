@@ -1,5 +1,7 @@
 package pimy.backend.db;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import com.j256.ormlite.field.DataType;
@@ -39,6 +41,8 @@ public class Record {
 
     @DatabaseField(canBeNull = false, dataType = DataType.DATE_TIME, columnName = FIELD_UPDATED_ON)
     private DateTime updatedOn;
+
+    private List<String> tags;
 
     public Long getId() {
         return id;
@@ -88,9 +92,24 @@ public class Record {
         this.updatedOn = updatedOn;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     @Override
     public String toString() {
-        return "Record{" + "id=" + id + ", title='" + title + '\'' + ", text='" + text + '\'' + ", type=" + type
-                + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + '}';
+        return "Record{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", type=" + type +
+                ", createdOn=" + createdOn +
+                ", updatedOn=" + updatedOn +
+                ", tags=" + tags +
+                '}';
     }
 }

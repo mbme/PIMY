@@ -1,16 +1,17 @@
 package pimy.backend.db;
 
-import java.beans.PropertyVetoException;
-import java.sql.SQLException;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.table.TableUtils;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+
+import java.beans.PropertyVetoException;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * Class to manage db.
@@ -24,7 +25,9 @@ public class DBManager {
 
     final Dao<RecordTag, Long> recordTagsDao;
 
-    private final JdbcPooledConnectionSource connectionSource;
+    final JdbcPooledConnectionSource connectionSource;
+
+    private final TagsManager tagsManager;
 
     public DBManager(Map<String, String> params) throws PropertyVetoException, SQLException {
         connectionSource = new JdbcPooledConnectionSource();
@@ -44,6 +47,7 @@ public class DBManager {
         recordsDao = DaoManager.createDao(connectionSource, Record.class);
         tagsDao = DaoManager.createDao(connectionSource, Tag.class);
         recordTagsDao = DaoManager.createDao(connectionSource, RecordTag.class);
+        tagsManager = new TagsManager(this);
         LOG.info("Initialized DAO");
     }
 
@@ -57,28 +61,50 @@ public class DBManager {
 
     public Record createRecord(Record record) throws SQLException {
         DateTime dateTime = DateTime.now();
-
         record.setCreatedOn(dateTime);
         record.setUpdatedOn(dateTime);
 
         recordsDao.create(record);
+        tagsManager.tagRecord(record, record.getTags());
 
         return record;
     }
 
     public Record readRecord(Long id) throws SQLException {
-        return recordsDao.queryForId(id);
+        Record record = recordsDao.queryForId(id);
+        if (record != null) {
+            tagsManager.loadRecordTags(record);
+        }
+        return record;
     }
 
-    public Record updateRecord(Record rec) throws SQLException {
-        Record prev = recordsDao.queryForSameId(rec);
+    public Record updateRecord(final Record rec) throws SQLException {
+        Callable<Record> callable = new Callable<Record>() {
+            @Override
+            public Record call() throws Exception {
+                try {
+                    Record prev = recordsDao.queryForSameId(rec);
 
-        rec.setType(prev.getType());
-        rec.setCreatedOn(prev.getCreatedOn());
-        rec.setUpdatedOn(DateTime.now());
+                    rec.setType(prev.getType());
+                    rec.setCreatedOn(prev.getCreatedOn());
+                    rec.setUpdatedOn(DateTime.now());
 
-        recordsDao.update(rec);
-        return rec;
+                    recordsDao.update(rec);
+                } catch (Throwable e) {
+                    LOG.error(e);
+                }
+
+                return rec;
+            }
+        };
+
+        return transact(callable);
+    }
+
+    private <T> T transact(Callable<T> operations) throws SQLException {
+        //todo add logs
+        //todo add comments
+        return TransactionManager.callInTransaction(connectionSource, operations);
     }
 
     public void deleteRecord(Long id) throws SQLException {
