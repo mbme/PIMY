@@ -55,6 +55,7 @@
       (is (nil? (storage/read-record "test")))
       ))
 
+; todo add test cases to test record tags processing
   (testing "Updating record"
     (testing "general update"
       (let [rec (valid-rec)
