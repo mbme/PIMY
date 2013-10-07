@@ -44,6 +44,7 @@
       (is (= (rec1 :id ) rec_id))
       (is (= (rec1 :title ) (rec :title )))
       (is (= (rec1 :text ) (rec :text )))
+      (is (= (rec1 :tags ) (rec :tags )))
       (is (not-nil? (rec1 :created_on )))
       (is (not-nil? (rec1 :updated_on )))
       (is (= (rec1 :created_on ) (rec1 :updated_on )))
@@ -55,7 +56,6 @@
       (is (nil? (storage/read-record "test")))
       ))
 
-; todo add test cases to test record tags processing
   (testing "Updating record"
     (testing "general update"
       (let [rec (valid-rec)
@@ -67,6 +67,7 @@
         (is (= (rec1 :id ) upd_id))
         (is (= (retrieved_rec :title ) "new_title"))
         (is (= (retrieved_rec :text ) "new_text"))
+        (is (= (ok :tags ) (retrieved_rec :tags )))
         (is (not= (retrieved_rec :created_on ) (retrieved_rec :updated_on ))
           ":updated_on must not be the same as :created_on")
         ))
