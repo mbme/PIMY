@@ -2,6 +2,7 @@ package pimy.backend.db;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,8 +15,8 @@ public class TagsManager {
         this.dbManager = dbManager;
     }
 
-    public List<Tag> getOrCreate(List<String> names) throws SQLException {
-        List<Tag> res = new ArrayList<Tag>(20);
+    public List<Tag> getOrCreate(Collection<String> names) throws SQLException {
+        List<Tag> res = new ArrayList<Tag>(names.size());
         for (String name : names) {
             List<Tag> tags = dbManager.tagsDao.queryForEq(Tag.FIELD_NAME, name);
             int size = tags.size();
@@ -37,28 +38,28 @@ public class TagsManager {
         return res;
     }
 
-    private void incUsages(List<Tag> tags) throws SQLException {
+    private void incUsages(Iterable<Tag> tags) throws SQLException {
         for (Tag tag : tags) {
             tag.setUsages(tag.getUsages() + 1);
         }
         save(tags);
     }
 
-    private void decUsages(List<Tag> tags) throws SQLException {
+    private void decUsages(Iterable<Tag> tags) throws SQLException {
         for (Tag tag : tags) {
             tag.setUsages(tag.getUsages() - 1);
         }
         save(tags);
     }
 
-    public void save(List<Tag> tags) throws SQLException {
+    public void save(Iterable<Tag> tags) throws SQLException {
         for (Tag tag : tags) {
             dbManager.tagsDao.update(tag);
         }
     }
 
-    public void tagRecord(Record record, List<String> tagsNames) throws SQLException {
-        untagRecord(record);
+    public void tagRecord(Record record, Collection<String> tagsNames) throws SQLException {
+        unTagRecord(record);
 
         List<Tag> tags = getOrCreate(tagsNames);
         incUsages(tags);
@@ -70,13 +71,13 @@ public class TagsManager {
             dbManager.recordTagsDao.create(recordTag);
         }
 
-        record.setTags(tagsNames);
+        loadRecordTags(record);
     }
 
-    private void untagRecord(Record record) throws SQLException {
+    private void unTagRecord(Record record) throws SQLException {
         List<RecordTag> recordTags = getRecordTags(record);
 
-        List<Tag> tags = new ArrayList<Tag>(recordTags.size());
+        Collection<Tag> tags = new ArrayList<Tag>(recordTags.size());
         for (RecordTag recordTag : recordTags) {
             tags.add(recordTag.getTag());
         }

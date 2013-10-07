@@ -21,7 +21,7 @@ public class RecordTag {
     @DatabaseField(foreign = true, columnName = FIELD_RECORD_ID, canBeNull = false)
     private Record record;
 
-    @DatabaseField(foreign = true, columnName = FIELD_TAG_ID, canBeNull = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = FIELD_TAG_ID, canBeNull = false)
     private Tag tag;
 
     public Long getId() {

@@ -69,7 +69,7 @@ public class Record {
     }
 
     public String getType() {
-        return type == null ? null : this.type.toString();
+        return type == null ? null : type.toString();
     }
 
     public void setType(String type) {

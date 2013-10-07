@@ -8,7 +8,6 @@ import com.j256.ormlite.table.TableUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
-import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -29,7 +28,7 @@ public class DBManager {
 
     private final TagsManager tagsManager;
 
-    public DBManager(Map<String, String> params) throws PropertyVetoException, SQLException {
+    public DBManager(Map<String, String> params) throws SQLException {
         connectionSource = new JdbcPooledConnectionSource();
         connectionSource.setUrl(params.get("db_url"));
         connectionSource.setUsername(params.get("db_user"));
@@ -88,10 +87,11 @@ public class DBManager {
                     rec.setType(prev.getType());
                     rec.setCreatedOn(prev.getCreatedOn());
                     rec.setUpdatedOn(DateTime.now());
+                    tagsManager.tagRecord(rec, rec.getTags());
 
                     recordsDao.update(rec);
                 } catch (Throwable e) {
-                    LOG.error(e);
+                    LOG.error("Error while updating record", e);
                 }
 
                 return rec;
