@@ -4,11 +4,12 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.misc.TransactionManager;
-import com.j256.ormlite.table.TableUtils;
+import com.j256.ormlite.support.DatabaseConnection;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -50,12 +51,20 @@ public class DBManager {
         LOG.info("Initialized DAO");
     }
 
-    public void createTables() throws SQLException {
-        LOG.info("Started DB tables creation");
-        TableUtils.createTableIfNotExists(connectionSource, Record.class);
-        TableUtils.createTableIfNotExists(connectionSource, Tag.class);
-        TableUtils.createTableIfNotExists(connectionSource, RecordTag.class);
-        LOG.info("Finished DB tables creation");
+    public void createTables() {
+        try {
+            LOG.info("Started DB tables creation");
+
+            connectionSource.getReadWriteConnection().executeStatement(
+                    "RUNSCRIPT FROM 'classpath:schema.sql'",
+                    DatabaseConnection.DEFAULT_RESULT_FLAGS
+            );
+
+            LOG.info("Finished DB tables creation");
+        } catch (SQLException e) {
+            LOG.error("Exception while loading DB schema", e);
+            throw new IllegalStateException(e);
+        }
     }
 
     public Record createRecord(Record record) throws SQLException {
@@ -101,14 +110,26 @@ public class DBManager {
         return transact(callable);
     }
 
+    public List<Tag> getTags() throws SQLException {
+        return tagsManager.getTags();
+    }
+
     private <T> T transact(Callable<T> operations) throws SQLException {
         //todo add logs
         //todo add comments
         return TransactionManager.callInTransaction(connectionSource, operations);
     }
 
-    public void deleteRecord(Long id) throws SQLException {
-        recordsDao.deleteById(id);
+    public Long deleteRecord(Long id) throws SQLException {
+        Record record = recordsDao.queryForId(id);
+
+        if (record == null) {
+            return null;
+        }
+        tagsManager.unTagRecord(record);
+        recordsDao.delete(record);
+
+        return id;
     }
 
     private void addShutdownHook() {

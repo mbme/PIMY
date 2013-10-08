@@ -2,6 +2,7 @@ package pimy.backend.db;
 
 import java.util.List;
 
+import com.j256.ormlite.table.DatabaseTable;
 import org.joda.time.DateTime;
 
 import com.j256.ormlite.field.DataType;
@@ -10,6 +11,7 @@ import com.j256.ormlite.field.DatabaseField;
 /**
  * Class to map records table.
  */
+@DatabaseTable(tableName = "RECORDS")
 public class Record {
 
     public static final String FIELD_ID = "ID";

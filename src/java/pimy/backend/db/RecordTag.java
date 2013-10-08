@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 /**
  * Class to map table which represents many-to-many relationship.
  */
-@DatabaseTable(tableName = "records_tags")
+@DatabaseTable(tableName = "RECORDS_TAGS")
 public class RecordTag {
 
     public static final String FIELD_ID = "ID";

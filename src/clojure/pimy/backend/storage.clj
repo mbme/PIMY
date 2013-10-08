@@ -13,21 +13,14 @@
   [id]
   (if (number? id) (models/get-record id)))
 
-(defn existing-rec-id
-  ([map key _]
-    (existing-rec-id (get map key)))
-  ([id]
-    (when-not (read-record id)
-      "not existing record"
-      )))
-
 (defvalidator record-validator
-  [:id :existing-rec-id {:except :create}]
+  [:id :presence {:except :create}]
   [:title :presence ]
   [:text :presence ]
   [:tags :length {:greater-than 0}]
   [:type :inclusion {:in models/record_types :only :create}])
 
+; todo move this to utils
 (defn check-record
   [m mode]
   (let [errs (record-validator m mode)]
@@ -57,9 +50,11 @@
   "Returns true if record has been deleted false otherwise"
   [id]
   (log/debug "Deleting record" id)
-  (let [err (existing-rec-id id)]
-    (if (nil? err)
-      (models/delete-record id)
-      (throw-IAE err id))
-    ))
+  (models/delete-record id)
+  )
+
+(defn read-tags
+  "Returns all existing tags"
+  []
+  (models/get-tags))
 

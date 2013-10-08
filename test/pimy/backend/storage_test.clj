@@ -10,6 +10,9 @@
 (defn valid-rec []
   (hash-map :title "test" :text "some text" :type "ARTICLE" :tags ["tag"]))
 
+(defn get-tag [name]
+  (first (filter #(= name (% :name )) (storage/read-tags))))
+
 (deftest test-record
   (storage/initialize)
 
@@ -82,9 +85,37 @@
     )
 
   (testing "Delete record"
-    (let [rec (valid-rec)
+    (let [uniq-tag "some-very-uniq-tag"
+          rec (assoc (valid-rec) :tags [uniq-tag])
           rec_id ((storage/create-record rec) :id )]
+      (is (not-nil? (get-tag uniq-tag)))
       (is (nil? (storage/delete-record rec_id)) "We should delete existing record")
+      (is (nil? (get-tag uniq-tag)))
       (is-IAE? (storage/delete-record (+ rec_id 1)) "We can't delete missing record")
+      ))
+
+  (testing "Retrieving all tags"
+    (is (> (count (storage/read-tags)) 0))
+    )
+
+  (testing "Tags processing when zero usages"
+    (let [custom-tag "my-very-custom-tag"
+          rec (assoc (valid-rec) :tags [custom-tag])
+          rec_id ((storage/create-record rec) :id )
+          rec_id1 ((storage/create-record rec) :id )]
+      (is (= ((get-tag custom-tag) :usages 2)))
+      (storage/delete-record rec_id)
+      (is (= ((get-tag custom-tag) :usages 1)))
+      (storage/delete-record rec_id1)
+      (is (nil? (get-tag custom-tag)))
+      ))
+
+  (testing "Tags processing when creating record"
+    (let [custom-tag "my-TAG"
+          custom-tag-lower "my-tag"
+          rec (assoc (valid-rec) :tags [custom-tag custom-tag custom-tag-lower])
+          rec_id ((storage/create-record rec) :id )
+          rec1 (storage/read-record rec_id)]
+      (is (= 1 (count (rec1 :tags ))))
       ))
   )

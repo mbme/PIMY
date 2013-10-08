@@ -9,6 +9,7 @@ import java.util.List;
  * Class which incapsulates common tags managing options.
  */
 public class TagsManager {
+
     private final DBManager dbManager;
 
     public TagsManager(DBManager dbManager) {
@@ -23,11 +24,15 @@ public class TagsManager {
             if (size == 0) {
                 Tag tag = new Tag();
                 tag.setName(name);
-                tag.setUsages(0);
+                tag.setUsages(Tag.DEFAULT_USAGES);
                 dbManager.tagsDao.create(tag);
                 res.add(tag);
             } else if (size == 1) {
-                res.add(tags.get(0));
+                Tag tag = tags.get(0);
+                //ensure if we have no duplicates
+                if (!res.contains(tag)) {
+                    res.add(tag);
+                }
             } else {
                 throw new IllegalStateException(
                         "Tags query returned " + size + " results"
@@ -74,7 +79,7 @@ public class TagsManager {
         loadRecordTags(record);
     }
 
-    private void unTagRecord(Record record) throws SQLException {
+    public void unTagRecord(Record record) throws SQLException {
         List<RecordTag> recordTags = getRecordTags(record);
 
         Collection<Tag> tags = new ArrayList<Tag>(recordTags.size());
@@ -104,5 +109,9 @@ public class TagsManager {
             tagNames.add(recordTag.getTag().getName());
         }
         record.setTags(tagNames);
+    }
+
+    public List<Tag> getTags() throws SQLException {
+        return dbManager.tagsDao.queryForAll();
     }
 }

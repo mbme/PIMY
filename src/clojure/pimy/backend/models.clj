@@ -6,6 +6,7 @@
         [clojure.set :only [rename-keys map-invert]]
         [clojure.walk :only [stringify-keys]]))
 
+; todo move to utils
 (defn to-java-map [map]
   (HashMap. (stringify-keys map)))
 
@@ -35,6 +36,13 @@
       (rename-keys db->map))
     ))
 
+(defn from-tag [tag]
+  (if-not (nil? tag)
+    (-> tag
+      (bean)
+      (dissoc :class ))
+    ))
+
 (defn create-record
   [rec]
   (from-rec (.createRecord db (to-rec rec))))
@@ -51,4 +59,9 @@
 
 (defn delete-record
   [id]
-  (.deleteRecord db id))
+  (if (nil? (.deleteRecord db id))
+    (throw (IllegalArgumentException. (str "Can't find record with id " id)))
+    ))
+
+(defn get-tags []
+  (map from-tag (.getTags db)))
