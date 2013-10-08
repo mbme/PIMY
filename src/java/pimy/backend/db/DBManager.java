@@ -41,16 +41,21 @@ public class DBManager {
         connectionSource.setCheckConnectionsEveryMillis(60 * 1000);
         connectionSource.initialize();
         LOG.info("Established DB connection");
-        addShutdownHook();
 
-        // todo auto initialize with reflection/search in package
+        registerShutdownHook();
+        LOG.info("Registered shutdown hook");
+
         recordsDao = DaoManager.createDao(connectionSource, Record.class);
         tagsDao = DaoManager.createDao(connectionSource, Tag.class);
         recordTagsDao = DaoManager.createDao(connectionSource, RecordTag.class);
+
         tagsManager = new TagsManager(this);
         LOG.info("Initialized DAO");
     }
 
+    /**
+     * Creates required tables.
+     */
     public void createTables() {
         try {
             LOG.info("Started DB tables creation");
@@ -67,6 +72,14 @@ public class DBManager {
         }
     }
 
+    /**
+     * Creates new record.
+     * Sets created_on and updated_on dates.
+     *
+     * @param record record to create
+     * @return created record
+     * @throws SQLException if something goes wrong
+     */
     public Record createRecord(Record record) throws SQLException {
         DateTime dateTime = DateTime.now();
         record.setCreatedOn(dateTime);
@@ -78,6 +91,13 @@ public class DBManager {
         return record;
     }
 
+    /**
+     * Retrieves record with specified id.
+     *
+     * @param id id of required record
+     * @return retrieved record or null if not found
+     * @throws SQLException if something goes wrong
+     */
     public Record readRecord(Long id) throws SQLException {
         Record record = recordsDao.queryForId(id);
         if (record != null) {
@@ -86,6 +106,13 @@ public class DBManager {
         return record;
     }
 
+    /**
+     * Updates specified record in single transaction.
+     *
+     * @param rec record with updated fields
+     * @return updated record
+     * @throws SQLException if something goes wrong
+     */
     public Record updateRecord(final Record rec) throws SQLException {
         Callable<Record> callable = new Callable<Record>() {
             @Override
@@ -110,16 +137,23 @@ public class DBManager {
         return transact(callable);
     }
 
+    /**
+     * Retrieves list of all tags.
+     *
+     * @return list of tags
+     * @throws SQLException if something goes wrong
+     */
     public List<Tag> getTags() throws SQLException {
         return tagsManager.getTags();
     }
 
-    private <T> T transact(Callable<T> operations) throws SQLException {
-        //todo add logs
-        //todo add comments
-        return TransactionManager.callInTransaction(connectionSource, operations);
-    }
-
+    /**
+     * Removes record with specified id.
+     *
+     * @param id id of record to remove
+     * @return id of deleted record or null if record was not found
+     * @throws SQLException if something goes wrong
+     */
     public Long deleteRecord(Long id) throws SQLException {
         Record record = recordsDao.queryForId(id);
 
@@ -132,7 +166,19 @@ public class DBManager {
         return id;
     }
 
-    private void addShutdownHook() {
+    /**
+     * Execute all operations in Callable in one transaction.
+     */
+    private <T> T transact(Callable<T> operations) throws SQLException {
+        //todo use log4j2 or logback etc.
+        //todo add test for method "transact"
+        return TransactionManager.callInTransaction(connectionSource, operations);
+    }
+
+    /**
+     * Register shutdown hook which will be executed when application is shutting down.
+     */
+    private void registerShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
