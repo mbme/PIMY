@@ -171,7 +171,6 @@ public class DBManager {
      */
     private <T> T transact(Callable<T> operations) throws SQLException {
         //todo use log4j2 or logback etc.
-        //todo add test for method "transact"
         return TransactionManager.callInTransaction(connectionSource, operations);
     }
 

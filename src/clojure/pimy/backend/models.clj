@@ -6,6 +6,7 @@
         [clojure.set :only [rename-keys map-invert]]
         [clojure.walk :only [stringify-keys]]))
 
+; todo rename this
 ; todo move to utils
 (defn to-java-map [map]
   (HashMap. (stringify-keys map)))
