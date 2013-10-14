@@ -1,6 +1,7 @@
 package pimy.backend.db;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
  * Class which incapsulates common tags managing options.
  */
 public class TagsManager {
-    private static final Logger LOG = Logger.getLogger(TagsManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TagsManager.class);
 
     private final DBManager dbManager;
 
@@ -37,7 +38,7 @@ public class TagsManager {
                 tag.setName(name);
                 tag.setUsages(Tag.DEFAULT_USAGES);
                 dbManager.tagsDao.create(tag);
-                LOG.debug("Created new tag " + tag);
+                LOG.debug("Created new tag {}", tag);
                 res.add(tag);
             } else if (size == 1) {
                 Tag tag = tags.get(0);
@@ -105,7 +106,7 @@ public class TagsManager {
             recordTag.setRecord(record);
             recordTag.setTag(tag);
             dbManager.recordTagsDao.create(recordTag);
-            LOG.debug("Tagged record " + record + " with tag " + tag);
+            LOG.debug("Tagged record {} with tag {}", record, tag);
         }
 
         loadRecordTags(record);
@@ -126,7 +127,7 @@ public class TagsManager {
         }
 
         dbManager.recordTagsDao.delete(recordTags);
-        LOG.debug("Removed " + recordTags.size() + " tags from record " + record);
+        LOG.debug("Removed {} tags from record {}", recordTags.size(), record);
         decUsages(tags);
 
         //tags should be removed if they are not in use
@@ -139,7 +140,7 @@ public class TagsManager {
     private void removeUnusedTags() throws SQLException {
         List<Tag> tags = dbManager.tagsDao.queryForEq(Tag.FIELD_USAGES, 0);
         dbManager.tagsDao.delete(tags);
-        LOG.debug("Removed " + tags.size() + " unused tag(s)");
+        LOG.debug("Removed {} unused tag(s)", tags.size());
     }
 
     private List<RecordTag> getRecordTags(Record record) throws SQLException {
@@ -158,7 +159,7 @@ public class TagsManager {
         for (RecordTag recordTag : recordTags) {
             tagNames.add(recordTag.getTag().getName());
         }
-        LOG.debug("Loaded " + tagNames.size() + " tags for record " + record);
+        LOG.debug("Loaded {} tags for record {}", tagNames.size(), record);
         record.setTags(tagNames);
     }
 
@@ -170,7 +171,7 @@ public class TagsManager {
      */
     public List<Tag> getTags() throws SQLException {
         List<Tag> tags = dbManager.tagsDao.queryForAll();
-        LOG.debug("Loaded " + tags.size() + " tags");
+        LOG.debug("Loaded {} tags", tags.size());
         return tags;
     }
 }

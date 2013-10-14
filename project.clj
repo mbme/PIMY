@@ -6,10 +6,12 @@
                  [ring-middleware-format "0.3.0"]
 
                  [org.clojure/tools.logging "0.2.4"]
-                 [log4j/log4j "1.2.17" :exclusions [javax.mail/mail
-                                                    javax.jms/jms
-                                                    com.sun.jdmk/jmxtools
-                                                    com.sun.jmx/jmxri]]
+                 [org.slf4j/slf4j-log4j12 "1.7.5"]
+                 [log4j/log4j "1.2.17" :exclusions [
+                                                     javax.mail/mail
+                                                     javax.jms/jms
+                                                     com.sun.jdmk/jmxtools
+                                                     com.sun.jmx/jmxri]]
 
                  [metis "0.3.3"]
 

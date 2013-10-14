@@ -5,8 +5,9 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.support.DatabaseConnection;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.concurrent.Callable;
  * Class to manage db.
  */
 public class DBManager {
-    private static final Logger LOG = Logger.getLogger(DBManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DBManager.class);
 
     final Dao<Record, Long> recordsDao;
 
@@ -66,6 +67,7 @@ public class DBManager {
             );
 
             LOG.info("Finished DB tables creation");
+
         } catch (SQLException e) {
             LOG.error("Exception while loading DB schema", e);
             throw new IllegalStateException(e);
@@ -170,7 +172,6 @@ public class DBManager {
      * Execute all operations in Callable in one transaction.
      */
     private <T> T transact(Callable<T> operations) throws SQLException {
-        //todo use log4j2 or logback etc.
         return TransactionManager.callInTransaction(connectionSource, operations);
     }
 
