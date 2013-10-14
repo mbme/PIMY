@@ -1,4 +1,4 @@
-package pimy.backend.db;
+package pimy.backend.db.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

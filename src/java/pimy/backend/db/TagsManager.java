@@ -2,6 +2,9 @@ package pimy.backend.db;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pimy.backend.db.entities.Record;
+import pimy.backend.db.entities.RecordTag;
+import pimy.backend.db.entities.Tag;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

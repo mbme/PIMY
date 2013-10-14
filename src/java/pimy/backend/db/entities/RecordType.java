@@ -1,4 +1,4 @@
-package pimy.backend.db;
+package pimy.backend.db.entities;
 
 /**
  * Enum for record types.

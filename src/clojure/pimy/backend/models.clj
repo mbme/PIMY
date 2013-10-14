@@ -1,7 +1,8 @@
 (ns pimy.backend.models
   (:import [org.apache.commons.beanutils BeanUtils]
            [pimy.backend.db Record DBManager RecordType]
-           [java.util HashMap])
+           [java.util HashMap]
+           [pimy.backend.db.entities RecordType Record])
   (:use [pimy.utils :only [now config]]
         [clojure.set :only [rename-keys map-invert]]
         [clojure.walk :only [stringify-keys]]))
