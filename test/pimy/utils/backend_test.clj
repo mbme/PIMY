@@ -4,7 +4,7 @@
         pimy.utils.backend
         [pimy.utils.helpers :only [remove-nil]]))
 
-(deftest test-helpers
+(deftest test-backend
   (testing "Record serialization-deserialization"
     (let [now (DateTime.)
           rec {:id 1 :updated_on now :created_on now}]
