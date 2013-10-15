@@ -1,7 +1,7 @@
 (ns pimy.handler
   (:use compojure.core
-        pimy.utils
-        [pimy.http :as http]
+        [pimy.utils.http :as http]
+        [pimy.utils.helpers :only [config]]
         ring.util.response
         [ring.middleware.format-response :only [wrap-json-response]])
   (:require [compojure
@@ -38,7 +38,7 @@
 (def app
   (->
     (handler/api api-routes)
-    (wrap-request-logger)
-    (wrap-exception-handler)
-    (wrap-response-logger)
+    (http/wrap-request-logger)
+    (http/wrap-exception-handler)
+    (http/wrap-response-logger)
     (wrap-json-response)))

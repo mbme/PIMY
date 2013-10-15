@@ -1,7 +1,7 @@
-(ns pimy.backend.storage-test
+(ns pimy.storage-test
   (:use clojure.test
-        [pimy.utils :only [not-nil?]])
-  (:require [pimy.backend.storage :as storage]))
+        [pimy.utils.helpers :only [not-nil?]])
+  (:require [pimy.storage :as storage]))
 
 (defmacro is-IAE?
   [& body]

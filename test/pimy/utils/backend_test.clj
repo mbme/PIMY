@@ -1,11 +1,8 @@
-(ns pimy.backend.models-test
+(ns pimy.utils.backend-test
   (:import [org.joda.time DateTime])
   (:use clojure.test
-        pimy.backend.models))
-
-;todo move to utils
-(defn remove-nil [map]
-  (into {} (remove (comp nil? val) map)))
+        pimy.utils.backend
+        [pimy.utils.helpers :only [remove-nil]]))
 
 (deftest test-helpers
   (testing "Record serialization-deserialization"

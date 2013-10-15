@@ -1,16 +1,10 @@
-(ns pimy.backend.models
+(ns pimy.utils.backend
   (:import [org.apache.commons.beanutils BeanUtils]
-           [pimy.backend.db Record DBManager RecordType]
-           [java.util HashMap]
+           [pimy.backend.db DBManager]
            [pimy.backend.db.entities RecordType Record])
-  (:use [pimy.utils :only [now config]]
+  (:use [pimy.utils.helpers :only [config to-java-map]]
         [clojure.set :only [rename-keys map-invert]]
         [clojure.walk :only [stringify-keys]]))
-
-; todo rename this
-; todo move to utils
-(defn to-java-map [map]
-  (HashMap. (stringify-keys map)))
 
 (def db (DBManager. (to-java-map config)))
 
@@ -49,11 +43,9 @@
   [rec]
   (from-rec (.createRecord db (to-rec rec))))
 
-
 (defn get-record
   [id]
   (from-rec (.readRecord db id)))
-
 
 (defn update-record
   [rec]

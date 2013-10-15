@@ -1,7 +1,7 @@
-(ns pimy.utils-test
+(ns pimy.utils.http-test
   (:use clojure.test
         ring.mock.request
-        pimy.utils))
+        pimy.utils.http))
 
 (deftest test-wrap-exception-handler
   (testing "Exception handling"

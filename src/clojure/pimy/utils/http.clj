@@ -1,20 +1,50 @@
-(ns pimy.utils
-  (:use compojure.core
-        ring.util.response
+(ns pimy.utils.http
+  (:use ring.util.response
+        compojure.core
         [cheshire.custom :only [JSONable]]
-        [clojure.string :only [upper-case blank?]]
-        [clojure.java.io :only [resource]])
-  (:require [clojure.tools.logging :as log]
-            [clj-time.core :as time]
-            [clj-time.coerce :as time-conv]
-            [clojure.edn :as edn])
+        [clojure.string :only [upper-case join]])
+  (:require [clojure.tools.logging :as log])
   (:import (com.fasterxml.jackson.core JsonGenerator)))
 
-(def config (edn/read-string (slurp (resource "properties.edn"))))
-(log/info "version" (:version config))
+(defn options
+  "builds 'Allow' header for available http methods"
+  ([] (options #{:options } nil))
+  ([allowed] (options allowed nil))
+  ([allowed body]
+    (->
+      (response body)
+      (header "Allow" (join ", " (map (comp upper-case name) allowed)))
+      )))
 
-(defn wrap-exception-handler
-  [handler]
+(defn method-not-allowed
+  "builds '405 not allowed' response"
+  [allowed]
+  (->
+    (options allowed)
+    (status 405)))
+
+(defn no-content? [body]
+  (if (or (nil? body) (empty? body))
+    (->
+      (response nil)
+      (status 204))
+    (response body)))
+
+(defn not-implemented []
+  (->
+    (response nil)
+    (status 501)))
+
+(defn created
+  ([url]
+    (created url nil))
+  ([url body]
+    (->
+      (response body)
+      (status 201)
+      (header "Location" url))))
+
+(defn wrap-exception-handler [handler]
   (fn [req]
     (try
       (handler req)
@@ -29,8 +59,7 @@
       (log/debug remote-addr (upper-case (name request-method)) uri)
       (handler req))))
 
-(defn wrap-response-logger
-  [handler]
+(defn wrap-response-logger [handler]
   (fn [req]
     (let [response (handler req)
           {remote-addr :remote-addr request-method :request-method uri :uri} req
@@ -49,14 +78,3 @@
               (.writeFieldName jg "message")
               (.writeString jg (.getMessage e))
               (.writeEndObject jg))})
-
-(def not-nil? (complement nil?))
-
-(defn now [] (time-conv/to-timestamp (time/now)))
-
-(def not-blank? (complement blank?))
-
-(defn throw-IAE
-  [& errs]
-  (throw (IllegalArgumentException. (str errs))))
-
