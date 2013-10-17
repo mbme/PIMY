@@ -50,3 +50,37 @@ var app = angular.module("pimy", [], function ($locationProvider, $provide) {
         return $delegate;
     });
 });
+
+
+app.factory('menuService', function ($rootScope) {
+    var menu = {
+        new_record: false,
+        records: false
+    };
+
+    $rootScope.$on('$routeChangeStart', function () {
+        _.each(menu, function (value, key) {
+            if (_.isFunction(value)) {
+                return;
+            }
+            menu[key] = false;
+        });
+    });
+
+    menu.activate = function (name) {
+        _.each(menu, function (value, key) {
+            if (_.isFunction(value)) {
+                return;
+            }
+            if (key === name) {
+                menu[key] = true;
+            }
+        });
+    };
+    return menu;
+});
+
+app.controller('MenuCtrl', function ($scope, menuService) {
+    $scope.menu = menuService;
+});
+

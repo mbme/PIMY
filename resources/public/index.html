@@ -25,12 +25,12 @@
 </div>
 
 <aside id="left-col">
-    <ul class="list-group">
-        <li class="list-group-item active">
+    <ul class="list-group" ng-controller="MenuCtrl">
+        <li class="list-group-item" ng-class="{active: menu.new_record}">
             <i class="glyphicon glyphicon-plus"></i>
             add record
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" ng-class="{active: menu.records}">
             <i class="glyphicon glyphicon-list"></i>
             all records
         </li>
