@@ -1,4 +1,5 @@
-$sidebar-width: 60px;
+$sidebar-width: 80px;
+$sidebar-icon-size: 30px;
 
 html {
   overflow-y: hidden;
@@ -22,13 +23,29 @@ section[ng-view] {
   margin-left: $sidebar-width;
 }
 
-aside {
+aside#left-col {
   float: left;
   width: $sidebar-width;
   margin-left: -100%;
   background-color: black;
   position: static;
   height: 100%;
+
+  ul.list-group {
+    li.list-group-item {
+      border-radius: 0;
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+      padding: 5px 0 5px 0;
+
+      i {
+        font-size: $sidebar-icon-size;
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+  }
 }
 
 footer {

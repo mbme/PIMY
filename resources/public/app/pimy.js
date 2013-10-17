@@ -1,8 +1,6 @@
 "use strict";
 
-var app = angular.module("pimy");
-
-app.config(function ($locationProvider, $provide) {
+var app = angular.module("pimy", [], function ($locationProvider, $provide) {
     //to exclude # from links
     $locationProvider.html5Mode(true);
 
