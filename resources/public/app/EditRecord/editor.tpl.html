@@ -1,0 +1,9 @@
+<form class="edit-record" ng-submit="save()">
+    <input type="text" name="title" placeholder="record title" autofocus="" ng-model="record.title"/>
+    <label>
+        <textarea name="text" cols="30" rows="40" placeholder="record text" ng-model="record.text"></textarea>
+    </label>
+    <input type="text" name="tags" placeholder="record tags" ng-model="record.tags"/>
+
+    <div class="text-center"><input type="submit" value="save" class="button"/></div>
+</form>

@@ -5,15 +5,19 @@
     <title>TEST PAGE</title>
     <meta charset="utf-8"/>
 
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
-    <link rel="stylesheet" href="main.css"/>
+    <link rel="stylesheet" href="/public/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/public/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="/public/main.css"/>
 
-    <script src="lib/jquery-2.0.3.js"></script>
-    <script src="lib/lodash.js"></script>
+    <script src="/public/lib/jquery-2.0.3.js"></script>
+    <script src="/public/lib/lodash.js"></script>
     <!--<script src="lib/bootstrap.js"></script>-->
-    <script src="lib/angular.js"></script>
-    <script src="app/pimy.js"></script>
+    <script src="/public/lib/angular.js"></script>
+    <script src="/public/lib/angular-route.js"></script>
+    <script src="/public/lib/restangular.js"></script>
+
+    <script src="/public/app/EditRecord/editor.js"></script>
+    <script src="/public/app/pimy.js"></script>
 </head>
 
 <body>
@@ -26,11 +30,11 @@
 
 <aside id="left-col">
     <ul class="list-group" ng-controller="MenuCtrl">
-        <li class="list-group-item" ng-class="{active: menu.new_record}">
+        <li class="list-group-item" ng-class="{active: menu==='new_record'}">
             <i class="glyphicon glyphicon-plus"></i>
             add record
         </li>
-        <li class="list-group-item" ng-class="{active: menu.records}">
+        <li class="list-group-item" ng-class="{active: menu==='records'}">
             <i class="glyphicon glyphicon-list"></i>
             all records
         </li>

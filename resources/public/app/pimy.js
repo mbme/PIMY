@@ -1,6 +1,13 @@
 "use strict";
 
-var app = angular.module("pimy", [], function ($locationProvider, $provide) {
+var app = angular.module("pimy", ["ngRoute", "EditRecord"]);
+
+app.config(function ($locationProvider, $provide, $routeProvider) {
+    $routeProvider.when('/records/new', {
+        templateUrl: '/public/app/EditRecord/editor.tpl.html',
+        controller: 'EditorCtrl'
+    });
+
     //to exclude # from links
     $locationProvider.html5Mode(true);
 
@@ -80,7 +87,9 @@ app.factory('menuService', function ($rootScope) {
     return menu;
 });
 
-app.controller('MenuCtrl', function ($scope, menuService) {
-    $scope.menu = menuService;
+app.controller('MenuCtrl', function ($scope, $rootScope) {
+    $rootScope.$watch('menuItem', function (val) {
+        $scope.menu = val;
+    });
 });
 

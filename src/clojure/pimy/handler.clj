@@ -9,37 +9,9 @@
              [route :as route]]))
 
 (defroutes api-routes
-  (context "/" []
-    (GET "/" [] (resource-response "index.html" {:root "public"}))
-    (context "/api" []
-      (GET "/" []
-        {:body {:version (config :version )}})
-      (OPTIONS "/" []
-        (http/options [:options ] {:version (:version config)}))
-      (ANY "/" []
-        (http/method-not-allowed [:options ]))
-      (context "/records" []
-        (GET "/" []
-          (http/not-implemented))
-        (GET "/:id" [id]
-          (http/not-implemented))
-        (HEAD "/:id" [id]
-          (http/not-implemented))
-        (POST "/" [:as req]
-          (http/not-implemented))
-        (PUT "/:id" [id]
-          (http/not-implemented))
-        (DELETE "/:id" [id]
-          (http/not-implemented))
-        (OPTIONS "/" []
-          (http/options [:options :get :head :put :post :delete ]))
-        (ANY "/" []
-          (http/method-not-allowed [:options :get :head :put :post :delete ]))
-        )
-      )
-    )
-  (route/resources "/")
-  (route/not-found "Not found"))
+  (GET "/api" [] {:body {:version (config :version )}})
+  (route/resources "/public")
+  (GET "/*" [] (resource-response "/public/index.html")))
 
 (def app
   (->
