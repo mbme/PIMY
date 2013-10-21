@@ -1,9 +1,29 @@
-<form class="edit-record" ng-submit="save()">
-    <input type="text" name="title" placeholder="record title" autofocus="" ng-model="record.title"/>
-    <label>
-        <textarea name="text" cols="30" rows="40" placeholder="record text" ng-model="record.text"></textarea>
-    </label>
-    <input type="text" name="tags" placeholder="record tags" ng-model="record.tags"/>
+<div class="row record-editor">
+    <div class="col-lg-6">
+        <form ng-submit="save()" role="form">
+            <input type="text"
+                   name="title"
+                   class="form-control"
+                   placeholder="record title"
+                   autofocus=""
+                   ng-model="record.title"/>
+            <textarea name="text"
+                      class="form-control"
+                      rows="20"
+                      placeholder="record text"
+                      ng-model="record.text"></textarea>
+            <input type="text"
+                   name="tags"
+                   class="form-control"
+                   placeholder="record tags"
+                   ng-model="record.tags"/>
 
-    <div class="text-center"><input type="submit" value="save" class="button"/></div>
-</form>
+            <div class="text-center">
+                <input type="submit" value="save" class="btn btn-default"/>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <h1>output</h1>
+    </div>
+</div>

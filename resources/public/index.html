@@ -29,12 +29,12 @@
 </div>
 
 <aside id="left-col">
-    <ul class="list-group" ng-controller="MenuCtrl">
-        <li class="list-group-item" ng-class="{active: menu==='new_record'}">
+    <ul class="list-group container" ng-controller="MenuCtrl">
+        <li class="list-group-item" ng-class="{active: menu==='new_record'}" mbHref="/records/new">
             <i class="glyphicon glyphicon-plus"></i>
             add record
         </li>
-        <li class="list-group-item" ng-class="{active: menu==='records'}">
+        <li class="list-group-item" ng-class="{active: menu==='records'}" mbHref="/records">
             <i class="glyphicon glyphicon-list"></i>
             all records
         </li>

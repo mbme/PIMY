@@ -1,4 +1,5 @@
-$sidebar-width: 80px;
+$bootstrap-margin-size: 15px;
+$sidebar-width: 80px - $bootstrap-margin-size;
 $sidebar-icon-size: 30px;
 
 html {
@@ -21,6 +22,17 @@ body {
 
 section[ng-view] {
   margin-left: $sidebar-width;
+  padding-left: $bootstrap-margin-size;
+  padding-right: $bootstrap-margin-size;
+  height: 100%;
+
+  &>* {
+    height: 100%;
+  }
+
+  .record-editor {
+    overflow-y: auto;
+  }
 }
 
 aside#left-col {
@@ -38,6 +50,7 @@ aside#left-col {
       text-align: center;
       font-size: 12px;
       padding: 5px 0 5px 0;
+      margin-right: -$bootstrap-margin-size;
 
       i {
         font-size: $sidebar-icon-size;

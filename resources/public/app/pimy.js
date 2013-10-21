@@ -59,37 +59,22 @@ app.config(function ($locationProvider, $provide, $routeProvider) {
 });
 
 
-app.factory('menuService', function ($rootScope) {
-    var menu = {
-        new_record: false,
-        records: false
-    };
-
-    $rootScope.$on('$routeChangeStart', function () {
-        _.each(menu, function (value, key) {
-            if (_.isFunction(value)) {
-                return;
-            }
-            menu[key] = false;
-        });
-    });
-
-    menu.activate = function (name) {
-        _.each(menu, function (value, key) {
-            if (_.isFunction(value)) {
-                return;
-            }
-            if (key === name) {
-                menu[key] = true;
-            }
-        });
-    };
-    return menu;
-});
-
-app.controller('MenuCtrl', function ($scope, $rootScope) {
+app.controller('MenuCtrl', function ($scope, $rootScope, $location) {
     $rootScope.$watch('menuItem', function (val) {
         $scope.menu = val;
     });
 });
 
+var mbHrefName = 'mbhref';
+app.directive(mbHrefName, function () {
+    return {
+        restrict: 'A',
+        controller: function ($element, $attrs, $location, $scope) {
+            $element.on('click', function () {
+                $scope.$apply(function () {
+                    $location.url($attrs[mbHrefName]);
+                });
+            });
+        }
+    };
+});
