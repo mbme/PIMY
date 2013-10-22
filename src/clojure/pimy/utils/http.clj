@@ -4,7 +4,8 @@
         [cheshire.custom :only [JSONable]]
         [clojure.string :only [upper-case join]])
   (:require [clojure.tools.logging :as log])
-  (:import (com.fasterxml.jackson.core JsonGenerator)))
+  (:import (com.fasterxml.jackson.core JsonGenerator)
+           [org.joda.time DateTime]))
 
 (defn options
   "builds 'Allow' header for available http methods"
@@ -48,7 +49,7 @@
   (fn [req]
     (try
       (handler req)
-      (catch Exception e
+      (catch Throwable e
         (->
           (response e)
           (status 500))))))
@@ -78,3 +79,9 @@
               (.writeFieldName jg "message")
               (.writeString jg (.getMessage e))
               (.writeEndObject jg))})
+
+(extend org.joda.time.DateTime
+  JSONable
+  {:to-json (fn [^DateTime dt ^JsonGenerator jg]
+              (.writeNumber jg (.getMillis dt))
+              )})
