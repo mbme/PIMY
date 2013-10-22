@@ -3,9 +3,7 @@
 var editor = angular.module("EditRecord", []);
 
 
-editor.controller('EditorCtrl', function ($scope, $log, $rootScope) {
-    $rootScope.menuItem = 'new_record';
-
+editor.controller('EditorCtrl', function ($scope, $log) {
     $scope.record = {
         id: '',
         title: '',

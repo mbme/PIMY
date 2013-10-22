@@ -3,10 +3,24 @@
 var app = angular.module("pimy", ["ngRoute", "EditRecord"]);
 
 app.config(function ($locationProvider, $provide, $routeProvider) {
-    $routeProvider.when('/records/new', {
-        templateUrl: '/public/app/EditRecord/editor.tpl.html',
-        controller: 'EditorCtrl'
-    });
+    $routeProvider
+        .when('/', {
+            template: '',
+            menuItem: ''
+        })
+        .when('/records', {
+            template: '<h1>records</h1>',
+            menuItem: 'records'
+        })
+        .when('/records/new', {
+            templateUrl: '/public/app/EditRecord/editor.tpl.html',
+            controller: 'EditorCtrl',
+            menuItem: 'new_record'
+        })
+        .otherwise({
+            template: "<div class='text-center error'>NOT FOUND</div>",
+            menuItem: ''
+        });
 
     //to exclude # from links
     $locationProvider.html5Mode(true);
@@ -59,9 +73,9 @@ app.config(function ($locationProvider, $provide, $routeProvider) {
 });
 
 
-app.controller('MenuCtrl', function ($scope, $rootScope, $location) {
-    $rootScope.$watch('menuItem', function (val) {
-        $scope.menu = val;
+app.controller('MenuCtrl', function ($scope, $rootScope) {
+    $rootScope.$on("$routeChangeStart", function (event, next) {
+        $scope.menu = next.menuItem;
     });
 });
 
