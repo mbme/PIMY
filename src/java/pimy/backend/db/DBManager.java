@@ -21,6 +21,13 @@ import java.util.concurrent.Callable;
  * Class to manage db.
  */
 public class DBManager {
+
+    public static final String DB_URL_PARAM = "db_url";
+
+    public static final String DB_USER_PARAM = "db_user";
+
+    public static final String DB_PASSWORD_PARAM = "db_password";
+
     private static final Logger LOG = LoggerFactory.getLogger(DBManager.class);
 
     final Dao<Record, Long> recordsDao;
@@ -33,21 +40,16 @@ public class DBManager {
 
     private final TagsManager tagsManager;
 
-    public DBManager(Map<String, String> params) throws SQLException {
-        connectionSource = new JdbcPooledConnectionSource();
-        connectionSource.setUrl(params.get("db_url"));
-        connectionSource.setUsername(params.get("db_user"));
-        connectionSource.setPassword(params.get("db_password"));
+    private final Map<String, String> params;
 
-        // only keep the connections open for 5 minutes
-        connectionSource.setMaxConnectionAgeMillis(5 * 60 * 1000);
-        // change the check-every milliseconds from 30 seconds to 60
-        connectionSource.setCheckConnectionsEveryMillis(60 * 1000);
-        connectionSource.initialize();
-        LOG.info("Established DB connection");
+    public DBManager(Map<String, String> params) throws SQLException {
+        this.params = params;
+
+        connectionSource = new JdbcPooledConnectionSource();
+        initializeConnectionSource();
+        initializeDbSchema();
 
         registerShutdownHook();
-        LOG.info("Registered shutdown hook");
 
         recordsDao = DaoManager.createDao(connectionSource, Record.class);
         tagsDao = DaoManager.createDao(connectionSource, Tag.class);
@@ -57,10 +59,36 @@ public class DBManager {
         LOG.info("Initialized DAO");
     }
 
+    private void initializeConnectionSource() throws SQLException {
+        connectionSource.setUrl(params.get(DB_URL_PARAM));
+        connectionSource.setUsername(params.get(DB_USER_PARAM));
+        connectionSource.setPassword(params.get(DB_PASSWORD_PARAM));
+
+        // only keep the connections open for 5 minutes
+        connectionSource.setMaxConnectionAgeMillis(5 * 60 * 1000);
+        // change the check-every milliseconds from 30 seconds to 60
+        connectionSource.setCheckConnectionsEveryMillis(60 * 1000);
+
+        connectionSource.initialize();
+
+        LOG.info("Established DB connection");
+    }
+
     /**
      * Creates required tables.
      */
-    public void createTables() {
+    private void initializeDbSchema() {
+        boolean skipTablesCreation = true;
+
+        if (params.get(DB_URL_PARAM).contains(":mem:")) {
+            skipTablesCreation = false;
+        }
+
+        if (skipTablesCreation) {
+            LOG.info("Does not need to create tables");
+            return;
+        }
+
         try {
             LOG.info("Started DB tables creation");
 
@@ -196,5 +224,6 @@ public class DBManager {
                 }
             }
         }));
+        LOG.info("Registered shutdown hook");
     }
 }
