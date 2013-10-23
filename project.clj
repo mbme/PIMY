@@ -3,7 +3,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
 
                  [compojure "1.1.5"]
-                 [ring-middleware-format "0.3.0"]
+                 [ring-middleware-format "0.3.1"]
 
                  [org.clojure/tools.logging "0.2.4"]
                  [org.slf4j/slf4j-log4j12 "1.7.5"]
