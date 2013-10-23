@@ -1,8 +1,8 @@
 "use strict";
 
-var app = angular.module("pimy", ["ngRoute", "EditRecord"]);
+var app = angular.module("pimy", ["ngRoute", "EditRecord", "restangular"]);
 
-app.config(function ($locationProvider, $provide, $routeProvider) {
+app.config(function ($locationProvider, $provide, $routeProvider, RestangularProvider) {
     $routeProvider
         .when('/', {
             template: '',
@@ -70,6 +70,8 @@ app.config(function ($locationProvider, $provide, $routeProvider) {
 
         return $delegate;
     });
+
+    RestangularProvider.setBaseUrl("/api");
 });
 
 

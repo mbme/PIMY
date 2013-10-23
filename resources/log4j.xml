@@ -11,7 +11,7 @@
     </appender>
 
     <logger name="pimy">
-        <level value="info"/>
+        <level value="debug"/>
     </logger>
 
     <root>
