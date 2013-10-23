@@ -8,34 +8,31 @@
   `(is (~'thrown? IllegalArgumentException ~(first body)) ~(second body)))
 
 (defn valid-rec []
-  (hash-map :title "test" :text "some text" :type "ARTICLE" :tags ["tag"]))
+  (hash-map :title "test" :text "some text" :tags ["tag"]))
 
 (defn get-tag [name]
   (first (filter #(= name (% :name )) (storage/read-tags))))
 
 (deftest test-record
-  (storage/initialize)
-
   (testing "Successfull creation of record"
-    (are [id rec] (= id (:id (storage/create-record rec)))
-      1 (assoc (valid-rec) :id 200 :created_on nil :updated_on "asdfd")
-      2 (assoc (valid-rec) :tags ["tag" "asdf"])
-      3 (assoc (valid-rec) :bad_prop "asdfas")
+    (are [id rec] (< 0 (:id (storage/create-record rec)))
+      (assoc (valid-rec) :id 200 :created_on nil :updated_on "asdfd")
+      (assoc (valid-rec) :tags ["tag" "asdf"])
+      (assoc (valid-rec) :bad_prop "asdfas")
+      (assoc (valid-rec) :type "WRONG")
       ))
 
   (testing "Failed creation of record"
     (are [rec] (thrown? IllegalArgumentException (storage/create-record rec))
-      {:title "test" :text "" :type "ARTICLE" :tags ["tag"]}
-      {:title "test" :text nil :type "ARTICLE" :tags ["tag"]}
+      {:title "test" :text "" :tags ["tag"]}
+      {:title "test" :text nil :tags ["tag"]}
 
-      {:title "" :text "asdf" :type "ARTICLE" :tags ["tag"]}
-      {:title nil :text "asdf" :type "ARTICLE" :tags ["tag"]}
+      {:title "" :text "asdf" :tags ["tag"]}
+      {:title nil :text "asdf" :tags ["tag"]}
 
-      {:title "test" :text "asd" :type "ARTICLE" :tags []}
-      {:title "test" :text "asd" :type "ARTICLE"}
-
-      {:title "test" :text "ok" :type "WRONG" :tags ["tag"]}
-      {:title "test" :text "ok" :tags ["tag"]}
+      {:title "test" :text "asd" :tags []}
+      (assoc (valid-rec) :tags "tag")
+      {:title "test" :text "asd"}
       {}
       ))
 

@@ -2,9 +2,11 @@
   (:import [org.apache.commons.beanutils BeanUtils]
            [pimy.backend.db DBManager]
            [pimy.backend.db.entities RecordType Record])
-  (:use [pimy.utils.helpers :only [config to-java-map]]
+  (:use [pimy.utils.helpers :only [config to-java-map not-nil? throw-IAE]]
         [clojure.set :only [rename-keys map-invert]]
-        [clojure.walk :only [stringify-keys]]))
+        [clojure.walk :only [stringify-keys]]
+        metis.core)
+  (:require [clojure.tools.logging :as log]))
 
 (def db (DBManager. (to-java-map config)))
 
@@ -39,8 +41,32 @@
       (dissoc :class ))
     ))
 
+(defn not-empty-vector [map key _]
+  (let [val (get map key)]
+    (if-not (and
+              (vector? val)
+              (< 0 (count val)))
+      "must be not empty array")
+    ))
+
+(defvalidator record-validator
+  [:id :presence {:except :create}]
+  [:title :presence ]
+  [:text :presence ]
+  [:tags :not-empty-vector :presence ]
+  [:type :inclusion {:in record_types :only :create}])
+
+(defn check-record
+  [m mode]
+  (let [errs (record-validator m mode)]
+    (if-not (empty? errs)
+      (throw-IAE errs))
+    ))
+
 (defn create-record
   [rec]
+  (log/debug "Creating record" rec)
+  (check-record rec :create )
   (from-rec (.createRecord db (to-rec rec))))
 
 (defn get-record
@@ -49,10 +75,13 @@
 
 (defn update-record
   [rec]
+  (log/debug "Updating record" rec)
+  (check-record rec :update )
   (from-rec (.updateRecord db (to-rec rec))))
 
 (defn delete-record
   [id]
+  (log/debug "Deleting record" id)
   (if (nil? (.deleteRecord db id))
     (throw (IllegalArgumentException. (str "Can't find record with id " id)))
     ))
