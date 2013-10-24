@@ -107,10 +107,10 @@
       (is (nil? (get-tag custom-tag)))
       ))
 
-  (testing "Tags processing when creating record"
+  (testing "Similar lowercase/uppercase tags processing when creating record and tags trimming"
     (let [custom-tag "my-TAG"
           custom-tag-lower "my-tag"
-          rec (assoc (valid-rec) :tags [custom-tag custom-tag custom-tag-lower])
+          rec (assoc (valid-rec) :tags [custom-tag custom-tag custom-tag-lower (str custom-tag "     ")])
           rec_id ((storage/create-record rec) :id )
           rec1 (storage/read-record rec_id)]
       (is (= 1 (count (rec1 :tags ))))

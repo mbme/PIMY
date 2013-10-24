@@ -32,13 +32,13 @@ public class TagsManager {
      * @throws SQLException if something goes wrong
      */
     public List<Tag> getOrCreate(Collection<String> names) throws SQLException {
-        List<Tag> res = new ArrayList<Tag>(names.size());
+        List<Tag> res = new ArrayList<>(names.size());
         for (String name : names) {
-            List<Tag> tags = dbManager.tagsDao.queryForEq(Tag.FIELD_NAME, name);
+            List<Tag> tags = dbManager.tagsDao.queryForEq(Tag.FIELD_NAME, name.trim());
             int size = tags.size();
             if (size == 0) {
                 Tag tag = new Tag();
-                tag.setName(name);
+                tag.setName(name.trim());
                 tag.setUsages(Tag.DEFAULT_USAGES);
                 dbManager.tagsDao.create(tag);
                 LOG.debug("Created new tag {}", tag);
@@ -124,7 +124,7 @@ public class TagsManager {
     public void unTagRecord(Record record) throws SQLException {
         List<RecordTag> recordTags = getRecordTags(record);
 
-        Collection<Tag> tags = new ArrayList<Tag>(recordTags.size());
+        Collection<Tag> tags = new ArrayList<>(recordTags.size());
         for (RecordTag recordTag : recordTags) {
             tags.add(recordTag.getTag());
         }
@@ -158,7 +158,7 @@ public class TagsManager {
      */
     public void loadRecordTags(Record record) throws SQLException {
         List<RecordTag> recordTags = getRecordTags(record);
-        List<String> tagNames = new ArrayList<String>(recordTags.size());
+        List<String> tagNames = new ArrayList<>(recordTags.size());
         for (RecordTag recordTag : recordTags) {
             tagNames.add(recordTag.getTag().getName());
         }
