@@ -29,6 +29,12 @@
       (is-IAE? (api-routes (request-post "/api/records" not-valid-rec)))
       ))
 
+  (testing "API records GET"
+    (let [response (api-routes (request :get "/api/records"))]
+      (is (= (response :status ) 200))
+      ;todo add more test cases
+      ))
+
   (testing "Not Found"
     (let [response (api-routes (request :get "/api/invalid"))]
       (is (= (response :status ) 404)))))

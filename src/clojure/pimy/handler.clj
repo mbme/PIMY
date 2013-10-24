@@ -9,13 +9,16 @@
             [pimy.storage :as storage]
             [pimy.utils.http :as http]))
 
-;todo IMPLEMENT CORRECT DATABASE INITIALIZATION
+;todo IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings
 ;todo 400 bad request instead of 500 for IllegalArgumentException
 
 (defroutes api-routes
   (context "/api" []
     (GET "/" [] {:body {:version (config :version )}})
-    (POST "/records" {params :body-params} {:body (storage/create-record params)})
+
+    (POST "/records" {body :body-params} {:body (storage/create-record body)})
+    (GET "/records" {params :query-params} {:body (storage/list-records params)})
+
     (ANY "/*" [] (not-found "not found")))
 
   (route/resources "/public")

@@ -25,7 +25,7 @@ public class TagsManager {
 
     /**
      * Converts list of tag names to list of tags.
-     * Also it removes duplicates.
+     * Also it removes duplicates and trims tags.
      *
      * @param names list of tags names
      * @return list of tags

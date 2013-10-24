@@ -171,12 +171,23 @@ public class DBManager {
     }
 
     /**
+     * Queries all records.
+     *
+     * @param offset how many records to skip
+     * @param limit  how many records to query
+     * @throws SQLException if something goes wrong
+     */
+    public List<Record> listRecords(Long offset, Long limit) throws SQLException {
+        return recordsDao.queryBuilder().limit(limit).offset(offset).query();
+    }
+
+    /**
      * Retrieves list of all tags.
      *
      * @return list of tags
      * @throws SQLException if something goes wrong
      */
-    public List<Tag> getTags() throws SQLException {
+    public List<Tag> listTags() throws SQLException {
         return tagsManager.getTags();
     }
 

@@ -7,6 +7,11 @@
   [id]
   (if (number? id) (backend/get-record id)))
 
+(defn list-records
+  "List all records. Pagination parameters would be retrieved from passed map"
+  [& [{offset :offset limit :limit :or {offset 0 limit 10}}]]
+  (backend/list-records offset limit))
+
 (defn create-record
   "Creates record and returns its id or throws
   error if required fields are missing"
@@ -33,8 +38,8 @@
   (backend/delete-record id)
   )
 
-(defn read-tags
+(defn list-tags
   "Returns all existing tags"
   []
-  (backend/get-tags))
+  (backend/list-tags))
 

@@ -11,7 +11,7 @@
   (hash-map :title "test" :text "some text" :tags ["tag"]))
 
 (defn get-tag [name]
-  (first (filter #(= name (% :name )) (storage/read-tags))))
+  (first (filter #(= name (% :name )) (storage/list-tags))))
 
 (deftest test-record
   (testing "Successfull creation of record"
@@ -92,7 +92,7 @@
       ))
 
   (testing "Retrieving all tags"
-    (is (> (count (storage/read-tags)) 0))
+    (is (> (count (storage/list-tags)) 0))
     )
 
   (testing "Tags processing when zero usages"
@@ -114,5 +114,14 @@
           rec_id ((storage/create-record rec) :id )
           rec1 (storage/read-record rec_id)]
       (is (= 1 (count (rec1 :tags ))))
+      ))
+
+  (testing "Retrieving all records"
+    (let [total (count (storage/list-records))]
+      (is (> total 0))
+      (is (= (count (storage/list-records {:offset 0 :limit 1})) 1))
+      (is (= (count (storage/list-records {:limit 1})) 1))
+      (is (= (count (storage/list-records {:offset 1 :limit 2})) 2))
+      (is (= (count (storage/list-records {:offset (- total 1) :limit 2})) 1))
       ))
   )

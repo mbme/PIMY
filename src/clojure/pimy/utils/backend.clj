@@ -73,6 +73,11 @@
   [id]
   (from-rec (.readRecord db id)))
 
+(defn list-records
+  [offset limit]
+  (log/debug "Querying {} records starting from {}" limit offset)
+  (map from-rec (.listRecords db offset limit)))
+
 (defn update-record
   [rec]
   (log/debug "Updating record" rec)
@@ -86,5 +91,5 @@
     (throw (IllegalArgumentException. (str "Can't find record with id " id)))
     ))
 
-(defn get-tags []
-  (map from-tag (.getTags db)))
+(defn list-tags []
+  (map from-tag (.listTags db)))
