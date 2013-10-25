@@ -1,0 +1,22 @@
+<form ng-submit="save()" ng-controller="RecordEditorCtrl" role="form" class="record-editor">
+    <input type="text"
+           name="title"
+           class="form-control"
+           placeholder="record title"
+           autofocus=""
+           ng-model="record.title"/>
+    <textarea name="text"
+              class="form-control"
+              rows="20"
+              placeholder="record text"
+              ng-model="record.text"></textarea>
+    <input type="text"
+           name="tags"
+           class="form-control"
+           placeholder="record tags"
+           ng-model="record.tags"/>
+
+    <div class="text-center">
+        <input type="submit" value="save" class="btn btn-default"/>
+    </div>
+</form>

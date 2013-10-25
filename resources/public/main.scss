@@ -1,5 +1,5 @@
 $bootstrap-margin-size: 15px;
-$sidebar-width: 80px - $bootstrap-margin-size;
+$sidebar-width: 75px;
 $sidebar-icon-size: 30px;
 
 html {
@@ -9,39 +9,38 @@ html {
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 0 15px 0 0;
   height: 100%;
+  width: 100%;
   background-color: #999;
 }
 
 #content-wrapper {
-  float: left;
   width: 100%;
   height: 100%;
-}
+  padding-top: 5px;
+  padding-left: $sidebar-width + 5px;
 
-section[ng-view] {
-  margin-left: $sidebar-width;
-  padding-left: $bootstrap-margin-size;
-  padding-right: $bootstrap-margin-size;
-  height: 100%;
-
-  &>* {
+  section {
     height: 100%;
-  }
 
-  .record-editor {
-    overflow-y: auto;
+    $border: 1px solid black;
+    &:first-child {
+      border-right: $border;
+    }
+    &:last-child {
+      border-left: $border;
+    }
   }
 }
 
 aside#left-col {
-  float: left;
+  position: fixed;
+  left: 0;
+  top: 0;
   width: $sidebar-width;
-  margin-left: -100%;
-  background-color: black;
-  position: static;
   height: 100%;
+  background-color: black;
 
   ul.list-group {
     li.list-group-item {

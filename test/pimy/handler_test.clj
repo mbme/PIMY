@@ -17,12 +17,14 @@
   (testing "API GET"
     (let [response (api-routes (request :get "/api"))]
       (is (= (response :status ) 200))
-      (is (contains? (response :body ) :version ))))
+      (is (contains? (response :body ) :version ))
+      ))
 
   (testing "API records POST"
     (let [response (api-routes (request-post "/api/records" (valid-rec)))]
       (is (= (response :status ) 200))
-      (is (contains? (response :body ) :id ))))
+      (is (contains? (response :body ) :id ))
+      ))
 
   (testing "API records POST failed"
     (let [not-valid-rec (assoc (valid-rec) :tags "test")]
@@ -37,4 +39,6 @@
 
   (testing "Not Found"
     (let [response (api-routes (request :get "/api/invalid"))]
-      (is (= (response :status ) 404)))))
+      (is (= (response :status ) 404))
+      ))
+  )

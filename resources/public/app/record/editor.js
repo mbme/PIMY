@@ -1,9 +1,9 @@
 "use strict";
 
-var editor = angular.module("EditRecord", ["restangular"]);
+var editor = angular.module("RecordEditor", ["restangular"]);
 
 
-editor.controller('EditorCtrl', function ($scope, $log, Restangular) {
+editor.controller('RecordEditorCtrl', function ($scope, $log, Restangular) {
     var records = Restangular.all('records');
 
     var prepareTags = function (rec) {

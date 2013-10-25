@@ -1,31 +1,36 @@
 "use strict";
 
-var app = angular.module("pimy", ["ngRoute", "EditRecord", "restangular"]);
+var app = angular.module("pimy", ["ngRoute", "RecordEditor", "restangular"]);
 
-app.config(function ($locationProvider, $provide, $routeProvider, RestangularProvider) {
+app.config(function ($locationProvider, $routeProvider, RestangularProvider) {
     $routeProvider
         .when('/', {
-            template: '',
-            menuItem: ''
+            pimy_menu_item: '',
+            pimy_left_view: '',
+            pimy_right_view: ''
         })
         .when('/records', {
-            template: '<h1>records</h1>',
-            menuItem: 'records'
+            pimy_menu_item: 'records',
+            pimy_left_view: '',
+            pimy_right_view: ''
         })
         .when('/records/new', {
-            templateUrl: '/public/app/EditRecord/editor.tpl.html',
-            controller: 'EditorCtrl',
-            menuItem: 'new_record'
+            pimy_menu_item: 'new_record',
+            pimy_left_view: '/record/editor',
+            pimy_right_view: '/record/viewer'
         })
         .otherwise({
-            template: "<div class='text-center error'>NOT FOUND</div>",
-            menuItem: ''
+            template: '<h1>NOT FOUND</h1>'
         });
 
     //to exclude # from links
     $locationProvider.html5Mode(true);
 
-    //improved logger with interpolation
+    RestangularProvider.setBaseUrl("/api");
+});
+
+//improved logger with interpolation
+app.config(function ($provide) {
     $provide.decorator('$log', function ($delegate) {
         var groupFinder = /(.)?\{\}/g;
 
@@ -70,18 +75,31 @@ app.config(function ($locationProvider, $provide, $routeProvider, RestangularPro
 
         return $delegate;
     });
-
-    RestangularProvider.setBaseUrl("/api");
 });
 
 
 app.controller('MenuCtrl', function ($scope, $rootScope) {
     $rootScope.$on("$routeChangeStart", function (event, next) {
-        $scope.menu = next.menuItem;
+        $scope.menu = next.pimy_menu_item;
     });
 });
 
-var mbHrefName = 'mbhref';
+//main controller to manage 2 views
+app.controller('SectionsCtrl', function ($scope, $rootScope) {
+    var prepareUrl = function (addr) {
+        if (!addr) {
+            return '';
+        }
+        return '/public/app' + addr + '.tpl.html';
+    };
+    $rootScope.$on("$routeChangeStart", function (event, next) {
+        $scope.pimy_left_view = prepareUrl(next.pimy_left_view);
+        $scope.pimy_right_view = prepareUrl(next.pimy_right_view);
+    });
+});
+
+var mbHrefName = 'pimyhref';
+//opens specified address after click on element; attribute only
 app.directive(mbHrefName, function () {
     return {
         restrict: 'A',

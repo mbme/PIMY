@@ -16,25 +16,25 @@
     <script src="/public/lib/angular-route.js"></script>
     <script src="/public/lib/restangular.js"></script>
 
-    <script src="/public/app/EditRecord/editor.js"></script>
+    <script src="/public/app/record/editor.js"></script>
     <script src="/public/app/pimy.js"></script>
 </head>
 
 <body>
 
-<div id="content-wrapper">
-    <section ng-view>
-        <h1 class="text-center">LOADING</h1>
-    </section>
+<div id="content-wrapper" ng-controller="SectionsCtrl" class="row">
+    <section class="left-panel col-lg-6" ng-include src="pimy_left_view"></section>
+    <section class="right-panel col-lg-6" ng-include src="pimy_right_view"></section>
+    <div ng-view class="col-lg-12"></div>
 </div>
 
 <aside id="left-col">
     <ul class="list-group container" ng-controller="MenuCtrl">
-        <li class="list-group-item" ng-class="{active: menu==='new_record'}" mbHref="/records/new">
+        <li class="list-group-item" ng-class="{active: menu==='new_record'}" pimyHref="/records/new">
             <i class="glyphicon glyphicon-plus"></i>
             add record
         </li>
-        <li class="list-group-item" ng-class="{active: menu==='records'}" mbHref="/records">
+        <li class="list-group-item" ng-class="{active: menu==='records'}" pimyHref="/records">
             <i class="glyphicon glyphicon-list"></i>
             all records
         </li>
