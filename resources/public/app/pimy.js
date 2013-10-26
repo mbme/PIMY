@@ -112,3 +112,52 @@ app.directive(mbHrefName, function () {
         }
     };
 });
+
+app.service('PimyScrollables', function ($log) {
+    this.scrollables = [];
+
+    this.add = function (elem) {
+        elem.tinyscrollbar();
+        this.scrollables.push(elem);
+        $log.debug('Added 1 item to scrollables');
+    };
+
+    this.remove = function (elem) {
+        var pos = _.indexOf(this.scrollables, elem);
+        if (pos > -1) {
+            this.scrollables.splice(pos, 1);
+            $log.debug('Removed 1 item from scrollables');
+        } else {
+            $log.warn("Scrollables: can't find item which should be removed");
+        }
+    };
+    //call update on each registered scrollable
+    this.updateScrollables = function () {
+        $log.debug('Updating {} scrollables', this.scrollables.length);
+        _.each(this.scrollables, function (item) {
+            item.tinyscrollbar_update();
+        });
+    };
+    //subscribe to window resize event
+    var self = this;
+    $(window).resize(function () {
+        self.updateScrollables();
+    });
+});
+
+//directive to make divs have custom scrollbar
+app.directive('pimyscroll', function (PimyScrollables) {
+    return {
+        restrict: 'E',
+        templateUrl: '/public/app/pimyscroll.tpl.html',
+        transclude: true,
+        replace: true,
+        link: function (scope, elem) {
+            var item = $(elem);
+            PimyScrollables.add(item);
+            scope.$on('$destroy', function () {
+                PimyScrollables.remove(item);
+            });
+        }
+    };
+});
