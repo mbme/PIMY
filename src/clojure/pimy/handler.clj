@@ -2,7 +2,6 @@
   (:use compojure.core
         [pimy.utils.helpers :only [config]]
         ring.util.response
-        [ring.middleware.format :only [wrap-restful-format]]
         [ring.middleware.format-params :only [wrap-json-params]]
         [ring.middleware.format-response :only [wrap-json-response]])
   (:require [compojure [handler :as handler] [route :as route]]
@@ -32,5 +31,6 @@
     (http/wrap-exception-handler)
     (http/wrap-response-logger)
 
-    (wrap-restful-format)
+    (wrap-json-params)
+    (wrap-json-response)
     ))
