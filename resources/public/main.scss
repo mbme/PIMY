@@ -1,6 +1,7 @@
 $bootstrap-margin-size: 15px;
 $sidebar-width: 75px;
 $sidebar-icon-size: 30px;
+$def-padding: 5px;
 
 html {
   overflow-y: hidden;
@@ -10,22 +11,16 @@ html {
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
   background-color: #999;
 }
 
 #content-wrapper {
-  width: 100%;
-  height: 100%;
-  padding-top: 5px;
-  padding-left: $sidebar-width + 5px;
+  padding-left: $sidebar-width + $def-padding;
   padding-right: 0;
 
   section {
-    height: 100%;
-
     $border: 1px solid black;
+
     &.left-panel {
       border-right: $border;
       padding-right: 0px;
@@ -42,85 +37,65 @@ aside#left-col {
   left: 0;
   top: 0;
   width: $sidebar-width;
-  height: 100%;
   background-color: black;
 
   ul.list-group {
     li.list-group-item {
       border-radius: 0;
-      cursor: pointer;
       text-align: center;
       font-size: 12px;
-      padding: 5px 0 5px 0;
+      padding: $def-padding 0;
       margin-right: -$bootstrap-margin-size;
 
       i {
         font-size: $sidebar-icon-size;
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: $def-padding;
       }
     }
   }
 }
 
-footer {
-  clear: left;
-  width: 100%;
-}
-
-//todo fix scrollables style
 .pimyscroll {
-  width: 100%;
-  height: 100%;
+  $scroll-area-w: 10px;
+  $scroll-w: 6px;
   position: relative;
-  padding-right: 15px;
+  padding-right: $scroll-area-w;
 
   .viewport {
     position: relative;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
   }
 
   .overview {
-    list-style: none;
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    list-style: none;
+    padding-top: $def-padding;
+    padding-bottom: $def-padding;
   }
 
   .scrollbar {
     position: absolute;
     right: 0;
-    width: 15px;
+    width: $scroll-area-w;
   }
 
   .track {
-    background-color: #D8EEFD;
-    height: 100%;
-    width: 13px;
     position: relative;
-    padding: 0 1px;
+    width: $scroll-w;
+    padding: 0 ($scroll-area-w - $scroll-w - 1);
   }
 
   .thumb {
-    $color: #003D5D;
-    background-color: $color;
-    height: 20px;
-    width: 13px;
-    cursor: pointer;
-    overflow: hidden;
     position: absolute;
+    overflow: hidden;
     top: 0;
-
-    .end {
-      background-color: $color;
-      overflow: hidden;
-      height: 5px;
-      width: 13px;
-    }
+    height: 20px;
+    width: $scroll-w;
+    background-color: #ddd;
+    border-radius: 3px;
   }
 
   .disable {
@@ -134,4 +109,21 @@ footer {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.wh-100 {
+  width: 100%;
+  height: 100%;
 }
