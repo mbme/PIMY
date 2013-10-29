@@ -4,7 +4,7 @@
              class="record-item cursor-pointer">
             <div class="row">
                 <div class="col-lg-6">{{ record.id }}</div>
-                <div class="col-lg-6 text-right">{{ record.updated_on }}</div>
+                <div class="col-lg-6 text-right">{{ record.updated_on | date:"H:mm EEE dd.MM.y"}}</div>
             </div>
             <h3 class="w-100 text-center">{{ record.title }}</h3>
             <br>
