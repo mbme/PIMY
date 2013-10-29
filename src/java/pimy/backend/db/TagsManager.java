@@ -109,7 +109,7 @@ public class TagsManager {
             recordTag.setRecord(record);
             recordTag.setTag(tag);
             dbManager.recordTagsDao.create(recordTag);
-            LOG.debug("Tagged record {} with tag {}", record, tag);
+            LOG.debug("Tagged record {} with tag {}", record.getId(), tag);
         }
 
         loadRecordTags(record);
@@ -130,7 +130,7 @@ public class TagsManager {
         }
 
         dbManager.recordTagsDao.delete(recordTags);
-        LOG.debug("Removed {} tags from record {}", recordTags.size(), record);
+        LOG.debug("Removed {} tags from record {}", recordTags.size(), record.getId());
         decUsages(tags);
 
         //tags should be removed if they are not in use
@@ -162,7 +162,7 @@ public class TagsManager {
         for (RecordTag recordTag : recordTags) {
             tagNames.add(recordTag.getTag().getName());
         }
-        LOG.debug("Loaded {} tags for record {}", tagNames.size(), record);
+        LOG.debug("Loaded {} tags for record {}", tagNames.size(), record.getId());
         record.setTags(tagNames);
     }
 

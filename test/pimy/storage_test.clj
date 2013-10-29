@@ -22,6 +22,14 @@
       (assoc (valid-rec) :type "WRONG")
       ))
 
+  (testing "Successfull creation of many record"
+    (let [rec (valid-rec)
+          total 200
+          items (take total (repeat rec))
+          response (doall (pmap #(storage/create-record %) items))]
+      (is (= (count response) total))
+      ))
+
   (testing "Failed creation of record"
     (are [rec] (thrown? IllegalArgumentException (storage/create-record rec))
       {:title "test" :text "" :tags ["tag"]}
@@ -117,11 +125,11 @@
       ))
 
   (testing "Retrieving all records"
-    (let [total (count (storage/list-records))]
+    (let [total (count (storage/list-records {:offset 0 :limit -1}))]
       (is (> total 0))
       (is (= (count (storage/list-records {:offset 0 :limit 1})) 1))
       (is (= (count (storage/list-records {:limit 1})) 1))
       (is (= (count (storage/list-records {:offset 1 :limit 2})) 2))
-      (is (= (count (storage/list-records {:offset (- total 1) :limit 2})) 1))
+      (is (= (count (storage/list-records {:offset (- total 1) :limit 200})) 1))
       ))
   )

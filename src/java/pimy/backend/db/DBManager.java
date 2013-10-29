@@ -113,15 +113,20 @@ public class DBManager {
      * @return created record
      * @throws SQLException if something goes wrong
      */
-    public Record createRecord(Record record) throws SQLException {
-        DateTime dateTime = DateTime.now();
-        record.setCreatedOn(dateTime);
-        record.setUpdatedOn(dateTime);
+    public Record createRecord(final Record record) throws SQLException {
+        return transact(new Callable<Record>() {
+            @Override
+            public Record call() throws SQLException {
+                DateTime dateTime = DateTime.now();
+                record.setCreatedOn(dateTime);
+                record.setUpdatedOn(dateTime);
 
-        recordsDao.create(record);
-        tagsManager.tagRecord(record, record.getTags());
+                recordsDao.create(record);
+                tagsManager.tagRecord(record, record.getTags());
 
-        return record;
+                return record;
+            }
+        });
     }
 
     /**
@@ -147,27 +152,21 @@ public class DBManager {
      * @throws SQLException if something goes wrong
      */
     public Record updateRecord(final Record rec) throws SQLException {
-        Callable<Record> callable = new Callable<Record>() {
+        return transact(new Callable<Record>() {
             @Override
-            public Record call() throws Exception {
-                try {
-                    Record prev = recordsDao.queryForSameId(rec);
+            public Record call() throws SQLException {
+                Record prev = recordsDao.queryForSameId(rec);
 
-                    rec.setType(prev.getType());
-                    rec.setCreatedOn(prev.getCreatedOn());
-                    rec.setUpdatedOn(DateTime.now());
-                    tagsManager.tagRecord(rec, rec.getTags());
+                rec.setType(prev.getType());
+                rec.setCreatedOn(prev.getCreatedOn());
+                rec.setUpdatedOn(DateTime.now());
+                tagsManager.tagRecord(rec, rec.getTags());
 
-                    recordsDao.update(rec);
-                } catch (Throwable e) {
-                    LOG.error("Error while updating record", e);
-                }
+                recordsDao.update(rec);
 
                 return rec;
             }
-        };
-
-        return transact(callable);
+        });
     }
 
     /**
@@ -178,6 +177,7 @@ public class DBManager {
      * @throws SQLException if something goes wrong
      */
     public List<Record> listRecords(Long offset, Long limit) throws SQLException {
+        LOG.warn("Offset {} limit {}", offset, limit);
         List<Record> records = recordsDao.queryBuilder().limit(limit).offset(offset).query();
         for (Record record : records) {
             tagsManager.loadRecordTags(record);
@@ -202,16 +202,21 @@ public class DBManager {
      * @return id of deleted record or null if record was not found
      * @throws SQLException if something goes wrong
      */
-    public Long deleteRecord(Long id) throws SQLException {
-        Record record = recordsDao.queryForId(id);
+    public Long deleteRecord(final Long id) throws SQLException {
+        return transact(new Callable<Long>() {
+            @Override
+            public Long call() throws SQLException {
+                Record record = recordsDao.queryForId(id);
 
-        if (record == null) {
-            return null;
-        }
-        tagsManager.unTagRecord(record);
-        recordsDao.delete(record);
+                if (record == null) {
+                    return null;
+                }
+                tagsManager.unTagRecord(record);
+                recordsDao.delete(record);
 
-        return id;
+                return id;
+            }
+        });
     }
 
     /**
