@@ -75,7 +75,7 @@
 
 (defn list-records
   [offset limit]
-  (log/debug "Querying {} records starting from {}" limit offset)
+  (log/debug "Querying" limit "records starting from" offset)
   (map from-rec (.listRecords db offset limit)))
 
 (defn update-record

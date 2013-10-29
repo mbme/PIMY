@@ -1,18 +1,16 @@
 "use strict";
 
-var app = angular.module("pimy", ["ngRoute", "RecordEditor", "restangular"]);
+var app = angular.module("pimy", ["ngRoute", "restangular", "RecordEditor", "RecordsList"]);
 
 app.config(function ($locationProvider, $routeProvider, RestangularProvider) {
     $routeProvider
         .when('/', {
-            pimy_menu_item: '',
-            pimy_left_view: '',
-            pimy_right_view: ''
+            redirectTo: '/records'
         })
         .when('/records', {
             pimy_menu_item: 'records',
-            pimy_left_view: '',
-            pimy_right_view: ''
+            pimy_left_view: '/record/list',
+            pimy_right_view: '/record/viewer'
         })
         .when('/records/new', {
             pimy_menu_item: 'new_record',
@@ -117,7 +115,7 @@ app.service('PimyScrollables', function ($log) {
     this.scrollables = [];
 
     this.add = function (elem) {
-        elem.tinyscrollbar();
+        $(elem).tinyscrollbar();
         this.scrollables.push(elem);
         $log.debug('Added 1 item to scrollables');
     };
@@ -135,9 +133,15 @@ app.service('PimyScrollables', function ($log) {
     this.updateScrollables = function () {
         $log.debug('Updating {} scrollables', this.scrollables.length);
         _.each(this.scrollables, function (item) {
-            item.tinyscrollbar_update();
+            $(item).tinyscrollbar_update();
         });
     };
+
+    this.updateSingleScrollable = function (item) {
+        $log.debug('Updating single scrollable');
+        $(item).tinyscrollbar_update();
+    };
+
     //subscribe to window resize event
     var self = this;
     $(window).resize(function () {
@@ -153,10 +157,12 @@ app.directive('pimyscroll', function (PimyScrollables) {
         transclude: true,
         replace: true,
         link: function (scope, elem) {
-            var item = $(elem);
-            PimyScrollables.add(item);
+            PimyScrollables.add(elem);
+            scope.$on('update-scrollable', function () {
+                PimyScrollables.updateSingleScrollable(elem);
+            });
             scope.$on('$destroy', function () {
-                PimyScrollables.remove(item);
+                PimyScrollables.remove(elem);
             });
         }
     };

@@ -1,10 +1,9 @@
 "use strict";
 
-var editor = angular.module("RecordEditor", ["restangular"]);
+var editor = angular.module("RecordEditor", ["RecordUtils"]);
 
 
-editor.controller('RecordEditorCtrl', function ($scope, $log, Restangular) {
-    var records = Restangular.all('records');
+editor.controller('RecordEditorCtrl', function ($scope, $log, RecordsService) {
 
     var prepareTags = function (rec) {
         var resp = _.clone(rec);
@@ -22,6 +21,6 @@ editor.controller('RecordEditorCtrl', function ($scope, $log, Restangular) {
     $scope.save = function () {
         //todo implement
         $log.debug('saving...');
-        records.post(prepareTags($scope.record));
+        RecordsService.post(prepareTags($scope.record));
     };
 });

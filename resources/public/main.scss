@@ -127,3 +127,15 @@ aside#left-col {
   width: 100%;
   height: 100%;
 }
+
+.records-list {
+  .record-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e3e3e3;
+    margin-bottom: $def-padding;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
