@@ -1,13 +1,12 @@
 <pimyscroll>
     <div class="records-list" ng-controller="RecordsListCtrl">
-        <div ng-repeat="record in records" sentinel
-             class="record-item cursor-pointer">
+        <div ng-repeat="record in records" sentinel ng-click="setActive(record)"
+             class="record-item cursor-pointer" ng-class="{active: record.id == activeId}">
             <div class="row">
                 <div class="col-lg-6">{{ record.id }}</div>
                 <div class="col-lg-6 text-right">{{ record.updated_on | date:"H:mm EEE dd.MM.y"}}</div>
             </div>
-            <h3 class="w-100 text-center">{{ record.title }}</h3>
-            <br>
+            <h3 class="w-100 text-center title">{{ record.title }}</h3>
             {{ record.tags }}
         </div>
     </div>

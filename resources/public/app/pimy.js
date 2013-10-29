@@ -1,6 +1,8 @@
 "use strict";
 
-var app = angular.module("pimy", ["ngRoute", "restangular", "RecordEditor", "RecordsList"]);
+var app = angular.module("pimy",
+    ["ngRoute", "restangular",
+        "RecordsEditor", "RecordsViewer", "RecordsList"]);
 
 app.config(function ($locationProvider, $routeProvider, RestangularProvider) {
     $routeProvider

@@ -15,19 +15,22 @@ body {
 }
 
 #content-wrapper {
-  padding-left: $sidebar-width + $def-padding;
-  padding-right: 0;
+  padding-left: $sidebar-width;
+  margin-left: 0;
+  margin-right: 0;
 
   section {
     $border: 1px solid black;
 
     &.left-panel {
       border-right: $border;
+      padding-left: $def-padding;
       padding-right: 0px;
     }
     &.right-panel {
       border-left: $border;
       padding-left: 0px;
+      padding-right: $def-padding;
     }
   }
 }
@@ -134,8 +137,29 @@ aside#left-col {
     border: 1px solid #e3e3e3;
     margin-bottom: $def-padding;
 
+    .title {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
     &:last-child {
       margin-bottom: 0;
     }
+
+    &.active {
+      background-color: #e5e5e5;
+    }
+  }
+}
+
+.records-viewer {
+  background-color: #ffffff;
+  margin-top: $def-padding;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .title {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
