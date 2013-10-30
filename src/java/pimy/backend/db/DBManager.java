@@ -177,7 +177,7 @@ public class DBManager {
      * @throws SQLException if something goes wrong
      */
     public List<Record> listRecords(Long offset, Long limit) throws SQLException {
-        LOG.warn("Offset {} limit {}", offset, limit);
+        LOG.debug("Offset {} limit {}", offset, limit);
         List<Record> records = recordsDao.queryBuilder().limit(limit).offset(offset).query();
         for (Record record : records) {
             tagsManager.loadRecordTags(record);
