@@ -1,6 +1,6 @@
 $bootstrap-margin-size: 15px;
-$sidebar-width: 75px;
-$sidebar-icon-size: 30px;
+$sidebar-width: 50px;
+$sidebar-icon-size: 35px;
 $def-padding: 5px;
 
 html {
@@ -11,7 +11,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: #999;
+  background-color: #FAFAFA;
 }
 
 #content-wrapper {
@@ -20,17 +20,16 @@ body {
   margin-right: 0;
 
   section {
-    $border: 1px solid black;
+    padding-left: 0px;
+    padding-right: 0px;
+
+    $border: 1px solid #dddddd;
 
     &.left-panel {
       border-right: $border;
-      padding-left: $def-padding;
-      padding-right: 0px;
     }
     &.right-panel {
       border-left: $border;
-      padding-left: 0px;
-      padding-right: $def-padding;
     }
   }
 }
@@ -40,20 +39,28 @@ aside#left-col {
   left: 0;
   top: 0;
   width: $sidebar-width;
-  background-color: black;
+  background-color: #424244;
 
-  ul.list-group {
-    li.list-group-item {
-      border-radius: 0;
+  ul.menu {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      $icons-margin: 10px;
+      margin-top: $icons-margin;
+      height: $sidebar-icon-size + $icons-margin;
+
       text-align: center;
-      font-size: 12px;
-      padding: $def-padding 0;
-      margin-right: -$bootstrap-margin-size;
+      cursor: pointer;
+      color: #CACDCF;
+
+      &.active {
+        color: #4EBCCA;
+      }
 
       i {
         font-size: $sidebar-icon-size;
         display: block;
-        margin-bottom: $def-padding;
       }
     }
   }
@@ -75,8 +82,6 @@ aside#left-col {
     left: 0;
     top: 0;
     list-style: none;
-    padding-top: $def-padding;
-    padding-bottom: $def-padding;
   }
 
   .scrollbar {
@@ -134,12 +139,20 @@ aside#left-col {
 .records-list {
   .record-item {
     background-color: #f9f9f9;
-    border: 1px solid #e3e3e3;
-    margin-bottom: $def-padding;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    $record-border: 1px solid #e3e3e3;
+    border-left: $record-border;
+    border-right: $record-border;
+    border-bottom: $record-border;
+
+    &:first-child {
+      border-top: $record-border;
+    }
 
     .title {
       margin-top: 0;
-      margin-bottom: 0;
     }
 
     &:last-child {
@@ -153,8 +166,7 @@ aside#left-col {
 }
 
 .records-viewer {
-  background-color: #ffffff;
-  margin-top: $def-padding;
+  background-color: #ddd;
   padding-left: 10px;
   padding-right: 10px;
 

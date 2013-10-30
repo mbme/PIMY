@@ -169,3 +169,14 @@ app.directive('pimyscroll', function (PimyScrollables) {
         }
     };
 });
+
+app.directive('icon', function () {
+    return {
+        restrict: 'E',
+        template: '<i class="glyphicon glyphicon-{{ type }}"></i>',
+        replace: true,
+        scope: {
+            type: '@'
+        }
+    };
+});

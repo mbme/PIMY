@@ -37,16 +37,12 @@
 </div>
 
 <aside id="left-col" class="h-100">
-    <ul class="list-group container" ng-controller="MenuCtrl">
-        <li class="list-group-item cursor-pointer"
-            ng-class="{active: menu==='new_record'}" pimyHref="/records/new">
-            <i class="glyphicon glyphicon-plus"></i>
-            add record
+    <ul class="menu" ng-controller="MenuCtrl">
+        <li ng-class="{active: menu==='new_record'}" pimyHref="/records/new">
+            <icon type="plus"></icon>
         </li>
-        <li class="list-group-item cursor-pointer"
-            ng-class="{active: menu==='records'}" pimyHref="/records">
-            <i class="glyphicon glyphicon-list"></i>
-            all records
+        <li ng-class="{active: menu==='records'}" pimyHref="/records">
+            <icon type="list"></icon>
         </li>
     </ul>
 </aside>
