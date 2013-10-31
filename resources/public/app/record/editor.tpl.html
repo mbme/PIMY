@@ -1,25 +1,24 @@
 <pimyscroll>
-    <form ng-submit="save()" ng-controller="RecordsEditorCtrl"
-          role="form" class="records-editor">
+    <form ng-submit="save()" ng-controller="RecordsEditorCtrl" class="records-editor">
+        <div class="button-bar">
+            <button type="submit">
+                <icon type="floppy-disk"/>
+            </button>
+        </div>
         <input type="text"
                name="title"
-               class="form-control"
                placeholder="record title"
                autofocus=""
                ng-model="record.title"/>
-        <textarea name="text"
-                  class="form-control"
-                  rows="20"
-                  placeholder="record text"
-                  ng-model="record.text"></textarea>
+
         <input type="text"
                name="tags"
-               class="form-control"
                placeholder="record tags"
                ng-model="record.tags"/>
 
-        <div class="text-center">
-            <input type="submit" value="save" class="btn btn-default"/>
-        </div>
+        <textarea name="text"
+                  rows="20"
+                  placeholder="record text"
+                  ng-model="record.text"></textarea>
     </form>
 </pimyscroll>

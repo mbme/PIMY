@@ -1,9 +1,10 @@
 <pimyscroll>
     <div class="records-viewer wh-100" ng-controller="RecordsViewerCtrl">
-        <div class="row">
+        <div class="row" ng-hide="isNew()">
             <div class="col-lg-6">#{{ record.id }}</div>
             <div class="col-lg-6 text-right">
-                {{ record.updated_on | date:"H:mm EEE dd.MM.y"}}</div>
+                {{ record.updated_on | date:"H:mm EEE dd.MM.y"}}
+            </div>
         </div>
         <h2 class="title w-100 text-center">{{ record.title }}</h2>
         {{ text }}

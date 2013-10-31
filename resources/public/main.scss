@@ -2,6 +2,10 @@ $bootstrap-margin-size: 15px;
 $sidebar-width: 50px;
 $sidebar-icon-size: 35px;
 $def-padding: 5px;
+$bg-color: #FAFAFA;
+$active-color: #4EBCCA;
+$sidebar-bg-color: #424244;
+$sidebar-color: #CACDCF;
 
 html {
   overflow-y: hidden;
@@ -11,7 +15,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: #FAFAFA;
+  background-color: $bg-color;
 }
 
 #content-wrapper {
@@ -39,7 +43,7 @@ aside#left-col {
   left: 0;
   top: 0;
   width: $sidebar-width;
-  background-color: #424244;
+  background-color: $sidebar-bg-color;
 
   ul.menu {
     list-style: none;
@@ -52,10 +56,10 @@ aside#left-col {
 
       text-align: center;
       cursor: pointer;
-      color: #CACDCF;
+      color: $sidebar-color;
 
       &.active {
-        color: #4EBCCA;
+        color: $active-color;
       }
 
       i {
@@ -173,5 +177,77 @@ aside#left-col {
   .title {
     margin-top: 0;
     margin-bottom: 0;
+  }
+}
+
+.records-editor {
+  $save-link-w: 50px;
+  $input-padding: 10px;
+
+  div.button-bar {
+    position: fixed;
+    display: none;
+    z-index: 1000;
+    top: 5px;
+
+    min-width: 40px;
+    background-color: $sidebar-bg-color;
+    text-align: center;
+    border-radius: 5px;
+
+    button {
+      border: 0 none;
+      margin: 1px 10px;
+      background-color: $sidebar-bg-color;
+      color: $sidebar-color;
+      line-height: $sidebar-icon-size;
+      font-size: $sidebar-icon-size;
+
+      &:hover {
+        color: $active-color;
+      }
+
+      &:active {
+        border: 0 none;
+      }
+
+      &:focus, i:focus {
+        outline: none;
+      }
+    }
+  }
+
+  input[type=text] {
+    width: 100%;
+    border: 0 none;
+    border-bottom: 1px dashed #ddd;
+    background-color: $bg-color;
+    padding-left: $input-padding;
+
+    &:focus {
+      outline: none;
+      border-bottom-color: #000000;
+    }
+  }
+
+  input[name=title] {
+    font-size: large;
+    font-weight: bold;
+    margin-left: -$save-link-w;
+    padding-left: $save-link-w + $input-padding;
+  }
+
+  input[name=tags] {
+    margin: 10px 0;
+  }
+
+  textarea {
+    width: 100%;
+    border: 0 none;
+    background-color: $bg-color;
+
+    &:focus {
+      outline: none;
+    }
   }
 }

@@ -170,6 +170,7 @@ app.directive('pimyscroll', function (PimyScrollables) {
     };
 });
 
+//bootstrap icon
 app.directive('icon', function () {
     return {
         restrict: 'E',
