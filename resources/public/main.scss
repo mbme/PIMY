@@ -12,6 +12,10 @@ html {
   height: 100%;
 }
 
+*:focus {
+  outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -181,15 +185,7 @@ aside#left-col {
 }
 
 .records-editor {
-  $save-link-w: 50px;
-  $input-padding: 10px;
-
   div.button-bar {
-    position: fixed;
-    display: none;
-    z-index: 1000;
-    top: 5px;
-
     min-width: 40px;
     background-color: $sidebar-bg-color;
     text-align: center;
@@ -210,10 +206,6 @@ aside#left-col {
       &:active {
         border: 0 none;
       }
-
-      &:focus, i:focus {
-        outline: none;
-      }
     }
   }
 
@@ -222,10 +214,9 @@ aside#left-col {
     border: 0 none;
     border-bottom: 1px dashed #ddd;
     background-color: $bg-color;
-    padding-left: $input-padding;
+    padding-left: 10px;
 
     &:focus {
-      outline: none;
       border-bottom-color: #000000;
     }
   }
@@ -233,8 +224,6 @@ aside#left-col {
   input[name=title] {
     font-size: large;
     font-weight: bold;
-    margin-left: -$save-link-w;
-    padding-left: $save-link-w + $input-padding;
   }
 
   input[name=tags] {
@@ -245,9 +234,5 @@ aside#left-col {
     width: 100%;
     border: 0 none;
     background-color: $bg-color;
-
-    &:focus {
-      outline: none;
-    }
   }
 }

@@ -15,7 +15,7 @@ To start a web server for the application, run:
     lein serve
 
 ## TODO
-- floating menu component
++ floating menu component
 - hide scrolls to save space
 - edit record
 
