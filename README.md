@@ -18,11 +18,12 @@ To start a web server for the application, run:
 + floating menu component
 = hide scrolls to save space
 + check scroll on right panel
-- does not reload record on click in records list
++ does not reload record on click in records list
 - edit record
 - in records list retrieve records without body to save memory
 - implement records cache
 
+- improve scrollables event bubbling
 - add links to other projects: EpicEditor
 
 ## License

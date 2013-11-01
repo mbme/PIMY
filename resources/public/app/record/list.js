@@ -5,6 +5,11 @@ var list = angular.module("RecordsList", ["RecordUtils"]);
 
 list.controller('RecordsListCtrl', function ($rootScope, $scope, $log, RecordsService) {
     var setActive = function (record) {
+        //if record is already selected then do nothing
+        if ($scope.activeId === record.id) {
+            return;
+        }
+
         $scope.activeId = record.id;
         $rootScope.$broadcast('rec-viewer:update', record);
     };
