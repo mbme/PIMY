@@ -113,46 +113,45 @@ app.directive(mbHrefName, function () {
     };
 });
 
-app.service('PimyScrollables', function ($log) {
-    this.scrollables = [];
+app.service('PimyScrollables', function ($log, $rootScope) {
+    var scrollables = [];
+    var self = this;
 
     this.add = function (elem) {
         $(elem).tinyscrollbar();
-        this.scrollables.push(elem);
-        $log.debug('Added 1 item to scrollables');
+        scrollables.push(elem);
+        $log.debug('Added item to scrollables');
     };
 
     this.remove = function (elem) {
-        var pos = _.indexOf(this.scrollables, elem);
+        var pos = _.indexOf(scrollables, elem);
         if (pos > -1) {
-            this.scrollables.splice(pos, 1);
+            scrollables.splice(pos, 1);
             $log.debug('Removed 1 item from scrollables');
         } else {
             $log.warn("Scrollables: can't find item which should be removed");
         }
     };
+
     //call update on each registered scrollable
     this.updateScrollables = function () {
-        $log.debug('Updating {} scrollables', this.scrollables.length);
-        _.each(this.scrollables, function (item) {
+        $log.debug('Updating {} scrollables', scrollables.length);
+        _.each(scrollables, function (item) {
             $(item).tinyscrollbar_update();
         });
     };
 
-    this.updateSingleScrollable = function (item) {
-        $log.debug('Updating single scrollable');
-        $(item).tinyscrollbar_update();
+    var listener = function () {
+        self.updateScrollables();
     };
 
-    //subscribe to window resize event
-    var self = this;
-    $(window).resize(function () {
-        self.updateScrollables();
-    });
+    $rootScope.$on('scrollable:update', listener);
+    //also subscribe to window resize event
+    $(window).resize(listener);
 });
 
 //directive to make divs have custom scrollbar
-app.directive('pimyscroll', function (PimyScrollables) {
+app.directive('pimyScroll', function (PimyScrollables) {
     return {
         restrict: 'E',
         templateUrl: '/public/app/pimyscroll.tpl.html',
@@ -160,9 +159,7 @@ app.directive('pimyscroll', function (PimyScrollables) {
         replace: true,
         link: function (scope, elem) {
             PimyScrollables.add(elem);
-            scope.$on('update-scrollable', function () {
-                PimyScrollables.updateSingleScrollable(elem);
-            });
+
             scope.$on('$destroy', function () {
                 PimyScrollables.remove(elem);
             });

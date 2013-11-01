@@ -1,16 +1,14 @@
-<pimyscroll>
-    <div class="records-list" ng-controller="RecordsListCtrl">
-        <div ng-repeat="record in records" sentinel ng-click="setActive(record)"
-             class="record-item cursor-pointer" ng-class="{active: record.id == activeId}">
-            <h3 class="w-100 text-center title">{{ record.title }}</h3>
+<div class="records-list" ng-controller="RecordsListCtrl">
+    <div ng-repeat="record in records" sentinel ng-click="setActive(record)"
+         class="record-item cursor-pointer" ng-class="{active: record.id == activeId}">
+        <h3 class="w-100 text-center title">{{ record.title }}</h3>
 
-            <div class="row">
-                <div class="col-lg-6">{{ record.updated_on | date:"d MMMM, y"}}</div>
-                <div class="col-lg-6 text-right">
-                    <icon type="tags"></icon>
-                    {{ record.tags }}
-                </div>
+        <div class="row">
+            <div class="col-lg-6">{{ record.updated_on | date:"d MMMM, y"}}</div>
+            <div class="col-lg-6 text-right">
+                <icon type="tags"></icon>
+                {{ record.tags }}
             </div>
         </div>
     </div>
-</pimyscroll>
+</div>

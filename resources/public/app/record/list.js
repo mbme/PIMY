@@ -6,7 +6,7 @@ var list = angular.module("RecordsList", ["RecordUtils"]);
 list.controller('RecordsListCtrl', function ($rootScope, $scope, $log, RecordsService) {
     var setActive = function (record) {
         $scope.activeId = record.id;
-        $rootScope.$broadcast('update-records-viewer', record);
+        $rootScope.$broadcast('rec-viewer:update', record);
     };
     $scope.setActive = setActive;
 
@@ -28,7 +28,7 @@ list.directive('sentinel', function () {
         link: function (scope) {
             scope.$watch('$last', function (val) {
                 if (val) {
-                    scope.$emit('update-scrollable');
+                    scope.$emit('scrollable:update');
                 }
             });
         }

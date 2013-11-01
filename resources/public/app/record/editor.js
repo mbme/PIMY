@@ -11,6 +11,10 @@ editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $elem
         return resp;
     };
 
+    var notifyViewer = function (rec) {
+        $rootScope.$broadcast('rec-viewer:update', rec);
+    };
+
     $scope.record = {
         id: '-1',
         title: 'asdf',
@@ -18,9 +22,11 @@ editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $elem
         tags: 'asdf1, 123'
     };
 
-    $scope.$watch('record', function (newRec) {
-        $rootScope.$broadcast('update-records-viewer', newRec);
-    }, true);
+    $scope.$watch('record', notifyViewer, true);
+
+    $rootScope.$on('rec-viewer:ready', function () {
+        notifyViewer($scope.record);
+    });
 
     $scope.save = function () {
         //todo implement

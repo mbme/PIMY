@@ -27,18 +27,18 @@ body {
   margin-left: 0;
   margin-right: 0;
 
+  $border: 1px solid #dddddd;
+
+  .left-panel, .right-panel {
+    border-right: $border;
+    padding-left: 2px;
+    padding-right: 0;
+  }
+
   section {
+    height: 100%;
     padding-left: 0px;
     padding-right: 0px;
-
-    $border: 1px solid #dddddd;
-
-    &.left-panel {
-      border-right: $border;
-    }
-    &.right-panel {
-      border-left: $border;
-    }
   }
 }
 
@@ -75,10 +75,7 @@ aside#left-col {
 }
 
 .pimyscroll {
-  $scroll-area-w: 10px;
-  $scroll-w: 6px;
   position: relative;
-  padding-right: $scroll-area-w;
 
   .viewport {
     position: relative;
@@ -95,23 +92,22 @@ aside#left-col {
   .scrollbar {
     position: absolute;
     right: 0;
-    width: $scroll-area-w;
+    width: 10px;
   }
 
   .track {
-    position: relative;
-    width: $scroll-w;
-    padding: 0 ($scroll-area-w - $scroll-w - 1);
+    padding: 0 2px;
   }
 
   .thumb {
     position: absolute;
     overflow: hidden;
+    z-index: 1000;
     top: 0;
     height: 20px;
-    width: $scroll-w;
-    background-color: #ddd;
-    border-radius: 3px;
+    width: 6px;
+    background-color: $sidebar-bg-color;
+    border-radius: 2px;
   }
 
   .disable {
@@ -177,6 +173,7 @@ aside#left-col {
   background-color: #ddd;
   padding-left: 10px;
   padding-right: 10px;
+  min-height: 100%;
 
   .title {
     margin-top: 0;

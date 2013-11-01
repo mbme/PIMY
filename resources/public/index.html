@@ -27,12 +27,15 @@
 <body class="wh-100">
 
 <div id="content-wrapper" ng-controller="SectionsCtrl" class="row wh-100">
-    <section class="left-panel col-lg-6 h-100"
-             ng-include src="pimy_left_view">
-    </section>
-    <section class="right-panel col-lg-6 h-100"
-             ng-include src="pimy_right_view">
-    </section>
+    <pimy-scroll class="left-panel col-lg-6 h-100">
+        <section ng-include="pimy_left_view">
+        </section>
+    </pimy-scroll>
+
+    <pimy-scroll class="right-panel col-lg-6 h-100">
+        <section ng-include="pimy_right_view">
+        </section>
+    </pimy-scroll>
     <div ng-view class="col-lg-12 h-100"></div>
 </div>
 
