@@ -232,4 +232,13 @@ aside#left-col {
     border: 0 none;
     background-color: $bg-color;
   }
+
+  .CodeMirror {
+    height: auto;
+  }
+
+  .CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
 }

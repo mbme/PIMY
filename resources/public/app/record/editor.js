@@ -4,17 +4,6 @@ var editor = angular.module("RecordsEditor", ["RecordUtils"]);
 
 
 editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $element, RecordsService) {
-
-    var prepareTags = function (rec) {
-        var resp = _.clone(rec);
-        resp.tags = _.map(rec.tags.split(','), $.trim);
-        return resp;
-    };
-
-    var notifyViewer = function (rec) {
-        $rootScope.$broadcast('rec-viewer:update', rec);
-    };
-
     $scope.record = {
         id: '-1',
         title: 'asdf',
@@ -22,14 +11,36 @@ editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $elem
         tags: 'asdf1, 123'
     };
 
+    var notifyViewer = function (rec) {
+        $rootScope.$broadcast('rec-viewer:update', rec);
+    };
+
+    var textarea = $element.find('textarea')[0];
+    var codeMirror = window.CodeMirror.fromTextArea(textarea, {
+        mode: 'markdown',
+        lineWrapping: true,
+        lineNumbers: false,
+        viewportMargin: Infinity,
+        styleActiveLine: true
+    });
+    codeMirror.on('change', function () {
+        $scope.$apply(function () {
+            $scope.record.text = codeMirror.getValue();
+        });
+    });
+
     $scope.$watch('record', notifyViewer, true);
 
     $rootScope.$on('rec-viewer:ready', function () {
         notifyViewer($scope.record);
     });
 
+    var prepareTags = function (rec) {
+        var resp = _.clone(rec);
+        resp.tags = _.map(rec.tags.split(','), $.trim);
+        return resp;
+    };
     $scope.save = function () {
-        //todo implement
         $log.debug('saving...');
         RecordsService.post(prepareTags($scope.record));
     };
