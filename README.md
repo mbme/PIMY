@@ -22,6 +22,7 @@ To start a web server for the application, run:
 + remove codemirror
 x integrate ace editor
 + use requirejs to load angular modules
+x add possibility for logger to serialize cyclic dependencies
 
 - improve scrollables event bubbling
 
@@ -35,7 +36,6 @@ x integrate ace editor
 - possibility to hide left menu
 - clojure: generate version in config file with leiningen
 
-- add possibility for logger to serialize cyclic dependencies http://stackoverflow.com/questions/9382167/serializing-object-that-contains-cyclic-object-value
 
 - add links to other projects: EpicEditor, angularjs-requirejs-seed
 
