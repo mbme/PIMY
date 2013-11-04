@@ -20,9 +20,11 @@ To start a web server for the application, run:
 + check scroll on right panel
 + does not reload record on click in records list
 + remove codemirror
-
-- use requirejs to load angular modules, css
 x integrate ace editor
++ use requirejs to load angular modules
+
+- improve scrollables event bubbling
+
 - write custom editor using contenteditable attribute
 
 - edit record
@@ -31,9 +33,11 @@ x integrate ace editor
 - in records list retrieve records without body to save memory
 - implement records cache
 - possibility to hide left menu
+- clojure: generate version in config file with leiningen
 
-- improve scrollables event bubbling
-- add links to other projects: EpicEditor
+- add possibility for logger to serialize cyclic dependencies http://stackoverflow.com/questions/9382167/serializing-object-that-contains-cyclic-object-value
+
+- add links to other projects: EpicEditor, angularjs-requirejs-seed
 
 ## License
 
