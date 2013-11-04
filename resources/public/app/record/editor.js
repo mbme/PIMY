@@ -6,28 +6,14 @@ var editor = angular.module("RecordsEditor", ["RecordUtils"]);
 editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $element, RecordsService) {
     $scope.record = {
         id: '-1',
-        title: 'asdf',
-        text: 'asdf',
+        title: 'title asdf',
+        text: 'some text asdf',
         tags: 'asdf1, 123'
     };
 
     var notifyViewer = function (rec) {
         $rootScope.$broadcast('rec-viewer:update', rec);
     };
-
-    var textarea = $element.find('textarea')[0];
-    var codeMirror = window.CodeMirror.fromTextArea(textarea, {
-        mode: 'markdown',
-        lineWrapping: true,
-        lineNumbers: false,
-        viewportMargin: Infinity,
-        styleActiveLine: true
-    });
-    codeMirror.on('change', function () {
-        $scope.$apply(function () {
-            $scope.record.text = codeMirror.getValue();
-        });
-    });
 
     $scope.$watch('record', notifyViewer, true);
 

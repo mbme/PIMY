@@ -19,9 +19,11 @@ To start a web server for the application, run:
 = hide scrolls to save space
 + check scroll on right panel
 + does not reload record on click in records list
++ remove codemirror
 
-+ use requirejs to load angular modules, css(, templates?)
-+ integrate ace editor
+- use requirejs to load angular modules, css
+x integrate ace editor
+- write custom editor using contenteditable attribute
 
 - edit record
 - go to element in record list
