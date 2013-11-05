@@ -23,15 +23,15 @@ To start a web server for the application, run:
 x integrate ace editor
 + use requirejs to load angular modules
 x add possibility for logger to serialize cyclic dependencies
++ improve scrollables event bubbling
 
-- improve scrollables event bubbling
-
-- write custom editor using contenteditable attribute
-
-- edit record
 - go to element in record list
 - implement proper record save
+- edit record
+
 - in records list retrieve records without body to save memory
+- write custom editor using contenteditable attribute
+
 - implement records cache
 - possibility to hide left menu
 - clojure: generate version in config file with leiningen

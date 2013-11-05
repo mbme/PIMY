@@ -5,7 +5,7 @@ define([
 ], function (angular) {
     var viewer = angular.module("RecordsViewer", []);
 
-    viewer.controller('RecordsViewerCtrl', function ($rootScope, $scope, $log, $timeout) {
+    viewer.controller('RecordsViewerCtrl', function ($rootScope, $scope, $log, $timeout, $element) {
         $scope.isNew = function () {
             return !$scope.record || $scope.record.id < 0;
         };
@@ -18,11 +18,11 @@ define([
             //DOM will be updated after next $digest, so we should trigger
             //scrollable update event after it too
             $timeout(function () {
-                $scope.$emit('scrollable:update');
+                $scope.$emit('scrollable:update', $element);
             });
         });
 
-        $rootScope.$broadcast('rec-viewer:ready');
+        $rootScope.$emit('rec-viewer:ready');
     });
 
     return viewer;

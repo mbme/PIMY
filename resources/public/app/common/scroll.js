@@ -35,13 +35,29 @@ define([
             });
         };
 
-        var listener = function () {
-            self.updateScrollables();
+        this.updateSingleScrollable = function ($item) {
+            $log.debug('Updating single scrollable');
+            $item.tinyscrollbar_update();
         };
 
-        $rootScope.$on('scrollable:update', listener);
+        $rootScope.$on('scrollable:update', function (event, elem) {
+            if (elem) {
+                var scrollable = elem.closest('.pimyscroll');
+                if (scrollable.length === 0) {
+                    $log.warn("Can't find scrollable for {}.'{}'", elem.get(0).tagName, elem.attr('class'));
+                    return;
+                }
+
+                self.updateSingleScrollable(scrollable);
+            } else {
+                self.updateScrollables();
+            }
+        });
+
         //also subscribe to window resize event
-        $(window).resize(listener);
+        $(window).resize(function () {
+            self.updateScrollables();
+        });
     });
 
     //directive to make divs have custom scrollbar

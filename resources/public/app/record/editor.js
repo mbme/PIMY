@@ -18,7 +18,7 @@ define([
         };
 
         var notifyViewer = function (rec) {
-            $rootScope.$broadcast('rec-viewer:update', rec);
+            $rootScope.$emit('rec-viewer:update', rec);
         };
 
         $scope.$watch('record', notifyViewer, true);
