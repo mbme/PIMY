@@ -8,9 +8,6 @@
             [pimy.storage :as storage]
             [pimy.utils.http :as http]))
 
-;todo IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings
-;todo 400 bad request instead of 500 for IllegalArgumentException
-
 (defroutes api-routes
   (context "/api" []
     (GET "/" [] {:body {:version (config :version )}})
@@ -28,6 +25,7 @@
     (handler/api api-routes)
 
     (http/wrap-request-logger)
+    (http/request-wrapper-keywordize)
     (http/wrap-exception-handler)
     (http/wrap-response-logger)
 
