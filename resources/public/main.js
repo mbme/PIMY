@@ -5,8 +5,10 @@
 window.name = "NG_DEFER_BOOTSTRAP!";
 
 require.config({
+    baseUrl: '/public',
     paths: {
         'domReady': 'lib/require.domReady',
+        'text': 'lib/require.text',
 
         'angular': 'lib/angular',
         'angular-route': 'lib/angular-route',
@@ -36,5 +38,5 @@ require.config({
         }
     },
 
-    deps: ['app/bootstrap']
+    deps: ['app/bootstrap', 'text']
 });

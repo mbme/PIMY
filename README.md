@@ -24,6 +24,8 @@ x integrate ace editor
 + use requirejs to load angular modules
 x add possibility for logger to serialize cyclic dependencies
 + improve scrollables event bubbling
+- pagination
+- selected text color
 
 - go to element in record list
 - implement proper record save

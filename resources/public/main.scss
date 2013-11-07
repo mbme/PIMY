@@ -123,6 +123,41 @@ aside#left-col {
   -webkit-user-select: none;
 }
 
+div.pagination {
+  font-size: 24px;
+  background-color: $sidebar-bg-color;
+  color: $sidebar-color;
+
+  $distance: 2px;
+  padding-right: $distance;
+  padding-left: $distance;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  div.arrow {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 2px;
+    border: 1px solid $sidebar-color;
+    margin: $distance 0;
+
+    &.active {
+      border-color: $active-color;
+      &:hover {
+        color: $active-color;
+      }
+    }
+
+    i {
+      vertical-align: middle;
+      margin-bottom: 10px;
+    }
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }

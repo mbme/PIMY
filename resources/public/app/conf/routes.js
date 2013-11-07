@@ -10,6 +10,7 @@ define([
                 redirectTo: '/records'
             })
             .when('/records', {
+                reloadOnSearch: false,
                 pimy_menu_item: 'records',
                 pimy_left_view: '/record/list',
                 pimy_right_view: '/record/viewer'
