@@ -78,6 +78,12 @@
   (log/debug "Querying" limit "records starting from" offset)
   (map from-rec (.listRecords db offset limit)))
 
+(defn get-total-records-count []
+  (let [total (.getTotalRecordsCount db)]
+    (log/debug "Total records count is" total)
+    total
+    ))
+
 (defn update-record
   [rec]
   (log/debug "Updating record" rec)

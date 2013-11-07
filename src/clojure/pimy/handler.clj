@@ -13,7 +13,10 @@
     (GET "/" [] {:body {:version (config :version )}})
 
     (POST "/records" {body :body-params} {:body (storage/create-record body)})
-    (GET "/records" {params :query-params} {:body (storage/list-records params)})
+    (GET "/records" {params :query-params} {
+                                             :headers {"X-Total-Count" (str (storage/records-count))}
+                                             :body (storage/list-records params)
+                                             })
 
     (ANY "/*" [] (not-found "not found")))
 

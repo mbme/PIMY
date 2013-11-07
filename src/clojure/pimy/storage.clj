@@ -1,6 +1,7 @@
 (ns pimy.storage
   (:require [pimy.utils.backend :as backend])
-  (:use [clojure.walk :only [keywordize-keys]]))
+  (:use [clojure.walk :only [keywordize-keys]]
+        [pimy.utils.helpers :only [str->long]]))
 
 (defn read-record
   "Return record with gived id or nil"
@@ -9,15 +10,19 @@
 
 (defn list-records
   "List all records. Pagination parameters would be retrieved from passed map"
-  [& [{offset :offset limit :limit :or {offset 0 limit 10}}]]
-  (backend/list-records offset limit))
+  [& [{offset :offset limit :limit}]]
+  (backend/list-records (str->long offset 0) (str->long limit 10)))
+
+(defn records-count
+  "Retrieves total records count"
+  []
+  (backend/get-total-records-count))
 
 (defn create-record
   "Creates record and returns its id or throws
   error if required fields are missing"
   [record]
   (-> record
-    (keywordize-keys)
     (select-keys [:title :text :type :tags ])
     (assoc :type "ARTICLE")
     (backend/create-record)

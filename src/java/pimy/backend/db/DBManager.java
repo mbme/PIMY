@@ -202,6 +202,18 @@ public class DBManager {
     }
 
     /**
+     * Retrieves total count of records.
+     * Should be fast while using H2 database, because this will produce query
+     * which does not contains WHERE statement, which doesn't access the data.
+     *
+     * @return total count of records
+     * @see <a href="http://www.h2database.com/html/performance.html">H2 performance tuning</a>
+     */
+    public Long getTotalRecordsCount() throws SQLException {
+        return recordsDao.countOf();
+    }
+
+    /**
      * Retrieves list of all tags.
      *
      * @return list of tags
