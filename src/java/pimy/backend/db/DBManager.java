@@ -48,6 +48,7 @@ public class DBManager {
         connectionSource = new JdbcPooledConnectionSource();
         initializeConnectionSource();
         initializeDbSchema();
+        setTransactionIsolationLevel(IsolationLevel.SERIALIZABLE);
 
         registerShutdownHook();
 
@@ -92,15 +93,30 @@ public class DBManager {
         try {
             LOG.info("Started DB tables creation");
 
-            connectionSource.getReadWriteConnection().executeStatement(
+            DatabaseConnection connection = connectionSource.getReadWriteConnection();
+            connection.executeStatement(
                     "RUNSCRIPT FROM 'classpath:schema.sql'",
                     DatabaseConnection.DEFAULT_RESULT_FLAGS
             );
-
             LOG.info("Finished DB tables creation");
 
         } catch (SQLException e) {
             LOG.error("Exception while loading DB schema", e);
+            throw new IllegalStateException(e);
+        }
+    }
+
+    private void setTransactionIsolationLevel(IsolationLevel level) {
+        try {
+            DatabaseConnection connection = connectionSource.getReadWriteConnection();
+            connection.executeStatement(
+                    "SET LOCK_MODE " + level.getLevel(),
+                    DatabaseConnection.DEFAULT_RESULT_FLAGS
+            );
+            LOG.info("Set transaction isolation level to {}", level);
+
+        } catch (SQLException e) {
+            LOG.error("Exception while setting transaction isolation level to {}", level, e);
             throw new IllegalStateException(e);
         }
     }
