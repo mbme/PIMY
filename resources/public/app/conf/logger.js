@@ -48,6 +48,7 @@ define([
             $delegate.debug = $delegate.log;
             $delegate.info = logInterpolation($delegate.info);
             $delegate.warn = logInterpolation($delegate.warn);
+            $delegate.error = logInterpolation($delegate.error);
 
             return $delegate;
         });
