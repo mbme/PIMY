@@ -1,6 +1,7 @@
 (ns pimy.utils.http
   (:use ring.util.response
         compojure.core
+        [clojure.walk :only [keywordize-keys]]
         [cheshire.custom :only [JSONable]]
         [clojure.string :only [upper-case join]])
   (:require [clojure.tools.logging :as log])
@@ -69,6 +70,14 @@
         (log/warn body remote-addr (upper-case (name request-method)) uri "->" status body)
         (log/debug remote-addr (upper-case (name request-method)) uri "->" status))
       response)))
+
+(defn request-wrapper-keywordize [handler]
+  (fn [req]
+    (-> req
+      (assoc :query-params (keywordize-keys (req :query-params )))
+      (assoc :body-params (keywordize-keys (req :body-params )))
+      (handler))
+    ))
 
 (extend java.lang.Exception
   JSONable
