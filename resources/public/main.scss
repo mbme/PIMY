@@ -202,6 +202,15 @@ div.pagination {
       background-color: #e5e5e5;
     }
   }
+
+  .fixed {
+    text-align: center;
+
+    .pagination {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
 }
 
 .records-viewer {
@@ -267,4 +276,9 @@ div.pagination {
     border: 0 none;
     background-color: $bg-color;
   }
+}
+
+.fixed {
+  position: fixed;
+  z-index: 1000;
 }

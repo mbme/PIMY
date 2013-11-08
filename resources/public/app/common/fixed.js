@@ -8,20 +8,40 @@ define([
     app.directive('fixed', function () {
         return {
             restrict: 'A',
-            scope: {
-                right: '@',
-                top: '@'
-            },
-            link: function (scope, elem) {
-                var fixedElem = $(elem);
+            link: function (scope, elem, attrs) {
+                if (attrs.right && attrs.left) {
+                    throw "Can't use right & left attributes together";
+                }
+                if (attrs.top && attrs.bottom) {
+                    throw "Can't use top & bottom attributes together";
+                }
+
+                var fixedElem = $(elem).addClass('fixed');
                 var parent = fixedElem.parent();
 
-                fixedElem.css({
-                    position: 'fixed',
-                    'z-index': 1000,
-                    left: parent.width() - (scope.right || 10),
-                    top: scope.top || 10
-                }).hide();
+                var css = {};
+
+                var pOffset = parent.offset();
+                var pWidth = parent.width();
+                if (attrs.right) {
+                    css.left = pWidth - attrs.right;
+                }
+                if (attrs.left) {
+                    css.left = pOffset.left + attrs.left;
+                }
+                if (attrs.top) {
+                    css.top = pOffset.top + attrs.top;
+                }
+                if (attrs.bottom) {
+                    css.bottom = attrs.bottom;
+                }
+
+                css.width = pWidth;
+                if (attrs['parent-width']) {
+                }
+
+                console.log(css);
+                fixedElem.css(css).hide();
 
 
                 var mousePos = { y: -1, x: -1 };
