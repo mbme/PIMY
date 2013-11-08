@@ -25,14 +25,5 @@ define([
             });
     });
 
-    app.config(function ($locationProvider) {
-        //to exclude # from links
-        $locationProvider.html5Mode(true);
-    });
-
-    app.config(function (RestangularProvider) {
-        RestangularProvider.setBaseUrl("/api");
-    });
-
     return app;
 });
