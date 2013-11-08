@@ -11,7 +11,7 @@ define([
         var items = {
             offset: 0,
             limit: ITEMS_PER_PAGE,
-            total: 1000
+            total: 0
         };
 
         //load initial value from search params
@@ -49,13 +49,15 @@ define([
                 $log.warn('Currently there is no registered loader');
                 return;
             }
-            items.total = loader(items.offset, items.limit);
+            loader(items.offset, items.limit).then(function (res) {
+                items.total = res;
+                $rootScope.$emit('pagination:update');
+            });
         };
 
         var updatePagination = function () {
             updateSearch();
             loadResults();
-            $rootScope.$emit('pagination:update');
         };
 
         //load previous page

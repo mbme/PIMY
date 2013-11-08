@@ -24,7 +24,8 @@ x integrate ace editor
 + use requirejs to load angular modules
 x add possibility for logger to serialize cyclic dependencies
 + improve scrollables event bubbling
-- pagination
++ pagination
+- fix pagination bugs
 - selected text color
 
 - go to element in record list
@@ -37,6 +38,11 @@ x add possibility for logger to serialize cyclic dependencies
 - implement records cache
 - possibility to hide left menu
 - clojure: generate version in config file with leiningen
+- add test cases for string params offset and limit
+- IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings
+- 400 bad request instead of 500 for IllegalArgumentException
+- setup text data (maybe database level) compression
+- create annotation @Transactional
 
 
 - add links to other projects: EpicEditor, angularjs-requirejs-seed
