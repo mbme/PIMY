@@ -25,7 +25,8 @@ x integrate ace editor
 x add possibility for logger to serialize cyclic dependencies
 + improve scrollables event bubbling
 + pagination
-- fix pagination bugs
++ fix pagination bugs
+- fix pagination ui/position
 - selected text color
 
 - go to element in record list
@@ -37,6 +38,8 @@ x add possibility for logger to serialize cyclic dependencies
 
 - implement records cache
 - possibility to hide left menu
+- add drawing board to create sketches http://leimi.github.io/drawingboard.js/
+- client-side encryption
 - clojure: generate version in config file with leiningen
 - add test cases for string params offset and limit
 - IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings

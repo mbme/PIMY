@@ -3,19 +3,17 @@
 define([
     '../pimy',
     'text!./pagination.tpl.html',
-    'angular'
-], function (app, paginationTpl, angular) {
-    var ITEMS_PER_PAGE = 10;
+    'angular',
+    'lodash'
+], function (app, paginationTpl, angular, _) {
 
     app.service('PaginationService', function ($log, $location, $rootScope) {
+        //load initial value from search params
         var items = {
-            offset: 0,
-            limit: ITEMS_PER_PAGE,
+            offset: _.parseInt($location.search().offset) || 0,
+            limit: _.parseInt($location.search().limit) || 10,
             total: 0
         };
-
-        //load initial value from search params
-        items.offset = $location.search().offset || 0;
 
         //updates pagination attributes in url
         var updateSearch = function () {
@@ -50,7 +48,7 @@ define([
                 return;
             }
             loader(items.offset, items.limit).then(function (res) {
-                items.total = res;
+                items.total = _.parseInt(res) || 0;
                 $rootScope.$emit('pagination:update');
             });
         };
@@ -117,7 +115,7 @@ define([
                 $rootScope.$on('pagination:update', function () {
                     var items = PaginationService.getState();
                     page.total = Math.ceil(items.total / items.limit) || 1;
-                    page.current = Math.floor((items.offset + 1) / items.limit) + 1;
+                    page.current = Math.floor(items.offset / items.limit) + 1;
                 });
 
                 PaginationService.installPagination($scope);
