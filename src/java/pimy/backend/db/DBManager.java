@@ -194,7 +194,10 @@ public class DBManager {
      */
     public List<Record> listRecords(Long offset, Long limit) throws SQLException {
         LOG.debug("Offset {} limit {}", offset, limit);
-        List<Record> records = recordsDao.queryBuilder().limit(limit).offset(offset).query();
+        List<Record> records = recordsDao.queryBuilder()
+                .orderBy(Record.FIELD_UPDATED_ON, false)
+                .limit(limit).offset(offset)
+                .query();
         for (Record record : records) {
             tagsManager.loadRecordTags(record);
         }
