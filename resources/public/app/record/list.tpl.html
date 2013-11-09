@@ -1,4 +1,4 @@
-<div class="records-list" ng-controller="RecordsListCtrl">
+<div class="records-list h-100" ng-controller="RecordsListCtrl">
     <div ng-repeat="record in records" sentinel ng-click="setActive(record)"
          class="record-item cursor-pointer" ng-class="{active: record.id == activeId}">
         <h3 class="w-100 text-center title">{{ record.title }}</h3>
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div fixed bottom="0" left="0" parent-width>
+    <div fixed bottom="0" left="0" parent-width="true">
         <pagination loader="loader(offset, limit)"></pagination>
     </div>
 </div>

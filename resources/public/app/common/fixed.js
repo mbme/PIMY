@@ -2,8 +2,9 @@
 
 define([
     '../pimy',
-    'jquery'
-], function (app, $) {
+    'jquery',
+    'lodash'
+], function (app, $, _) {
 
     app.directive('fixed', function () {
         return {
@@ -24,25 +25,25 @@ define([
                 var pOffset = parent.offset();
                 var pWidth = parent.width();
                 if (attrs.right) {
-                    css.left = pWidth - attrs.right;
+                    css.left = pWidth - _.parseInt(attrs.right);
                 }
                 if (attrs.left) {
-                    css.left = pOffset.left + attrs.left;
+                    css.left = pOffset.left + _.parseInt(attrs.left);
                 }
                 if (attrs.top) {
-                    css.top = pOffset.top + attrs.top;
+                    css.top = pOffset.top + _.parseInt(attrs.top);
                 }
                 if (attrs.bottom) {
-                    css.bottom = attrs.bottom;
+                    css.bottom = _.parseInt(attrs.bottom);
                 }
 
-                css.width = pWidth;
-                if (attrs['parent-width']) {
+                if (attrs.parentWidth) {
+                    css.width = pWidth;
                 }
 
                 console.log(css);
-                fixedElem.css(css).hide();
 
+                fixedElem.css(css).hide();
 
                 var mousePos = { y: -1, x: -1 };
                 var buttonBarTimer;

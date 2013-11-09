@@ -281,4 +281,6 @@ div.pagination {
 .fixed {
   position: fixed;
   z-index: 1000;
+  //click-through div
+  pointer-events: none;
 }

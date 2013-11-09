@@ -27,11 +27,12 @@ x add possibility for logger to serialize cyclic dependencies
 + pagination
 + fix pagination bugs
 + fix pagination ui/position
-- fix fixed for edit record save button
++ fix fixed for edit record save button
++ fix bug with unclickable last record while pagination is visible
 - sort records by last edited date
-- fix bug with unclicable last record while pagination is visible
 - selected text color
 
+- update scrollables once a second
 - go to element in record list
 - implement proper record save
 - edit record
