@@ -205,6 +205,8 @@ div.pagination {
 
   .fixed {
     text-align: center;
+    //click-through div
+    pointer-events: none;
 
     .pagination {
       margin-top: 0;
@@ -281,6 +283,4 @@ div.pagination {
 .fixed {
   position: fixed;
   z-index: 1000;
-  //click-through div
-  pointer-events: none;
 }
