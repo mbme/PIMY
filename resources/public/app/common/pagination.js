@@ -116,6 +116,10 @@ define([
                     var items = PaginationService.getState();
                     page.total = Math.ceil(items.total / items.limit) || 1;
                     page.current = Math.floor(items.offset / items.limit) + 1;
+
+                    //we're calculating current page based on offset,
+                    // so we should check if offset was not too big
+                    page.current = page.current > page.total ? page.total : page.current;
                 });
 
                 PaginationService.installPagination($scope);
