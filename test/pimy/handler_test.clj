@@ -34,7 +34,7 @@
   (testing "API records GET"
     (let [response (api-routes (request :get "/api/records"))]
       (is (= (response :status ) 200))
-      ;todo add more test cases
+      (is (contains? (response :headers ) "X-Total-Count"))
       ))
 
   (testing "Not Found"

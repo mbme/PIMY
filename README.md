@@ -30,6 +30,8 @@ x add possibility for logger to serialize cyclic dependencies
 + fix fixed for edit record save button
 + fix bug with unclickable last record while pagination is visible
 + sort records by last edited date
++ add test cases for string params offset and limit
+
 - selected text color
 
 - update scrollables once a second
@@ -45,7 +47,6 @@ x add possibility for logger to serialize cyclic dependencies
 - add drawing board to create sketches http://leimi.github.io/drawingboard.js/
 - client-side encryption
 - clojure: generate version in config file with leiningen
-- add test cases for string params offset and limit
 - IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings
 - 400 bad request instead of 500 for IllegalArgumentException
 - setup text data (maybe database level) compression
