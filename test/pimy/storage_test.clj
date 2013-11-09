@@ -130,6 +130,13 @@
       (is (= (count (storage/list-records {:offset 0 :limit 1})) 1))
       (is (= (count (storage/list-records {:limit 1})) 1))
       (is (= (count (storage/list-records {:offset 1 :limit 2})) 2))
+      (is (= (count (storage/list-records {:offset "1" :limit "2"})) 2))
+      (is (= (count (storage/list-records {:offset "1" :limit "a"})) 10))
       (is (= (count (storage/list-records {:offset (- total 1) :limit 200})) 1))
+      ))
+
+  (testing "Counting records"
+    (let [total (count (storage/list-records {:offset 0 :limit -1}))]
+      (is (= total (storage/records-count)))
       ))
   )
