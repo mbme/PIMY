@@ -32,11 +32,13 @@
 (defn str->long
   ([number] (str->long number nil))
   ([number def-val]
-    (try
-      (Long/parseLong number)
-      (catch NumberFormatException e
-        (if-not (nil? def-val)
-          def-val
-          (throw-IAE "bad number" number))
-        ))
+    (if (number? number)
+      number
+      (try
+        (Long/parseLong number)
+        (catch NumberFormatException e
+          (if-not (nil? def-val)
+            def-val
+            (throw-IAE "bad number" number))
+          )))
     ))

@@ -1,6 +1,7 @@
 (ns pimy.utils.helpers_test
   (:use pimy.utils.helpers
-        clojure.test)
+        clojure.test
+        [pimy.storage-test :only [is-IAE?]])
   (:import [java.util HashMap]))
 
 (deftest test-helpers
@@ -13,4 +14,16 @@
   (testing "removing nil values from map"
     (let [some-map {:id 123 :other nil}]
       (is (= (remove-nil some-map) {:id 123})))
-    ))
+    )
+
+  (testing "long parser"
+    (is-IAE? (str->long "a"))
+    (is-IAE? (str->long ""))
+    (is-IAE? (str->long nil))
+    (is (= 1 (str->long 1)))
+    (is (= 1 (str->long "1")))
+    (is (= 1 (str->long "01")))
+    (is (= 1 (str->long "a" 1)))
+    (is (= 1 (str->long nil 1)))
+    )
+  )
