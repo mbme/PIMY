@@ -32,6 +32,18 @@
       (status 204))
     (response body)))
 
+(defn create-response
+  [body]
+  (if (nil? body)
+    (->
+      (response nil)
+      (status 404))
+    (->
+      (response body)
+      (status 200))
+    ))
+
+
 (defn not-implemented []
   (->
     (response nil)
