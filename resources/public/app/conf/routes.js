@@ -23,6 +23,14 @@ define([
                     viewer_edit_mode: true
                 }
             })
+            .when('/records/:recordId/edit', {
+                pimy_menu_item: '',
+                pimy_left_view: '/record/editor',
+                pimy_right_view: '/record/viewer',
+                pimy_options: {
+                    viewer_edit_mode: true
+                }
+            })
             .otherwise({
                 template: '<h1>NOT FOUND</h1>'
             });

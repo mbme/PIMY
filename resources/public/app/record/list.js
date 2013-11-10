@@ -1,12 +1,11 @@
 "use strict";
 
 define([
-    'angular',
-    './utils'
+    'angular'
 ], function (angular) {
-    var list = angular.module("RecordsList", ["RecordUtils"]);
+    var list = angular.module("RecordsList", []);
 
-    list.controller('RecordsListCtrl', function ($rootScope, $scope, $log, RecordsService, $q) {
+    list.controller('RecordsListCtrl', function ($rootScope, $scope, $log, $q, Restangular) {
         //marks record as active (selected)
         var setActive = function (record) {
             //if record is already selected then do nothing
@@ -19,10 +18,11 @@ define([
         };
         $scope.setActive = setActive;
 
+        var records = Restangular.all('records');
         $scope.loader = function (offset, limit) {
             var deferred = $q.defer();
 
-            RecordsService.getList({
+            records.getList({
                 offset: offset,
                 limit: limit
             }).then(function (data) {

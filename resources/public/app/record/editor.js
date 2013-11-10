@@ -2,22 +2,35 @@
 
 define([
     'angular',
-    'jquery',
-    'lodash',
-    './utils',
     '../common/fixed'
-], function (angular, $, _) {
-    var editor = angular.module("RecordsEditor", ["RecordUtils"]);
+], function (angular) {
+    var editor = angular.module("RecordsEditor", []);
 
-    editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $element, RecordsService) {
-        $scope.record = {
-            id: '-1',
-            title: 'title asdf',
-            text: 'some text asdf',
-            tags: 'asdf1, 123'
-        };
+    editor.controller('RecordsEditorCtrl', function ($scope, $rootScope, $log, $element, $routeParams, Restangular) {
+        var recordId = $routeParams.recordId;
+        if (recordId) {
+            Restangular.one('records', recordId).get().then(function (data) {
+                $log.debug('loaded record {}', data.id);
+                $scope.record = data;
+            }, function (response) {
+                $log.error(
+                    'There was an error while loading record {}: {}\n{}',
+                    recordId, response.status, response.body
+                );
+            });
+        } else {
+            $scope.record = {
+                id: -1,
+                title: 'title asdf',
+                text: 'some text asdf',
+                tags: ['asdf1', '123']
+            };
+        }
 
         var notifyViewer = function (rec) {
+            if (!rec) {
+                return;
+            }
             $rootScope.$emit('rec-viewer:update', rec);
         };
 
@@ -32,14 +45,13 @@ define([
             cleanUp();
         });
 
-        var prepareTags = function (rec) {
-            var resp = _.clone(rec);
-            resp.tags = _.map(rec.tags.split(','), $.trim);
-            return resp;
-        };
         $scope.save = function () {
             $log.debug('saving...');
-            RecordsService.post(prepareTags($scope.record));
+            if ($scope.record.id === -1) {
+                Restangular.all('records').post($scope.record);
+            } else {
+                $scope.record.put();
+            }
         };
     });
 

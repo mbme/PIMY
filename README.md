@@ -34,12 +34,12 @@ x add possibility for logger to serialize cyclic dependencies
 + ensure that we're unbinding all jquery events on $destroy
 + ensure that we're unbinding all $on functions
 + update scrollables once a second
++ edit record
 
 - selected text color
 
 - go to element in record list
 - implement proper record save
-- edit record
 
 - in records list retrieve records without body to save memory
 - write custom editor using contenteditable attribute
@@ -49,6 +49,7 @@ x add possibility for logger to serialize cyclic dependencies
 - add drawing board to create sketches http://leimi.github.io/drawingboard.js/
 - client-side encryption
 - clojure: generate version in config file with leiningen
+- auto setup test data
 - IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings
 - 400 bad request instead of 500 for IllegalArgumentException
 - setup text data (maybe database level) compression
