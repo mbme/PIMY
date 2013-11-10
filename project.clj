@@ -2,7 +2,7 @@
   :description "PIM"
   :dependencies [[org.clojure/clojure "1.5.1"]
 
-                 [compojure "1.1.5"]
+                 [compojure "1.1.6"]
                  [ring-middleware-format "0.3.1"]
 
                  [org.clojure/tools.logging "0.2.4"]
