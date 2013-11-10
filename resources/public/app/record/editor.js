@@ -23,8 +23,13 @@ define([
 
         $scope.$watch('record', notifyViewer, true);
 
-        $rootScope.$on('rec-viewer:ready', function () {
+        var cleanUp = $rootScope.$on('rec-viewer:ready', function () {
             notifyViewer($scope.record);
+        });
+
+        $scope.$on('$destroy', function () {
+            $log.debug('destroying record editor');
+            cleanUp();
         });
 
         var prepareTags = function (rec) {

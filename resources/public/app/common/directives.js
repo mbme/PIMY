@@ -6,14 +6,19 @@ define([
 
     //opens specified address after click on element; attribute only
     var addrName = 'addr';
-    app.directive(addrName, function () {
+    app.directive(addrName, function ($location) {
         return {
             restrict: 'A',
-            controller: function ($element, $attrs, $location, $scope) {
-                $element.on('click', function () {
-                    $scope.$apply(function () {
-                        $location.url($attrs[addrName]);
+            link: function (scope, element, attrs) {
+                var clickListener = function () {
+                    scope.$apply(function () {
+                        $location.url(attrs[addrName]);
                     });
+                };
+                element.on('click', clickListener);
+
+                scope.$on('$destroy', function () {
+                    element.off('click', null, clickListener);
                 });
             }
         };

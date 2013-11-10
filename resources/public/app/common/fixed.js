@@ -6,7 +6,7 @@ define([
     'lodash'
 ], function (app, $, _) {
 
-    app.directive('fixed', function () {
+    app.directive('fixed', function ($log) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -41,14 +41,12 @@ define([
                     css.width = pWidth;
                 }
 
-                console.log(css);
-
                 fixedElem.css(css).hide();
 
                 var mousePos = { y: -1, x: -1 };
                 var buttonBarTimer;
 
-                parent.on('mousemove', function (e) {
+                var mouseMoveListener = function (e) {
                     //@from EpicEditor
                     // Here we check if the mouse has moves more than 5px
                     // in any direction before triggering the mousemove code
@@ -71,12 +69,21 @@ define([
                     }
 
                     mousePos = { y: e.pageY, x: e.pageX };
-                });
+                };
 
-                fixedElem.on('mouseover', function () {
+                parent.on('mousemove', mouseMoveListener);
+
+                var mouseOverListener = function () {
                     if (buttonBarTimer) {
                         clearTimeout(buttonBarTimer);
                     }
+                };
+                fixedElem.on('mouseover', mouseOverListener);
+
+                scope.$on('$destroy', function () {
+                    $log.debug('destroying "fixed"');
+                    parent.off('mousemove', null, mouseMoveListener);
+                    fixedElem.off('mouseover', null, mouseOverListener);
                 });
             }
         };

@@ -15,7 +15,7 @@ define([
             }
 
             $scope.activeId = record.id;
-            $rootScope.$broadcast('rec-viewer:update', record);
+            $rootScope.$emit('rec-viewer:update', record);
         };
         $scope.setActive = setActive;
 

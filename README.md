@@ -31,7 +31,8 @@ x add possibility for logger to serialize cyclic dependencies
 + fix bug with unclickable last record while pagination is visible
 + sort records by last edited date
 + add test cases for string params offset and limit
-
++ ensure that we're unbinding all jquery events on $destroy
++ ensure that we're unbinding all $on functions
 - selected text color
 
 - update scrollables once a second

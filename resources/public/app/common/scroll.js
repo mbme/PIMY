@@ -40,7 +40,7 @@ define([
             $item.tinyscrollbar_update();
         };
 
-        $rootScope.$on('scrollable:update', function (event, elem) {
+        var cleanUp = $rootScope.$on('scrollable:update', function (event, elem) {
             if (elem) {
                 var scrollable = elem.closest('.pimyscroll');
                 if (scrollable.length === 0) {
@@ -60,7 +60,7 @@ define([
         });
     });
 
-    //directive to make divs have custom scrollbar
+    //directive to make divs to has custom scrollbar
     app.directive('scroll', function (PimyScrollables) {
         return {
             restrict: 'E',

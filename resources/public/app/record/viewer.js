@@ -10,16 +10,33 @@ define([
             return !$scope.record || $scope.record.id < 0;
         };
 
-        $rootScope.$on('rec-viewer:update', function (event, record) {
+        $scope.isEditMode = function () {
+            return $rootScope.pimy_options.viewer_edit_mode;
+        };
+
+        var initialized = false;
+
+        $scope.isInitialized = function () {
+            return initialized;
+        };
+
+        var cleanUp = $rootScope.$on('rec-viewer:update', function (event, record) {
             $log.debug('previewing record {}', record.id);
             $scope.record = record;
             $scope.text = record.text;
 
+            initialized = true;
+
             //DOM will be updated after next $digest, so we should trigger
             //scrollable update event after it too
             $timeout(function () {
-                $scope.$emit('scrollable:update', $element);
+                $rootScope.$emit('scrollable:update', $element);
             });
+        });
+
+        $scope.$on('$destroy', function () {
+            $log.debug('destroying record viewer');
+            cleanUp();
         });
 
         $rootScope.$emit('rec-viewer:ready');

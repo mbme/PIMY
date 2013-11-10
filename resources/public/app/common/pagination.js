@@ -81,7 +81,7 @@ define([
         };
     });
 
-    app.directive('pagination', function () {
+    app.directive('pagination', function ($rootScope, $log, PaginationService) {
         return {
             restrict: 'E',
             scope: {
@@ -89,7 +89,7 @@ define([
             },
             template: paginationTpl,
             replace: true,
-            controller: function ($rootScope, $scope, PaginationService) {
+            link: function (scope) {
                 var page = {
                     current: 0,
                     total: 0,
@@ -110,9 +110,9 @@ define([
                         }
                     }
                 };
-                $scope.page = page;
+                scope.page = page;
 
-                $rootScope.$on('pagination:update', function () {
+                var cleanUp = $rootScope.$on('pagination:update', function () {
                     var items = PaginationService.getState();
                     page.total = Math.ceil(items.total / items.limit) || 1;
                     page.current = Math.floor(items.offset / items.limit) + 1;
@@ -122,7 +122,12 @@ define([
                     page.current = page.current > page.total ? page.total : page.current;
                 });
 
-                PaginationService.installPagination($scope);
+                scope.$on('$destroy', function () {
+                    $log.debug('destroying pagination');
+                    cleanUp();
+                });
+
+                PaginationService.installPagination(scope);
             }
         };
     });
