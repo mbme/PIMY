@@ -49,15 +49,6 @@
     (response nil)
     (status 501)))
 
-(defn created
-  ([url]
-    (created url nil))
-  ([url body]
-    (->
-      (response body)
-      (status 201)
-      (header "Location" url))))
-
 (defn wrap-exception-handler [handler]
   (fn [req]
     (try
