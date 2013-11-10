@@ -6,8 +6,10 @@ define([
     'lodash',
     'jq-tinyscrollbar'
 ], function (app, $, _) {
-
-    app.service('PimyScrollables', function ($log, $rootScope) {
+    var constants = {
+        SCROLLABLE_UPDATE_INTERVAL: 500
+    };
+    app.service('PimyScrollables', function ($log, $rootScope, $timeout) {
         var scrollables = [];
         var self = this;
 
@@ -27,20 +29,34 @@ define([
             }
         };
 
+        var scrollablesUpdate = false;
         //call update on each registered scrollable
         this.updateScrollables = function () {
-            $log.debug('Updating {} scrollables', scrollables.length);
-            _.each(scrollables, function (item) {
-                $(item).tinyscrollbar_update();
-            });
+            if (!scrollablesUpdate) {
+                scrollablesUpdate = true;
+                $timeout(function () {
+                    $log.debug('Updating {} scrollables', scrollables.length);
+                    _.each(scrollables, function (item) {
+                        $(item).tinyscrollbar_update();
+                    });
+                    scrollablesUpdate = false;
+                }, constants.SCROLLABLE_UPDATE_INTERVAL, false);
+            }
         };
 
+        var singleScrollableUpdate = false;
         this.updateSingleScrollable = function ($item) {
-            $log.debug('Updating single scrollable');
-            $item.tinyscrollbar_update();
+            if (!singleScrollableUpdate) {
+                singleScrollableUpdate = true;
+                $timeout(function () {
+                    $log.debug('Updating single scrollable');
+                    $item.tinyscrollbar_update();
+                    singleScrollableUpdate = false;
+                }, constants.SCROLLABLE_UPDATE_INTERVAL, false);
+            }
         };
 
-        var cleanUp = $rootScope.$on('scrollable:update', function (event, elem) {
+        $rootScope.$on('scrollable:update', function (event, elem) {
             if (elem) {
                 var scrollable = elem.closest('.pimyscroll');
                 if (scrollable.length === 0) {

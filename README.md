@@ -33,9 +33,10 @@ x add possibility for logger to serialize cyclic dependencies
 + add test cases for string params offset and limit
 + ensure that we're unbinding all jquery events on $destroy
 + ensure that we're unbinding all $on functions
++ update scrollables once a second
+
 - selected text color
 
-- update scrollables once a second
 - go to element in record list
 - implement proper record save
 - edit record
