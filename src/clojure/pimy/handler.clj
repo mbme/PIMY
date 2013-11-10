@@ -17,6 +17,8 @@
                                              :headers {"X-Total-Count" (str (storage/records-count))}
                                              :body (storage/list-records params)
                                              })
+    (GET "/records/:id" [id] (http/create-response (storage/read-record id)))
+    (PUT "/records/:id" {{id :id} :params body :body-params} {:body (storage/update-record id body)})
 
     (ANY "/*" [] (not-found "not found")))
 

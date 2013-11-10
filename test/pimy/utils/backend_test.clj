@@ -7,6 +7,6 @@
 (deftest test-backend
   (testing "Record serialization-deserialization"
     (let [now (DateTime.)
-          rec {:id 1 :updated_on now :created_on now}]
+          rec {:id 1 :updated_on now :created_on now :tags ()}]
       (is (= (-> (to-rec rec) (from-rec) (remove-nil)) rec))
       )))

@@ -26,19 +26,20 @@
 (defn to-rec [map]
   (to-bean map Record))
 
-(defn from-rec [rec]
-  (if-not (nil? rec)
-    (-> rec
-      (bean)
-      (dissoc :class )
-      (rename-keys db->map))
-    ))
-
 (defn from-tag [tag]
   (if-not (nil? tag)
     (-> tag
       (bean)
       (dissoc :class ))
+    ))
+
+(defn from-rec [rec]
+  (if-not (nil? rec)
+    (-> rec
+      (bean)
+      (dissoc :class )
+      (rename-keys db->map)
+      (assoc :tags (map str (.getTags rec))))
     ))
 
 (defn not-empty-vector [map key _]
@@ -49,8 +50,12 @@
       "must be not empty array")
     ))
 
+(defn existing-rec-id [map key _]
+  (when (nil? (.readRecord db (get map key)))
+    "must be existing record id"))
+
 (defvalidator record-validator
-  [:id :presence {:except :create}]
+  [:id :existing-rec-id {:except :create}]
   [:title :presence ]
   [:text :presence ]
   [:tags :not-empty-vector :presence ]

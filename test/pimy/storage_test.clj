@@ -58,6 +58,20 @@
       (is (= (rec1 :created_on ) (rec1 :updated_on )))
       ))
 
+  (testing "Reading record with string id"
+    (let [rec (valid-rec)
+          rec_id ((storage/create-record rec) :id )
+          rec1 (storage/read-record (str rec_id))]
+
+      (is (= (rec1 :id ) rec_id))
+      (is (= (rec1 :title ) (rec :title )))
+      (is (= (rec1 :text ) (rec :text )))
+      (is (= (rec1 :tags ) (rec :tags )))
+      (is (not-nil? (rec1 :created_on )))
+      (is (not-nil? (rec1 :updated_on )))
+      (is (= (rec1 :created_on ) (rec1 :updated_on )))
+      ))
+
   (testing "Failed reading of record with bad id"
     (let [rec_id ((storage/create-record (valid-rec)) :id )]
       (is (nil? (storage/read-record (+ rec_id 1))))
@@ -69,7 +83,7 @@
       (let [rec (valid-rec)
             rec1 (storage/create-record rec)
             ok {:id (rec1 :id ) :title "new_title" :text "new_text" :tags ["new one"]}
-            upd_id (storage/update-record ok)
+            upd_id ((storage/update-record (rec1 :id ) ok) :id )
             retrieved_rec (storage/read-record upd_id)]
 
         (is (= (rec1 :id ) upd_id))
@@ -83,9 +97,9 @@
     (testing "update of missing record"
       (let [rec (valid-rec)
             rec_id ((storage/create-record rec) :id )
-            bad {:id (inc rec_id) :title "new_title" :text "new_text"}]
+            bad (assoc (valid-rec) :id (inc rec_id))]
 
-        (is-IAE? (storage/update-record bad) "must be an error if updating non existing record")
+        (is-IAE? (storage/update-record rec_id bad) "must be an error if updating non existing record")
         ))
     )
 

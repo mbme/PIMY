@@ -6,7 +6,7 @@
 (defn read-record
   "Return record with gived id or nil"
   [id]
-  (if (number? id) (backend/get-record id)))
+  (backend/get-record (str->long id -1)))
 
 (defn list-records
   "List all records. Pagination parameters would be retrieved from passed map"
@@ -33,9 +33,17 @@
   "Updates record fields and return record id or
   throws error if there is no record with specified id
   or some fields missing"
-  [record]
-  (backend/update-record (select-keys record [:id :title :text :tags ]))
-  (record :id ))
+  [id record]
+  (if (and (contains? record :id ) (not= (record :id ) (str->long id -1)))
+    (throw (IllegalArgumentException. (str "wrong record id passed"))
+      ))
+  (->
+    record
+    (select-keys [:title :text :tags ])
+    (assoc :id (str->long id))
+    (backend/update-record)
+    (select-keys [:id ])
+    ))
 
 (defn delete-record
   "Returns true if record has been deleted false otherwise"
