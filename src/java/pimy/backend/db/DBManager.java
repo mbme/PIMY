@@ -173,6 +173,10 @@ public class DBManager {
             public Record call() throws SQLException {
                 Record prev = recordsDao.queryForSameId(rec);
 
+                if (prev == null) {
+                    throw new IllegalStateException("Can't find record with id " + rec.getId());
+                }
+
                 rec.setType(prev.getType());
                 rec.setCreatedOn(prev.getCreatedOn());
                 rec.setUpdatedOn(DateTime.now());
