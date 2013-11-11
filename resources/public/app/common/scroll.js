@@ -29,34 +29,52 @@ define([
             }
         };
 
+        var updateAll = function () {
+            $log.debug('Updating {} scrollables', scrollables.length);
+            _.each(scrollables, function (item) {
+                $(item).tinyscrollbar_update();
+            });
+        };
+
         var scrollablesUpdate = false;
         //call update on each registered scrollable
-        this.updateScrollables = function () {
+        this.updateScrollables = function (now) {
+            if (now === true) {
+                updateAll();
+                return;
+            }
+
             if (!scrollablesUpdate) {
                 scrollablesUpdate = true;
                 $timeout(function () {
-                    $log.debug('Updating {} scrollables', scrollables.length);
-                    _.each(scrollables, function (item) {
-                        $(item).tinyscrollbar_update();
-                    });
+                    updateAll();
                     scrollablesUpdate = false;
                 }, constants.SCROLLABLE_UPDATE_INTERVAL, false);
             }
         };
 
+        var updateOne = function ($item) {
+            $log.debug('Updating single scrollable');
+            $item.tinyscrollbar_update();
+        };
+
         var singleScrollableUpdate = false;
-        this.updateSingleScrollable = function ($item) {
+        this.updateSingleScrollable = function ($item, now) {
+            if (now === true) {
+                updateOne($item);
+                return;
+            }
+
             if (!singleScrollableUpdate) {
                 singleScrollableUpdate = true;
                 $timeout(function () {
-                    $log.debug('Updating single scrollable');
-                    $item.tinyscrollbar_update();
+                    updateOne($item);
                     singleScrollableUpdate = false;
                 }, constants.SCROLLABLE_UPDATE_INTERVAL, false);
             }
         };
 
-        $rootScope.$on('scrollable:update', function (event, elem) {
+        $rootScope.$on('scrollable:update', function (event, elem, now) {
             if (elem) {
                 var scrollable = elem.closest('.pimyscroll');
                 if (scrollable.length === 0) {
@@ -64,9 +82,9 @@ define([
                     return;
                 }
 
-                self.updateSingleScrollable(scrollable);
+                self.updateSingleScrollable(scrollable, now);
             } else {
-                self.updateScrollables();
+                self.updateScrollables(now);
             }
         });
 

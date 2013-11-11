@@ -56,7 +56,7 @@ define([
             link: function (scope) {
                 scope.$watch('$last', function (val) {
                     if (val) {
-                        scope.$emit('scrollable:update');
+                        scope.$emit('scrollable:update', null, true);
                     }
                 });
             }
