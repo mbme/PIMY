@@ -35,11 +35,13 @@ x add possibility for logger to serialize cyclic dependencies
 + ensure that we're unbinding all $on functions
 + update scrollables once a second
 + edit record
++ implement proper record save
+
+- implement records delete
 
 - selected text color
 
 - go to element in record list
-- implement proper record save
 
 - in records list retrieve records without body to save memory
 - write custom editor using contenteditable attribute
