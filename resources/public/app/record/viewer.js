@@ -30,7 +30,7 @@ define([
             //DOM will be updated after next $digest, so we should trigger
             //scrollable update event after it too
             $timeout(function () {
-                $rootScope.$emit('scrollable:update', $element);
+                $rootScope.$emit('scrollable:update', $element, true);
             });
         });
 

@@ -34,7 +34,10 @@ define([
             $rootScope.$emit('rec-viewer:update', rec);
         };
 
-        $scope.$watch('record', notifyViewer, true);
+        $scope.$watch('record', function (rec) {
+            notifyViewer(rec);
+            $rootScope.$emit('scrollable:update', $element, true);
+        }, true);
 
         var cleanUp = $rootScope.$on('rec-viewer:ready', function () {
             notifyViewer($scope.record);

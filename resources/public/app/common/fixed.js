@@ -31,7 +31,8 @@ define([
                     css.left = pOffset.left + _.parseInt(attrs.left);
                 }
                 if (attrs.top) {
-                    css.top = pOffset.top + _.parseInt(attrs.top);
+                    //sometimes top offset is below zero, so we should use 0 instead
+                    css.top = (pOffset.top < 0 ? 0 : pOffset.top) + _.parseInt(attrs.top);
                 }
                 if (attrs.bottom) {
                     css.bottom = _.parseInt(attrs.bottom);
