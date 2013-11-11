@@ -79,6 +79,12 @@ define([
         this.getState = function () {
             return angular.copy(items);
         };
+
+        $rootScope.$on('pagination:cleanup', function () {
+            $log.debug('cleaning up pagination url params');
+            $location.search('offset', null);
+            $location.search('limit', null);
+        });
     });
 
     app.directive('pagination', function ($rootScope, $log, PaginationService) {

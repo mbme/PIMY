@@ -43,6 +43,11 @@ define([
 
             return deferred.promise;
         };
+
+        $scope.$on('$destroy', function () {
+            $log.debug('destroying records list');
+            $rootScope.$emit('pagination:cleanup');
+        });
     });
 
     list.directive('sentinel', function () {
