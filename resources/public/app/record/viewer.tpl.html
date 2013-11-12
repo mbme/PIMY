@@ -1,5 +1,5 @@
 <div class="records-viewer" ng-controller="RecordsViewerCtrl" ng-show="isInitialized()">
-    <div class="row" ng-hide="isEditMode()">
+    <div class="row details" ng-hide="isEditMode()">
         <div class="col-lg-6">
             #{{ record.id }} <a href="/records/{{ record.id }}/edit">Edit</a>
         </div>
@@ -11,5 +11,5 @@
     <h2 class="title w-100 text-center">{{ record.title }}</h2>
     {{ record.tags }}
     <br/>
-    <pre>{{ text }}</pre>
+    <pre class="text">{{ text }}</pre>
 </div>

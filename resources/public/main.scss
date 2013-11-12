@@ -3,6 +3,12 @@ $sidebar-width: 50px;
 $sidebar-icon-size: 35px;
 $def-padding: 5px;
 $bg-color: #FAFAFA;
+$bg-color1: #EDECE4;
+
+$section-border-color: #dddddd;
+$section-border: 1px solid $section-border-color;
+$section-margin: 3px;
+
 $active-color: #4EBCCA;
 $sidebar-bg-color: #424244;
 $sidebar-color: #CACDCF;
@@ -19,7 +25,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: $bg-color;
+  background-color: $bg-color1;
 }
 
 #content-wrapper {
@@ -27,18 +33,32 @@ body {
   margin-left: 0;
   margin-right: 0;
 
-  $border: 1px solid #dddddd;
+  margin-top: $section-margin;
 
   .left-panel, .right-panel {
-    border-right: $border;
     padding-left: 0;
     padding-right: 0;
+
+    section {
+      border: $section-border;
+      height: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
-  section {
-    height: 100%;
-    padding-left: 0;
-    padding-right: 0;
+  .left-panel {
+    section {
+      margin-left: $section-margin;
+      margin-right: $section-margin/2;
+    }
+  }
+
+  .right-panel {
+    section {
+      margin-left: $section-margin/2;
+      margin-right: $section-margin;
+    }
   }
 }
 
@@ -176,19 +196,15 @@ div.pagination {
 }
 
 .records-list {
+  border-right: $section-border;
+  border-left: $section-border;
+
   .record-item {
-    background-color: #f9f9f9;
+    background-color: $bg-color;
     padding-left: 10px;
     padding-right: 10px;
 
-    $record-border: 1px solid #e3e3e3;
-    border-left: $record-border;
-    border-right: $record-border;
-    border-bottom: $record-border;
-
-    &:first-child {
-      border-top: $record-border;
-    }
+    border-bottom: $section-border;
 
     .title {
       margin-top: 0;
@@ -199,7 +215,7 @@ div.pagination {
     }
 
     &.active {
-      background-color: #e5e5e5;
+      background-color: #f8f8f8;
     }
   }
 
@@ -217,18 +233,30 @@ div.pagination {
 }
 
 .records-viewer {
-  background-color: #ddd;
-  padding-left: 10px;
-  padding-right: 10px;
+  background-color: $bg-color;
   min-height: 100%;
 
-  .record-date {
-    color: $sidebar-bg-color;
+  .details {
+    height: 30px;
+    border-bottom: $section-border;
+    margin: 0;
+
+    >div {
+      margin-top: 5px;
+    }
+
+    .record-date {
+      color: $sidebar-bg-color;
+    }
   }
 
   .title {
     margin-top: 0;
     margin-bottom: 0;
+  }
+
+  pre.text {
+    margin: 0 5px;
   }
 }
 
@@ -260,28 +288,21 @@ div.pagination {
   input[type=text] {
     width: 100%;
     border: 0 none;
-    border-bottom: 1px dashed #ddd;
+    border-bottom: $section-border;
     background-color: $bg-color;
     padding-left: 10px;
     text-align: center;
-
-    &:focus {
-      border-bottom-color: #000000;
-    }
   }
 
   input[name=title] {
-    font-size: large;
-    font-weight: bold;
-  }
-
-  input[name=tags] {
-    margin: 10px 0;
+    font-size: 26px;
+    color: #5ba4e5;
   }
 
   textarea {
     width: 100%;
     border: 0 none;
+    border-bottom: $section-border;
     background-color: $bg-color;
   }
 }

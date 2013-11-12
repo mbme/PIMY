@@ -37,6 +37,14 @@ x add possibility for logger to serialize cyclic dependencies
 + edit record
 + implement proper record save
 
+- use bourbon/neat instead of bootstrap
+
+- font colors
+
+- use codemirror :)
+
+- implement notifications/popup service
+
 - implement records delete
 
 - selected text color
@@ -44,7 +52,6 @@ x add possibility for logger to serialize cyclic dependencies
 - go to element in record list
 
 - in records list retrieve records without body to save memory
-- write custom editor using contenteditable attribute
 
 - implement records cache
 - possibility to hide left menu
@@ -57,6 +64,7 @@ x add possibility for logger to serialize cyclic dependencies
 - setup text data (maybe database level) compression
 - create annotation @Transactional
 
+?- write custom editor using contenteditable attribute
 
 - add links to other projects: EpicEditor, angularjs-requirejs-seed
 
