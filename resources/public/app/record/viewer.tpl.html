@@ -1,14 +1,14 @@
 <div class="records-viewer" ng-controller="RecordsViewerCtrl" ng-show="isInitialized()">
-    <div class="row details" ng-hide="isEditMode()">
-        <div class="col-lg-6">
+    <div class="details" ng-hide="isEditMode()">
+        <div class="left">
             #{{ record.id }} <a href="/records/{{ record.id }}/edit">Edit</a>
         </div>
-        <div class="col-lg-6 text-right">
+        <div class="right text-right">
             <span class="record-date">{{ record.updated_on | date:"H:mm EEE dd.MM.y"}}</span>
-            <icon type="remove"></icon>
+            <icon type="close-round"></icon>
         </div>
     </div>
-    <h2 class="title w-100 text-center">{{ record.title }}</h2>
+    <h3 class="title w-100 text-center">{{ record.title }}</h3>
     {{ record.tags }}
     <br/>
     <pre class="text">{{ text }}</pre>

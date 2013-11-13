@@ -1,11 +1,11 @@
 <div class="pagination">
     <div class="arrow" ng-class="{active: page.hasPrev()}" ng-click="page.prev()">
-        <icon type="arrow-left"></icon>
+        <icon type="chevron-left"></icon>
         prev
     </div>
     {{ page.current }} of {{ page.total }}
     <div class="arrow" ng-class="{active: page.hasNext()}" ng-click="page.next()">
         next
-        <icon type="arrow-right"></icon>
+        <icon type="chevron-right"></icon>
     </div>
 </div>

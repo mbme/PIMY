@@ -1,0 +1,497 @@
+@import "bourbon/bourbon";
+@import "neat/neat";
+
+$bootstrap-margin-size: 15px;
+$sidebar-width: 50px;
+$sidebar-icon-size: 35px;
+$def-padding: 5px;
+$bg-color: #FAFAFA;
+$bg-color1: #EDECE4;
+
+$section-border-color: #dddddd;
+$section-border: 1px solid $section-border-color;
+$section-margin: 3px;
+
+$h-base-font-size: 14px;
+
+$other-color: #4E8EF7;
+$active-color: #4EBCCA;
+$sidebar-bg-color: #424244;
+$sidebar-color: #CACDCF;
+
+/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
+
+/*
+* What follows is the result of much research on cross-browser styling.
+* Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+* Kroc Camen, and the H5BP dev community and team.
+*/
+
+/* ==========================================================================
+Base styles: opinionated defaults
+========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+  color: #222;
+}
+
+html {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/*
+* Remove text-shadow in selection highlight: h5bp.com/i
+* These selection rule sets have to be separate.
+* Customize the background color to match your design.
+*/
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/*
+* A better looking default horizontal rule
+*/
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/*
+* Remove the gap between images, videos, audio and canvas and the bottom of
+* their containers: h5bp.com/i/440
+*/
+
+audio,
+canvas,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+* Remove default fieldset styles.
+*/
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+* Allow only vertical resizing of textareas.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/* ==========================================================================
+Custom styles
+========================================================================== */
+
+*:focus {
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $helvetica;
+}
+
+h1 {
+  font-size: golden-ratio($h-base-font-size, 4);
+}
+
+h2 {
+  font-size: golden-ratio($h-base-font-size, 3);
+}
+
+h3 {
+  font-size: golden-ratio($h-base-font-size, 2);
+}
+
+h4 {
+  font-size: golden-ratio($h-base-font-size, 1);
+}
+
+h5 {
+  font-size: golden-ratio($h-base-font-size, 0);
+}
+
+h6 {
+  font-size: golden-ratio($h-base-font-size, -1);
+}
+
+i.icon {
+  cursor: pointer;
+}
+
+a, a:visited {
+  color: $other-color;
+}
+
+html {
+  overflow-y: hidden;
+  height: 100%;
+  font-family: $lucida-grande;
+}
+
+body {
+  background-color: $bg-color1;
+}
+
+#content-wrapper {
+  @include row(table);
+
+  padding-left: $sidebar-width;
+
+  margin-top: $section-margin;
+
+  .left-panel, .right-panel {
+    @include span-columns(6);
+    padding-left: 0;
+    padding-right: 0;
+
+    section {
+      border: $section-border;
+      height: 100%;
+    }
+  }
+
+  .left-panel {
+    section {
+      margin-left: $section-margin;
+      margin-right: $section-margin/2;
+    }
+  }
+
+  .right-panel {
+    section {
+      margin-left: $section-margin/2;
+      margin-right: $section-margin;
+    }
+  }
+}
+
+aside#left-col {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: $sidebar-width;
+  background-color: $sidebar-bg-color;
+
+  ul.menu {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      $icons-margin: 10px;
+      margin-top: $icons-margin;
+      height: $sidebar-icon-size + $icons-margin;
+
+      text-align: center;
+      cursor: pointer;
+      color: $sidebar-color;
+
+      &.active {
+        color: $active-color;
+      }
+
+      i {
+        font-size: $sidebar-icon-size;
+        display: block;
+      }
+    }
+  }
+}
+
+div.pagination {
+  font-size: 24px;
+  background-color: $sidebar-bg-color;
+  color: $sidebar-color;
+  cursor: pointer;
+
+  $distance: 2px;
+  padding-right: $distance;
+  padding-left: $distance;
+
+  div.arrow {
+    display: inline-block;
+    margin: $distance 0;
+
+    &.active {
+      border-color: $active-color;
+      &:hover {
+        color: $active-color;
+      }
+    }
+
+    i {
+      vertical-align: middle;
+    }
+  }
+}
+
+.records-list {
+  border-right: $section-border;
+  border-left: $section-border;
+
+  .record-item {
+    background-color: $bg-color;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    border-bottom: $section-border;
+
+    .title {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.active {
+      background-color: #f8f8f8;
+    }
+
+    .row {
+      @include row(table);
+
+      .left, .right {
+        @include span-columns(6);
+      }
+    }
+  }
+
+  .fixed {
+    text-align: center;
+    //click-through div
+    pointer-events: none;
+
+    .pagination {
+      display: inline-block;
+      pointer-events: all;
+    }
+  }
+}
+
+.records-viewer {
+  background-color: $bg-color;
+  min-height: 100%;
+
+  .details {
+    @include row(table);
+
+    height: 30px;
+    border-bottom: $section-border;
+    margin: 0;
+
+    .left, .right {
+      @include span-columns(6);
+      padding-top: 3px;
+    }
+
+    .left {
+      padding-left: 5px;
+    }
+
+    .right {
+      padding-right: 5px;
+
+      .record-date {
+        color: $sidebar-bg-color;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .title {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  pre.text {
+    margin: 0 5px;
+  }
+}
+
+.records-editor {
+  div.button-bar {
+    min-width: 40px;
+    background-color: $sidebar-bg-color;
+    text-align: center;
+    border-radius: 5px;
+
+    button {
+      border: 0 none;
+      margin: 1px 10px;
+      background-color: $sidebar-bg-color;
+      color: $sidebar-color;
+      line-height: $sidebar-icon-size;
+      font-size: $sidebar-icon-size;
+
+      &:hover {
+        color: $active-color;
+      }
+
+      &:active {
+        border: 0 none;
+      }
+    }
+  }
+
+  input[type=text] {
+    width: 100%;
+    border: 0 none;
+    border-bottom: $section-border;
+    background-color: $bg-color;
+    padding-left: 10px;
+    text-align: center;
+  }
+
+  input[name=title] {
+    font-size: 26px;
+    color: $other-color;
+  }
+
+  textarea {
+    width: 100%;
+    border: 0 none;
+    border-bottom: $section-border;
+    background-color: $bg-color;
+  }
+}
+
+.pimyscroll {
+  position: relative;
+
+  .viewport {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .overview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    list-style: none;
+  }
+
+  .scrollbar {
+    position: absolute;
+    right: 0;
+    width: 10px;
+  }
+
+  .track {
+    padding: 0 2px;
+  }
+
+  .thumb {
+    position: absolute;
+    overflow: hidden;
+    z-index: 1000;
+    top: 0;
+    height: 20px;
+    width: 6px;
+    background-color: $sidebar-bg-color;
+    border-radius: 2px;
+  }
+
+  .disable {
+    display: none;
+  }
+}
+
+.noSelect {
+  user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+}
+
+.fixed {
+  position: fixed;
+  z-index: 1000;
+}
+
+/* ==========================================================================
+Helper classes
+========================================================================== */
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.wh-100 {
+  width: 100%;
+  height: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/*
+* Hide from both screenreaders and browsers: h5bp.com/u
+*/
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/*
+* Clearfix: contain floats
+*
+* For modern browsers
+* 1. The space content is one way to avoid an Opera bug when the
+* `contenteditable` attribute is included anywhere else in the document.
+* Otherwise it causes space to appear at the top and bottom of elements
+* that receive the `clearfix` class.
+* 2. The use of `table` rather than `block` is only necessary if using
+* `:before` to contain the top-margins of child elements.
+*/
+
+.clearfix:before,
+.clearfix:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+.clearfix:after {
+  clear: both;
+}

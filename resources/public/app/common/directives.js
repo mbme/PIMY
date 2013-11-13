@@ -24,11 +24,11 @@ define([
         };
     });
 
-    //bootstrap icon
+    //ionicons
     app.directive('icon', function () {
         return {
             restrict: 'E',
-            template: '<i class="glyphicon glyphicon-{{ type }}"></i>',
+            template: '<i class="icon ion-{{ type }}"></i>',
             replace: true,
             scope: {
                 type: '@'
