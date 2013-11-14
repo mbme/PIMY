@@ -108,12 +108,40 @@ textarea {
 Custom styles
 ========================================================================== */
 
-*:focus {
-  outline: none;
+//monospaced
+@font-face {
+  font-family: 'PT Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Mono'), local('PTMono-Regular'), url(../fonts/PTM55FT.ttf);
+}
+
+//default font
+@font-face {
+  font-family: 'Istok Web';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Istok Web Regular'), local('IstokWeb-Regular'), url(../fonts/Istok_Web/IstokWeb-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Istok Web';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Istok Web Italic'), local('IstokWeb-Italic'), url(../fonts/Istok_Web/IstokWeb-Italic.ttf);
+}
+
+//headers
+@font-face {
+  font-family: 'PT Serif Caption';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif Caption'), local('PTSerif-Caption'), url(../fonts/PT_Serif-Caption-Web-Regular.ttf);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helvetica;
+  font-family: "PT Serif Caption", sans-serif;
+  font-weight: 400;
 }
 
 h1 {
@@ -140,6 +168,10 @@ h6 {
   font-size: golden-ratio($h-base-font-size, -1);
 }
 
+*:focus {
+  outline: none;
+}
+
 i.icon {
   cursor: pointer;
 }
@@ -148,10 +180,17 @@ a, a:visited {
   color: $other-color;
 }
 
+code,
+kbd,
+pre,
+samp {
+  font-family: "PT Mono", monospace, serif;
+}
+
 html {
   overflow-y: hidden;
   height: 100%;
-  font-family: $lucida-grande;
+  font-family: "Istok Web", sans-serif;
 }
 
 body {
