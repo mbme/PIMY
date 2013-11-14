@@ -20,6 +20,10 @@ define([
             return initialized;
         };
 
+        $scope.delete = function () {
+            $log.debug('Deleting record {}', $scope.record.id);
+        };
+
         var cleanUp = $rootScope.$on('rec-viewer:update', function (event, record) {
             $log.debug('previewing record {}', record.id);
             $scope.record = record;

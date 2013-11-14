@@ -172,8 +172,9 @@ h6 {
   outline: none;
 }
 
-i.icon {
+i.icon:hover {
   cursor: pointer;
+  color: $active-color;
 }
 
 a, a:visited {
@@ -330,6 +331,8 @@ div.pagination {
     .pagination {
       display: inline-block;
       pointer-events: all;
+      border: $section-border;
+      border-radius: 3px;
     }
   }
 }
@@ -347,7 +350,7 @@ div.pagination {
 
     .left, .right {
       @include span-columns(6);
-      padding-top: 3px;
+      padding-top: 5px;
     }
 
     .left {

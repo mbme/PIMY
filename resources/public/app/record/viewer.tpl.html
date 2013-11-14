@@ -5,7 +5,7 @@
         </div>
         <div class="right text-right">
             <span class="record-date">{{ record.updated_on | date:"H:mm EEE dd.MM.y"}}</span>
-            <icon type="close-round"></icon>
+            <icon type="close-round" ng-click="delete()"></icon>
         </div>
     </div>
     <h3 class="title w-100 text-center">{{ record.title }}</h3>
