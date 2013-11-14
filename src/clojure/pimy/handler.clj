@@ -19,6 +19,7 @@
                                              })
     (GET "/records/:id" [id] (http/create-response (storage/read-record id)))
     (PUT "/records/:id" {{id :id} :params body :body-params} {:body (storage/update-record id body)})
+    (DELETE "/records/:id" [id] {:body (storage/delete-record id)})
 
     (ANY "/*" [] (not-found "not found")))
 

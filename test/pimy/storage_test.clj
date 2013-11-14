@@ -108,7 +108,7 @@
           rec (assoc (valid-rec) :tags [uniq-tag])
           rec_id ((storage/create-record rec) :id )]
       (is (not-nil? (get-tag uniq-tag)))
-      (is (nil? (storage/delete-record rec_id)) "We should delete existing record")
+      (is (= ((storage/delete-record rec_id) :id ) rec_id) "We should delete existing record")
       (is (nil? (get-tag uniq-tag)))
       (is-IAE? (storage/delete-record (+ rec_id 1)) "We can't delete missing record")
       ))

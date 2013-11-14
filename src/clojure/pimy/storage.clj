@@ -46,10 +46,10 @@
     ))
 
 (defn delete-record
-  "Returns true if record has been deleted false otherwise"
+  "Returns record id if record has been deleted, exception otherwise"
   [id]
-  (backend/delete-record id)
-  )
+  (backend/delete-record (str->long id))
+  {:id id})
 
 (defn list-tags
   "Returns all existing tags"

@@ -16,7 +16,12 @@
   (request! :post url body))
 
 (defn request-put [url body]
-  (request! :put url body))
+  (api-routes (request! :put url body)))
+
+(defn request-delete [url id]
+  (api-routes
+    (request :delete (str url id))
+    ))
 
 (defn post-record []
   (((api-routes (request-post "/api/records" (valid-rec))) :body ) :id ))
@@ -69,7 +74,7 @@
   (testing "API records PUT one"
     (let [recId (post-record)
           ok {:id recId :title "new_title" :text "new_text" :tags ["new one"]}
-          response (api-routes (request-put (str "/api/records/" recId) ok))]
+          response (request-put (str "/api/records/" recId) ok)]
       (is (= (response :status ) 200))
       (is (contains? (response :body ) :id ))
       (is (= (count (response :body )) 1))
@@ -78,7 +83,7 @@
   (testing "API records PUT one without id"
     (let [recId (post-record)
           ok {:title "new_title" :text "new_text" :tags ["new one"]}
-          response (api-routes (request-put (str "/api/records/" recId) ok))]
+          response (request-put (str "/api/records/" recId) ok)]
       (is (= (response :status ) 200))
       (is (contains? (response :body ) :id ))
       (is (= (count (response :body )) 1))
@@ -88,8 +93,22 @@
     (let [recId (post-record)
           bad_id (inc recId)
           bad {:id bad_id :title "new_title" :text "new_text" :tags ["new one"]}]
-      (is-IAE? (api-routes (request-put (str "/api/records/" bad_id) bad)))
-      (is-IAE? (api-routes (request-put (str "/api/records/" recId) bad)))
+      (is-IAE? (request-put (str "/api/records/" bad_id) bad))
+      (is-IAE? (request-put (str "/api/records/" recId) bad))
+      ))
+
+  (testing "API records DELETE one"
+    (let [recId (post-record)
+          response (request-delete "/api/records/" recId)]
+      (is (= (response :status ) 200))
+      (is (contains? (response :body ) :id ))
+      (is (= (count (response :body )) 1))
+      ))
+
+  (testing "API records DELETE one failed"
+    (let [recId (post-record)
+          bad_id (inc recId)]
+      (is-IAE? (request-delete "/api/records/" bad_id))
       ))
 
   (testing "Not Found"
