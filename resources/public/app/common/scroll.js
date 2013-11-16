@@ -4,8 +4,9 @@ define([
     '../pimy',
     'jquery',
     'lodash',
+    'text!./scroll.tpl.html',
     'jq-tinyscrollbar'
-], function (app, $, _) {
+], function (app, $, _, scrollTpl) {
     var constants = {
         SCROLLABLE_UPDATE_INTERVAL: 500
     };
@@ -98,7 +99,7 @@ define([
     app.directive('scroll', function (PimyScrollables) {
         return {
             restrict: 'E',
-            templateUrl: '/public/app/common/scroll.tpl.html',
+            template: scrollTpl,
             transclude: true,
             replace: true,
             link: function (scope, elem) {
