@@ -12,6 +12,7 @@ define([
     './common/directives',
     './common/scroll',
     './common/pagination',
+    './common/modal',
 
     './record/editor',
     './record/viewer',

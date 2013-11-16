@@ -36,16 +36,17 @@ x add possibility for logger to serialize cyclic dependencies
 + update scrollables once a second
 + edit record
 + implement proper record save
++ use bourbon/neat instead of bootstrap
++ implement notifications/popup service
++ implement records delete
 
-- use bourbon/neat instead of bootstrap
-
+- implement new pagination
 - font colors
 
 - use codemirror :)
 
-- implement notifications/popup service
-
-- implement records delete
+- check if we need to wrap angular element with jquery ot it's already jquery object
+- use angular events instead of jquery (ngMousemove etc.)
 
 - selected text color
 

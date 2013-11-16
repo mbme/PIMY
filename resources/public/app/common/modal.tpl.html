@@ -1,0 +1,14 @@
+<div class="modal wh-100" ng-show="config.visible">
+    <div class="backdrop wh-100" ng-click="config.close()">&nbsp;</div>
+    <div class="dialog">
+        <h2>{{ config.title }}</h2>
+
+        <div class="text">{{ config.text }}</div>
+        <div class="buttons">
+            <button ng-repeat="button in config.buttons"
+                    ng-click="button.action()">
+                {{ button.text }}
+            </button>
+        </div>
+    </div>
+</div>

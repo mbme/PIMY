@@ -5,7 +5,7 @@ define([
 ], function (angular) {
     var viewer = angular.module("RecordsViewer", []);
 
-    viewer.controller('RecordsViewerCtrl', function ($rootScope, $scope, $log, $timeout, $element) {
+    viewer.controller('RecordsViewerCtrl', function ($rootScope, $scope, $log, $timeout, $element, ModalService, Restangular) {
         $scope.isNew = function () {
             return !$scope.record || $scope.record.id < 0;
         };
@@ -21,7 +21,27 @@ define([
         };
 
         $scope.delete = function () {
-            $log.debug('Deleting record {}', $scope.record.id);
+            var recId = $scope.record.id;
+            $log.debug('Deleting record {}', recId);
+            ModalService.dialog({
+                title: 'Delete',
+                text: 'Are you sure you want to delete record?'
+            }).then(function (result) {
+                    if (result === 'btn:ok') {
+                        Restangular.one('records', recId).remove().then(
+                            function () {
+                                $log.info('Removed record {}', recId);
+                                $rootScope.$emit('pagination:refresh');
+                            },
+                            function (response) {
+                                $log.error(
+                                    'There was an error while removing record {}: {}\n{}',
+                                    recId, response.status, response.body
+                                );
+                            }
+                        );
+                    }
+                });
         };
 
         var cleanUp = $rootScope.$on('rec-viewer:update', function (event, record) {

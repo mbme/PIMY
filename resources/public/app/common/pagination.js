@@ -85,6 +85,16 @@ define([
             $location.search('offset', null);
             $location.search('limit', null);
         });
+
+        var self = this;
+        $rootScope.$on('pagination:refresh', function () {
+            $log.debug('Refreshing list');
+            if (items.total - 1 === items.offset) {
+                self.prev();
+            } else {
+                updatePagination();
+            }
+        });
     });
 
     app.directive('pagination', function ($rootScope, $log, PaginationService) {

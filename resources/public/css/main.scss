@@ -1,23 +1,49 @@
 @import "bourbon/bourbon";
 @import "neat/neat";
 
-$bootstrap-margin-size: 15px;
 $sidebar-width: 50px;
 $sidebar-icon-size: 35px;
-$def-padding: 5px;
-$bg-color: #FAFAFA;
-$bg-color1: #EDECE4;
+
+$color-headings: #e69411;
+$color-text: #5a5e5f;
+$color-bg: #EDECE4;
+$color-bg-light: #FAFAFA;
+$color-link: #4E8EF7;
+$color-backdrop: #F6F6F6;
+
+$color-1: #5F9EA0;
+$color-2: #1dbbd6;
+// Tags, Links, Main Heading, Quote Border
+$color-3: #C0392B;
+// Hover-over color, Active Page color
+$color-4: #23defe;
+// Hover-over background color for tags
+$color-5: #34495E;
+// Sub-headings, Date Stamp
+$color-6: #ffffff;
+// Navbar Text, Tag text
+$color-7: #1ec2de;
+// Navbar
+$color-8: #2C3E50;
+// Code background
+$color-9: #E74C3C;
+// Quote Color
+// Body Text
+$color-10: #7F8C8D;
+// Footer
 
 $section-border-color: #dddddd;
 $section-border: 1px solid $section-border-color;
 $section-margin: 3px;
 
 $h-base-font-size: 14px;
+$h-max-size: 3;
 
-$other-color: #4E8EF7;
 $active-color: #4EBCCA;
 $sidebar-bg-color: #424244;
 $sidebar-color: #CACDCF;
+
+$modal-zindex: 1050;
 
 /*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
 
@@ -142,30 +168,31 @@ Custom styles
 h1, h2, h3, h4, h5, h6 {
   font-family: "PT Serif Caption", sans-serif;
   font-weight: 400;
+  color: $color-headings;
 }
 
 h1 {
-  font-size: golden-ratio($h-base-font-size, 4);
+  font-size: golden-ratio($h-base-font-size, $h-max-size);
 }
 
 h2 {
-  font-size: golden-ratio($h-base-font-size, 3);
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 1);
 }
 
 h3 {
-  font-size: golden-ratio($h-base-font-size, 2);
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 2);
 }
 
 h4 {
-  font-size: golden-ratio($h-base-font-size, 1);
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 3);
 }
 
 h5 {
-  font-size: golden-ratio($h-base-font-size, 0);
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 4);
 }
 
 h6 {
-  font-size: golden-ratio($h-base-font-size, -1);
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 5);
 }
 
 *:focus {
@@ -178,7 +205,13 @@ i.icon:hover {
 }
 
 a, a:visited {
-  color: $other-color;
+  color: $color-link;
+  text-decoration: none;
+  border: 0 none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 code,
@@ -192,10 +225,11 @@ html {
   overflow-y: hidden;
   height: 100%;
   font-family: "Istok Web", sans-serif;
+  color: $color-text;
 }
 
 body {
-  background-color: $bg-color1;
+  background-color: $color-bg;
 }
 
 #content-wrapper {
@@ -295,7 +329,7 @@ div.pagination {
   border-left: $section-border;
 
   .record-item {
-    background-color: $bg-color;
+    background-color: $color-bg-light;
     padding-left: 10px;
     padding-right: 10px;
 
@@ -338,7 +372,7 @@ div.pagination {
 }
 
 .records-viewer {
-  background-color: $bg-color;
+  background-color: $color-bg-light;
   min-height: 100%;
 
   .details {
@@ -406,21 +440,25 @@ div.pagination {
     width: 100%;
     border: 0 none;
     border-bottom: $section-border;
-    background-color: $bg-color;
+    background-color: $color-bg-light;
     padding-left: 10px;
     text-align: center;
+
+    color: $color-text;
   }
 
   input[name=title] {
     font-size: 26px;
-    color: $other-color;
+    color: $color-headings;
   }
 
   textarea {
     width: 100%;
     border: 0 none;
     border-bottom: $section-border;
-    background-color: $bg-color;
+
+    background-color: $color-bg-light;
+    color: $color-text;
   }
 }
 
@@ -476,6 +514,79 @@ div.pagination {
 .fixed {
   position: fixed;
   z-index: 1000;
+}
+
+div.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .dialog {
+    position: relative;
+    top: 30%;
+    z-index: $modal-zindex;
+
+    width: 350px;
+    min-height: 180px;
+    margin: 0 auto;
+
+    background-color: $color-bg;
+    border-radius: 2px;
+    border: 1px solid $section-border-color;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      color: $sidebar-bg-color;
+      border-bottom: $section-border;
+    }
+
+    .text {
+      font-size: larger;
+      padding: 10px;
+    }
+
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      margin: 5px 0;
+
+      button {
+        display: inline-block;
+
+        margin-left: 5px;
+        margin-right: 5px;
+
+        min-width: 90px;
+        height: 35px;
+
+        color: $color-link;
+
+        background-color: $color-bg;
+        font-size: larger;
+
+        border: 2px solid $color-link;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: $color-link;
+          color: $color-bg;
+        }
+      }
+    }
+  }
+
+  .backdrop {
+    position: fixed;
+    z-index: $modal-zindex - 1;
+    top: 0;
+    left: 0;
+    background-color: $color-backdrop;
+    opacity: 0.8;
+  }
 }
 
 /* ==========================================================================
