@@ -11,11 +11,11 @@ define([
         SCROLLABLE_UPDATE_INTERVAL: 500
     };
     app.service('PimyScrollables', function ($log, $rootScope, $timeout) {
-        var scrollables = [];
-        var self = this;
+        var scrollables = [],
+            self = this;
 
         this.add = function (elem) {
-            $(elem).tinyscrollbar();
+            elem.tinyscrollbar();
             scrollables.push(elem);
             $log.debug('Added item to scrollables');
         };
@@ -33,7 +33,7 @@ define([
         var updateAll = function () {
             $log.debug('Updating {} scrollables', scrollables.length);
             _.each(scrollables, function (item) {
-                $(item).tinyscrollbar_update();
+                item.tinyscrollbar_update();
             });
         };
 

@@ -2,9 +2,8 @@
 
 define([
     '../pimy',
-    'jquery',
     'lodash'
-], function (app, $, _) {
+], function (app, _) {
     var constants = {
         BUTTON_TIMEOUT: 1000
     };
@@ -19,7 +18,7 @@ define([
                     throw "Can't use top & bottom attributes together";
                 }
 
-                var fixedElem = $(elem).addClass('fixed');
+                var fixedElem = elem.addClass('fixed');
                 var parent = fixedElem.parent();
 
                 var css = {};
