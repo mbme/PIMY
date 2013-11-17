@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>TEST PAGE</title>
+    <title>Pimy</title>
     <meta charset="utf-8"/>
 
     <link rel="stylesheet" href="/public/css/normalize.css"/>
@@ -13,15 +13,11 @@
 <body class="wh-100">
 
 <div id="content-wrapper" ng-controller="SectionsCtrl" class="wh-100">
-    <scroll class="left-panel h-100">
-        <section ng-include="pimy_left_view">
-        </section>
-    </scroll>
+    <section ng-include="pimy_left_view" class="left-panel h-100">
+    </section>
 
-    <scroll class="right-panel h-100">
-        <section ng-include="pimy_right_view">
-        </section>
-    </scroll>
+    <section ng-include="pimy_right_view" class="right-panel h-100">
+    </section>
     <div ng-view class="full-panel h-100"></div>
 </div>
 

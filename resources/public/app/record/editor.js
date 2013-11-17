@@ -7,7 +7,7 @@ define([
     var editor = angular.module("RecordsEditor", []);
 
     editor.controller('RecordsEditorCtrl',
-        function ($scope, $rootScope, $log, $element, $routeParams, Restangular, $location) {
+        function ($scope, $rootScope, $log, $routeParams, Restangular, $location) {
             var recordId = $routeParams.recordId;
             if (recordId) {
                 Restangular.one('records', recordId).get().then(function (data) {
@@ -37,7 +37,6 @@ define([
 
             $scope.$watch('record', function (rec) {
                 notifyViewer(rec);
-                $rootScope.$emit('scrollable:update', $element, true);
             }, true);
 
             var cleanUp = $rootScope.$on('rec-viewer:ready', function () {

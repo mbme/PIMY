@@ -50,18 +50,5 @@ define([
         });
     });
 
-    list.directive('sentinel', function () {
-        return {
-            restrict: 'A',
-            link: function (scope) {
-                scope.$watch('$last', function (val) {
-                    if (val) {
-                        scope.$emit('scrollable:update', null, true);
-                    }
-                });
-            }
-        };
-    });
-
     return list;
 });

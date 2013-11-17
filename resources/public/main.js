@@ -15,7 +15,6 @@ require.config({
         'restangular': 'lib/restangular',
 
         'jquery': 'lib/jquery-2.0.3',
-        'jq-tinyscrollbar': 'lib/jquery.tinyscrollbar',
         'lodash': 'lib/lodash'
     },
 
@@ -31,10 +30,6 @@ require.config({
 
         'restangular': {
             deps: ['angular', 'lodash']
-        },
-
-        'jq-tinyscrollbar': {
-            deps: ['jquery']
         }
     },
 

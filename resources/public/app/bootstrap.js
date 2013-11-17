@@ -10,7 +10,6 @@ define([
     './conf/controllers',
 
     './common/directives',
-    './common/scroll',
     './common/pagination',
     './common/modal',
 

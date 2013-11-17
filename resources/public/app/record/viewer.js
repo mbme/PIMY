@@ -5,7 +5,7 @@ define([
 ], function (angular) {
     var viewer = angular.module("RecordsViewer", []);
 
-    viewer.controller('RecordsViewerCtrl', function ($rootScope, $scope, $log, $timeout, $element, ModalService, Restangular) {
+    viewer.controller('RecordsViewerCtrl', function ($rootScope, $scope, $log, ModalService, Restangular) {
         $scope.isNew = function () {
             return !$scope.record || $scope.record.id < 0;
         };
@@ -50,12 +50,6 @@ define([
             $scope.text = record.text;
 
             initialized = true;
-
-            //DOM will be updated after next $digest, so we should trigger
-            //scrollable update event after it too
-            $timeout(function () {
-                $rootScope.$emit('scrollable:update', $element, true);
-            });
         });
 
         $scope.$on('$destroy', function () {

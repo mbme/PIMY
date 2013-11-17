@@ -462,55 +462,6 @@ div.pagination {
   }
 }
 
-.pimyscroll {
-  position: relative;
-
-  .viewport {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .overview {
-    position: absolute;
-    left: 0;
-    top: 0;
-    list-style: none;
-  }
-
-  .scrollbar {
-    position: absolute;
-    right: 0;
-    width: 10px;
-  }
-
-  .track {
-    padding: 0 2px;
-  }
-
-  .thumb {
-    position: absolute;
-    overflow: hidden;
-    z-index: 1000;
-    top: 0;
-    height: 20px;
-    width: 6px;
-    background-color: $sidebar-bg-color;
-    border-radius: 2px;
-  }
-
-  .disable {
-    display: none;
-  }
-}
-
-.noSelect {
-  user-select: none;
-  -o-user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-}
-
 .fixed {
   position: fixed;
   z-index: 1000;
