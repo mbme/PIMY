@@ -46,7 +46,7 @@
   (let [val (get map key)]
     (if-not (and
               (vector? val)
-              (< 0 (count val)))
+              (pos? (count val)))
       "must be not empty array")
     ))
 

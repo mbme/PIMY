@@ -239,26 +239,19 @@ body {
 
   margin-top: $section-margin;
 
-  .left-panel, .right-panel {
+  section {
     @include span-columns(6);
+    border: $section-border;
     padding-left: 0;
     padding-right: 0;
+    vertical-align: top;
 
-    section {
-      border: $section-border;
-      height: 100%;
-    }
-  }
-
-  .left-panel {
-    section {
+    &.left-panel {
       margin-left: $section-margin;
       margin-right: $section-margin/2;
     }
-  }
 
-  .right-panel {
-    section {
+    &.right-panel {
       margin-left: $section-margin/2;
       margin-right: $section-margin;
     }
@@ -373,7 +366,6 @@ div.pagination {
 
 .records-viewer {
   background-color: $color-bg-light;
-  min-height: 100%;
 
   .details {
     @include row(table);

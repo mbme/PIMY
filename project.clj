@@ -17,7 +17,8 @@
 
                  [com.j256.ormlite/ormlite-jdbc "4.47"]
                  [com.h2database/h2 "1.3.173"]]
-  :plugins [[lein-ring "0.8.5"]]
+  :plugins [[lein-ring "0.8.5"]
+            [lein-kibit "0.0.8"]]
   :ring {:handler pimy.handler/app
          :auto-reload? true
          :auto-refresh? true}

@@ -13,50 +13,42 @@
   ([] (options #{:options } nil))
   ([allowed] (options allowed nil))
   ([allowed body]
-    (->
+    (header
       (response body)
-      (header "Allow" (join ", " (map (comp upper-case name) allowed)))
-      )))
+      "Allow"
+      (join ", " (map (comp upper-case name) allowed)))
+    ))
 
 (defn method-not-allowed
   "builds '405 not allowed' response"
   [allowed]
-  (->
-    (options allowed)
-    (status 405)))
+  (status (options allowed) 405))
 
 (defn no-content? [body]
   (if (or (nil? body) (empty? body))
-    (->
-      (response nil)
-      (status 204))
-    (response body)))
+    (status (response nil) 204)
+    (response body)
+    ))
 
 (defn create-response
   [body]
   (if (nil? body)
-    (->
-      (response nil)
-      (status 404))
-    (->
-      (response body)
-      (status 200))
+    (status (response nil) 404)
+    (status (response body) 200)
     ))
 
 
 (defn not-implemented []
-  (->
-    (response nil)
-    (status 501)))
+  (status (response nil) 501))
 
 (defn wrap-exception-handler [handler]
   (fn [req]
     (try
       (handler req)
       (catch Throwable e
-        (->
-          (response e)
-          (status 500))))))
+        (status (response e) 500)
+        ))
+    ))
 
 (defn wrap-request-logger [handler]
   (fn [req]
