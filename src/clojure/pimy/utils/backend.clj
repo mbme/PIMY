@@ -70,7 +70,7 @@
 
 (defn create-record
   [rec]
-  (log/debug "Creating record" rec)
+  (log/debug "Creating new record")
   (check-record rec :create )
   (from-rec (.createRecord db (to-rec rec))))
 
@@ -91,7 +91,7 @@
 
 (defn update-record
   [rec]
-  (log/debug "Updating record" rec)
+  (log/debug "Updating record" (rec :id))
   (check-record rec :update )
   (from-rec (.updateRecord db (to-rec rec))))
 

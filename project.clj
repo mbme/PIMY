@@ -1,4 +1,4 @@
-(defproject pimy "0.1.6"
+(defproject pimy "0.1.7"
   :description "PIM"
   :dependencies [[org.clojure/clojure "1.5.1"]
 
@@ -28,6 +28,6 @@
 
   :source-paths ["src/clojure"]
 
-  :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}
+  :profiles {:dev {:source-paths ["dev"] :dependencies [[ring-mock "0.1.5"]]}
              :test {:resource-paths ["test-resources"]}}
   :aliases {"serv" ["ring" "server-headless"]})

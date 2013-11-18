@@ -6,7 +6,8 @@
         [ring.middleware.format-response :only [wrap-json-response]])
   (:require [compojure [handler :as handler] [route :as route]]
             [pimy.storage :as storage]
-            [pimy.utils.http :as http]))
+            [pimy.utils.http :as http]
+            [clojure.tools.logging :as log]))
 
 (defroutes api-routes
   (context "/api" []
@@ -38,3 +39,8 @@
     (wrap-json-params)
     (wrap-json-response)
     ))
+
+;load test data on demand
+(when (config :dev_mode )
+  (log/info "RUNNING IN DEV MODE")
+  (use 'pimy.test-data))
