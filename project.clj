@@ -17,8 +17,9 @@
 
                  [com.j256.ormlite/ormlite-jdbc "4.47"]
                  [com.h2database/h2 "1.3.173"]]
-  :plugins [[lein-ring "0.8.5"]
-            [lein-kibit "0.0.8"]]
+  :plugins [[lein-ring "0.8.8"]
+            [lein-kibit "0.0.8"]
+            [lein-resource "0.3.2"]]
   :ring {:handler pimy.handler/app
          :auto-reload? true
          :auto-refresh? true}
@@ -27,7 +28,11 @@
   :java-source-paths ["src/java"]
 
   :source-paths ["src/clojure"]
-
   :profiles {:dev {:source-paths ["dev"] :dependencies [[ring-mock "0.1.5"]]}
              :test {:resource-paths ["test-resources"]}}
-  :aliases {"serv" ["ring" "server-headless"]})
+  :aliases {"serv" ["ring" "server-headless"]}
+
+  :resource {:resource-paths ["templates"]
+             :target-path "resources"}
+  :hooks [leiningen.resource]
+  )

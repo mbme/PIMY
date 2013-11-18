@@ -39,13 +39,16 @@ x add possibility for logger to serialize cyclic dependencies
 + use bourbon/neat instead of bootstrap
 + implement notifications/popup service
 + implement records delete
++ check if we need to wrap angular element with jquery ot it's already jquery object
++ auto setup test data
++ clojure: generate version in config file with leiningen
+
 
 - implement new pagination
 - font colors
 
 - use codemirror :)
 
-- check if we need to wrap angular element with jquery ot it's already jquery object
 - use angular events instead of jquery (ngMousemove etc.)
 
 - selected text color
@@ -58,8 +61,6 @@ x add possibility for logger to serialize cyclic dependencies
 - possibility to hide left menu
 - add drawing board to create sketches http://leimi.github.io/drawingboard.js/
 - client-side encryption
-- clojure: generate version in config file with leiningen
-- auto setup test data
 - IMPLEMENT CORRECT DATABASE INITIALIZATION depending of config settings
 - 400 bad request instead of 500 for IllegalArgumentException
 - setup text data (maybe database level) compression
