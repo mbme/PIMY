@@ -5,7 +5,7 @@
                  [compojure "1.1.6"]
                  [ring-middleware-format "0.3.1"]
 
-                 [org.clojure/tools.logging "0.2.4"]
+                 [org.clojure/tools.logging "0.2.6"]
                  [org.slf4j/slf4j-log4j12 "1.7.5"]
                  [log4j/log4j "1.2.17" :exclusions [
                                                      javax.mail/mail
@@ -16,10 +16,11 @@
                  [metis "0.3.3"]
 
                  [com.j256.ormlite/ormlite-jdbc "4.47"]
-                 [com.h2database/h2 "1.3.173"]]
+                 [com.h2database/h2 "1.3.174"]]
   :plugins [[lein-ring "0.8.8"]
             [lein-kibit "0.0.8"]
-            [lein-resource "0.3.2"]]
+            [lein-resource "0.3.2"]
+            [lein-ancient "0.5.4"]]
   :ring {:handler pimy.handler/app
          :auto-reload? true
          :auto-refresh? true}

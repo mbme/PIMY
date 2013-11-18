@@ -14,6 +14,10 @@ To start a web server for the application, run:
 
     lein serve
 
+To check for outdate dependencies, run:
+
+    lein ancient
+
 ## TODO
 + floating menu component
 = hide scrolls to save space
