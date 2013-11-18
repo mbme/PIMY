@@ -366,6 +366,7 @@ div.pagination {
 
 .records-viewer {
   background-color: $color-bg-light;
+  overflow-y: auto;
 
   .details {
     @include row(table);
@@ -400,6 +401,10 @@ div.pagination {
 
   pre.text {
     margin: 0 5px;
+
+    //required for firefox to show scrollbar in parent div
+    height: 30px;
+    min-height: 31px;
   }
 }
 
