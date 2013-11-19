@@ -537,6 +537,18 @@ div.modal {
   }
 }
 
+.tag {
+  margin: 5px;
+  background-color: $sidebar-bg-color;
+  color: $color-bg;
+  padding: 0 5px;
+  border-radius:2px;
+
+  &:hover {
+    color: $active-color;
+  }
+}
+
 /* ==========================================================================
 Helper classes
 ========================================================================== */

@@ -36,5 +36,16 @@ define([
         };
     });
 
+    app.directive('tag', function () {
+        return {
+            restrict: 'E',
+            template: '<span class="tag">{{ name }}</span>',
+            replace: true,
+            scope: {
+                name: '@'
+            }
+        };
+    });
+
     return app;
 });
