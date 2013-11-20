@@ -11,7 +11,7 @@ define([
         //load initial value from search params
         var items = {
             offset: _.parseInt($location.search().offset) || 0,
-            limit: _.parseInt($location.search().limit) || 10,
+            limit: _.parseInt($location.search().limit) || 20,
             total: 0
         };
 
