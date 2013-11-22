@@ -222,7 +222,7 @@ samp {
 }
 
 html {
-  overflow-y: hidden;
+  overflow: hidden;
   height: 100%;
   font-family: "Istok Web", sans-serif;
   color: $color-text;
@@ -241,6 +241,7 @@ body {
     width: 50%;
     border: $section-border;
     overflow-y: auto;
+    overflow-x: hidden;
 
     &.left-panel {
       float: left;
