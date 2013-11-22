@@ -316,6 +316,97 @@ div.pagination {
   }
 }
 
+.fixed {
+  position: fixed;
+  z-index: 1000;
+}
+
+div.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .dialog {
+    position: relative;
+    top: 30%;
+    z-index: $modal-zindex;
+
+    width: 350px;
+    min-height: 180px;
+    margin: 0 auto;
+
+    background-color: $color-bg;
+    border-radius: 2px;
+    border: 1px solid $section-border-color;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      color: $sidebar-bg-color;
+      border-bottom: $section-border;
+    }
+
+    .text {
+      font-size: larger;
+      padding: 10px;
+    }
+
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      margin: 5px 0;
+
+      button {
+        display: inline-block;
+
+        margin-left: 5px;
+        margin-right: 5px;
+
+        min-width: 90px;
+        height: 35px;
+
+        color: $color-link;
+
+        background-color: $color-bg;
+        font-size: larger;
+
+        border: 2px solid $color-link;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: $color-link;
+          color: $color-bg;
+        }
+      }
+    }
+  }
+
+  .backdrop {
+    position: fixed;
+    z-index: $modal-zindex - 1;
+    top: 0;
+    left: 0;
+    background-color: $color-backdrop;
+    opacity: 0.8;
+  }
+}
+
+.tag {
+  margin: 5px;
+  background-color: $sidebar-bg-color;
+  color: $color-bg;
+  padding: 0 5px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  &:hover {
+    color: $active-color;
+  }
+}
+
 .records-list {
   border-right: $section-border;
   border-left: $section-border;
@@ -455,97 +546,6 @@ div.pagination {
 
     background-color: $color-bg-light;
     color: $color-text;
-  }
-}
-
-.fixed {
-  position: fixed;
-  z-index: 1000;
-}
-
-div.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  .dialog {
-    position: relative;
-    top: 30%;
-    z-index: $modal-zindex;
-
-    width: 350px;
-    min-height: 180px;
-    margin: 0 auto;
-
-    background-color: $color-bg;
-    border-radius: 2px;
-    border: 1px solid $section-border-color;
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-
-    text-align: center;
-
-    h2 {
-      margin: 0;
-      color: $sidebar-bg-color;
-      border-bottom: $section-border;
-    }
-
-    .text {
-      font-size: larger;
-      padding: 10px;
-    }
-
-    .buttons {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      margin: 5px 0;
-
-      button {
-        display: inline-block;
-
-        margin-left: 5px;
-        margin-right: 5px;
-
-        min-width: 90px;
-        height: 35px;
-
-        color: $color-link;
-
-        background-color: $color-bg;
-        font-size: larger;
-
-        border: 2px solid $color-link;
-        border-radius: 4px;
-
-        &:hover {
-          background-color: $color-link;
-          color: $color-bg;
-        }
-      }
-    }
-  }
-
-  .backdrop {
-    position: fixed;
-    z-index: $modal-zindex - 1;
-    top: 0;
-    left: 0;
-    background-color: $color-backdrop;
-    opacity: 0.8;
-  }
-}
-
-.tag {
-  margin: 5px;
-  background-color: $sidebar-bg-color;
-  color: $color-bg;
-  padding: 0 5px;
-  border-radius: 2px;
-  cursor: pointer;
-
-  &:hover {
-    color: $active-color;
   }
 }
 
