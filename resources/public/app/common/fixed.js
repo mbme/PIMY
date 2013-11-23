@@ -44,7 +44,14 @@ define([
                     css.width = pWidth;
                 }
 
-                fixedElem.css(css).hide();
+                fixedElem.css(css);
+
+                //skip second part if autohide is not required
+                if (!attrs.autohide) {
+                    return;
+                }
+
+                fixedElem.hide();
 
                 var mousePos = { y: -1, x: -1 };
                 var buttonBarTimer;
@@ -86,7 +93,7 @@ define([
                 fixedElem.on('mouseover', mouseOverListener);
 
                 scope.$on('$destroy', function () {
-                    $log.debug('destroying "fixed"');
+                    $log.debug('destroying "fixed" with autohide');
                     parent.off('mousemove', null, mouseMoveListener);
                     fixedElem.off('mouseover', null, mouseOverListener);
                 });
