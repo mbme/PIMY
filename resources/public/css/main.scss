@@ -199,11 +199,6 @@ h6 {
   outline: none;
 }
 
-i.icon:hover {
-  cursor: pointer;
-  color: $active-color;
-}
-
 a, a:visited {
   color: $color-link;
   text-decoration: none;
@@ -239,13 +234,12 @@ body {
 
   section {
     width: 50%;
-    border: $section-border;
     overflow-y: auto;
     overflow-x: hidden;
 
     &.left-panel {
       float: left;
-      padding-left: $section-margin;
+      padding-left: 0;
       padding-right: $section-margin/2;
     }
 
@@ -263,6 +257,7 @@ aside#left-col {
   top: 0;
   width: $sidebar-width;
   background-color: $sidebar-bg-color;
+  border-right: $section-border;
 
   ul.menu {
     list-style: none;
@@ -289,29 +284,75 @@ aside#left-col {
   }
 }
 
-div.pagination {
-  font-size: 24px;
-  background-color: $sidebar-bg-color;
-  color: $sidebar-color;
-  cursor: pointer;
+.pagination-container {
+  $pagination-width: 30px;
+  margin-left: $pagination-width + 1;
 
-  $distance: 2px;
-  padding-right: $distance;
-  padding-left: $distance;
+  ul.pagination {
+    width: $pagination-width;
 
-  div.arrow {
-    display: inline-block;
-    margin: $distance 0;
+    padding: 0;
+    margin: 0;
 
-    &.active {
-      border-color: $active-color;
-      &:hover {
-        color: $active-color;
+    list-style: none;
+    text-align: center;
+
+    li {
+      display: block;
+    }
+
+    $items-total-h: 20px;
+    .items-total {
+      height: $items-total-h;
+      color: $active-color;
+    }
+
+    $page-h: 70px;
+    .page {
+      height: $page-h;
+
+      input {
+        width: 100%;
+        text-align: center;
+        border: $section-border;
       }
     }
 
-    i {
-      vertical-align: middle;
+    .arrow-up, .arrow-down {
+      color: $section-border-color;
+
+      @include user-select(none);
+
+      font-size: 32px;
+      position: relative;
+      height: calc(50% - #{$items-total-h/2 + $page-h/2});
+
+      i {
+        position: absolute;
+        left: 1px;
+      }
+
+      &.active {
+        cursor: pointer;
+        color: $sidebar-bg-color;
+
+        &:hover {
+          color: $active-color;
+        }
+      }
+    }
+
+    $arrow-padding: 25%;
+    .arrow-up {
+      i {
+        top: $arrow-padding;
+      }
+    }
+
+    .arrow-down {
+      i {
+        bottom: $arrow-padding;
+      }
     }
   }
 }
@@ -323,6 +364,7 @@ div.pagination {
 
 div.modal {
   position: fixed;
+  z-index: $modal-zindex;
   top: 0;
   left: 0;
 
@@ -440,17 +482,9 @@ div.modal {
     }
   }
 
-  .fixed {
-    text-align: center;
-    //click-through div
-    pointer-events: none;
-
-    .pagination {
-      display: inline-block;
-      pointer-events: all;
-      border: $section-border;
-      border-radius: 3px;
-    }
+  ul.pagination {
+    height: calc(100% - 7px);
+    padding-bottom: 2px;
   }
 }
 
@@ -599,12 +633,13 @@ Helper classes
 * `:before` to contain the top-margins of child elements.
 */
 
-.clearfix:before,
-.clearfix:after {
-  content: " "; /* 1 */
-  display: table; /* 2 */
-}
+.clearfix {
+  &:before, &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
 
-.clearfix:after {
-  clear: both;
+  &:after {
+    clear: both;
+  }
 }

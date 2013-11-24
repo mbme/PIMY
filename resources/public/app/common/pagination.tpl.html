@@ -1,11 +1,16 @@
-<div class="pagination">
-    <div class="arrow" ng-class="{active: page.hasPrev()}" ng-click="page.prev()">
-        <icon type="chevron-left"></icon>
-        prev
-    </div>
-    {{ page.current }} of {{ page.total }}
-    <div class="arrow" ng-class="{active: page.hasNext()}" ng-click="page.next()">
-        next
-        <icon type="chevron-right"></icon>
-    </div>
-</div>
+<ul class="pagination" fixed left="0" top="0">
+    <li class="items-total">{{ state.total }}</li>
+    <li class="arrow-up" ng-class="{active: hasPrevPage()}" ng-click="prevPage()">
+        <icon type="chevron-up"></icon>
+    </li>
+    <li class="page">
+        <input type="text"
+               ng-model="currentPage"
+               ng-keypress="keyPressHandler($event)"/>
+        of
+        <div class="page-total">{{ state.totalPages }}</div>
+    </li>
+    <li class="arrow-down" ng-class="{active: hasNextPage()}" ng-click="nextPage()">
+        <icon type="chevron-down"></icon>
+    </li>
+</ul>

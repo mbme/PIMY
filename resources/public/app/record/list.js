@@ -35,7 +35,7 @@ define([
                         setActive(records[0]);
                     }
 
-                    deferred.resolve(data.total);
+                    deferred.resolve(data.total, records.length);
                 }, function (response) {
                     $log.error('There was an error while saving: {}\n{}', response.status, response.body);
                     deferred.reject();

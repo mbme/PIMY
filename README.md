@@ -48,7 +48,8 @@ x add possibility for logger to serialize cyclic dependencies
 + clojure: generate version in config file with leiningen
 
 
-- implement new pagination
++ implement new pagination
+- implement pagination + scrolling, user ngRepeat track by
 - font colors
 
 - use codemirror :)
@@ -69,6 +70,9 @@ x add possibility for logger to serialize cyclic dependencies
 - 400 bad request instead of 500 for IllegalArgumentException
 - setup text data (maybe database level) compression
 - create annotation @Transactional
+
+- use http-kit and create project runner instead of lein serv
+? use websockets for client-side reminders etc.
 
 ?- write custom editor using contenteditable attribute
 
