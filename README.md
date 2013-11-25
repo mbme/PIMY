@@ -46,13 +46,17 @@ x add possibility for logger to serialize cyclic dependencies
 + check if we need to wrap angular element with jquery ot it's already jquery object
 + auto setup test data
 + clojure: generate version in config file with leiningen
-
-
 + implement new pagination
-- implement pagination + scrolling, user ngRepeat track by
-- font colors
++ implement pagination + scrolling, user ngRepeat track by
 
-- use codemirror :)
++ use codemirror :)
+
+- close popup on Esc
+- edit record validation
+- use markdown preprocessor
+- edit record synchronous scroll
+
+- font colors
 
 - use angular events instead of jquery (ngMousemove etc.)
 

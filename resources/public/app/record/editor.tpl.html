@@ -1,24 +1,12 @@
 <form ng-submit="save()"
       ng-controller="RecordsEditorCtrl"
       class="records-editor">
-    <div class="button-bar" fixed right="20" top="10" autohide="true">
+
+    <div class="button-bar" fixed right="25" top="10" autohide="true">
         <button type="submit">
             <icon type="checkmark-round"/>
         </button>
     </div>
-    <input type="text"
-           name="title"
-           placeholder="record title"
-           autofocus=""
-           ng-model="record.title"/>
 
-    <input type="text"
-           name="tags"
-           placeholder="record tags"
-           ng-model="record.tags" ng-list/>
-
-    <textarea name="text"
-              rows="20"
-              placeholder="record text"
-              ng-model="record.text"></textarea>
+    <code-mirror record="record" update-interval="1000"></code-mirror>
 </form>

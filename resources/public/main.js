@@ -15,7 +15,11 @@ require.config({
         'restangular': 'lib/restangular',
 
         'jquery': 'lib/jquery-2.0.3',
-        'lodash': 'lib/lodash'
+        'lodash': 'lib/lodash',
+
+        'codemirror': 'lib/codemirror',
+        'codemirror.active-line': 'lib/codemirror.active-line',
+        'codemirror.markdown': 'lib/codemirror.markdown'
     },
 
     shim: {
@@ -30,6 +34,16 @@ require.config({
 
         'restangular': {
             deps: ['angular', 'lodash']
+        },
+
+        'codemirror': {
+            exports: 'CodeMirror'
+        },
+        'codemirror.active-line': {
+            deps: ['codemirror']
+        },
+        'codemirror.markdown': {
+            deps: ['codemirror']
         }
     },
 

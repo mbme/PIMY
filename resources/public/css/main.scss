@@ -449,6 +449,11 @@ div.modal {
   }
 }
 
+.CodeMirror {
+  height: 100%;
+  @extend code;
+}
+
 .records-list {
   border-right: $section-border;
   border-left: $section-border;
@@ -533,6 +538,8 @@ div.modal {
 }
 
 .records-editor {
+  height: 100%;
+
   div.button-bar {
     min-width: 40px;
     background-color: $sidebar-bg-color;
@@ -555,31 +562,6 @@ div.modal {
         border: 0 none;
       }
     }
-  }
-
-  input[type=text] {
-    width: 100%;
-    border: 0 none;
-    border-bottom: $section-border;
-    background-color: $color-bg-light;
-    padding-left: 10px;
-    text-align: center;
-
-    color: $color-text;
-  }
-
-  input[name=title] {
-    font-size: 26px;
-    color: $color-headings;
-  }
-
-  textarea {
-    width: 100%;
-    border: 0 none;
-    border-bottom: $section-border;
-
-    background-color: $color-bg-light;
-    color: $color-text;
   }
 }
 

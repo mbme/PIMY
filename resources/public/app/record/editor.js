@@ -2,9 +2,90 @@
 
 define([
     'angular',
+    'lodash',
+    'codemirror',
+    'codemirror.markdown',
+    'codemirror.active-line',
     '../common/fixed'
-], function (angular) {
+], function (angular, _, CodeMirror) {
     var editor = angular.module("RecordsEditor", []);
+
+    var nthIndexOf = function (str, substr, n) {
+        var times = 0,
+            index = null;
+
+        while (times < n && index !== -1) {
+            index = str.indexOf(substr, index + 1);
+            times++;
+        }
+
+        return index;
+    };
+
+    editor.directive('codeMirror', function ($timeout) {
+        return {
+            restrict: 'E',
+            scope: {
+                record: '=',
+                updateInterval: '@'
+            },
+            link: function (scope, elem) {
+                var updateInterval = scope.updateInterval || 1500;
+                console.log(updateInterval);
+                var cm = CodeMirror(elem[0], {
+                    mode: 'markdown',
+                    lineWrapping: true,
+                    lineNumbers: false,
+                    styleActiveLine: true
+                });
+
+                var initialized = false;
+
+                var unWatchRecord = scope.$watch('record', function () {
+                    var rec = scope.record;
+                    if (!rec) {
+                        return;
+                    }
+                    var val = '! ' + rec.title + '\n\n' + '! ' + rec.tags.join(', ') + '\n\n' + rec.text;
+                    cm.setValue(val);
+
+                    initialized = true;
+                    unWatchRecord();
+                }, true);
+
+                var needsUpdate = false;
+                cm.on('change', function () {
+                    if (!initialized || needsUpdate) {
+                        return;
+                    }
+                    needsUpdate = true;
+                    $timeout(function () {
+                        var text = cm.getValue();
+
+                        var header = text.split('\n', 4);
+                        if (header.length !== 4) {
+                            //todo implement validation notification
+                            console.log('WRONG TEXT');
+                            console.log(header);
+                            return;
+                        }
+                        scope.record.title = header[0].substring(1).trim();
+                        scope.record.tags = [];
+                        _.each(header[2].substring(1).split(','), function (val) {
+                            var res = val.trim();
+                            if (res) { // skip empty tags
+                                scope.record.tags.push(res);
+                            }
+                        });
+
+                        scope.record.text = text.substring(nthIndexOf(text, '\n', 4) + 1);
+
+                        needsUpdate = false;
+                    }, updateInterval);
+                });
+            }
+        };
+    });
 
     editor.controller('RecordsEditorCtrl',
         function ($scope, $rootScope, $log, $routeParams, Restangular, $location) {
@@ -22,9 +103,9 @@ define([
             } else {
                 $scope.record = {
                     id: -1,
-                    title: 'title asdf',
-                    text: 'some text asdf',
-                    tags: ['asdf1', '123']
+                    title: '',
+                    text: '',
+                    tags: []
                 };
             }
 
