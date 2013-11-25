@@ -3,13 +3,18 @@
 define([
     '../pimy',
     'text!./pagination.tpl.html',
-    'angular',
     'lodash'
-], function (app, paginationTpl, angular, _) {
+], function (app, paginationTpl, _) {
     var parseInt = function (val, def) {
         var res = _.parseInt(val) || def;
 
         return res > 0 ? res : def;
+    };
+
+    var run = function (func) {
+        if (_.isFunction(func)) {
+            func();
+        }
     };
 
     app.service('PaginationService', function ($log, $location, $rootScope) {
@@ -57,7 +62,7 @@ define([
 
         var loader = null;
         //run loading results using passed loader function
-        var loadResults = function () {
+        var loadResults = function (callback) {
             if (loader === null) {
                 $log.warn('Currently there is no registered loader');
                 return;
@@ -73,12 +78,14 @@ define([
                 // load results with correct pagination
                 if (firstLoad && loaded === 0) {
                     state.setCurrentPage(state.getCurrentPage());
-                    loadResults();
+                    loadResults(callback);
                 } else {
                     //updates pagination attribute in url
                     $location.search('page', state.getCurrentPage());
 
                     $rootScope.$emit('pagination:update');
+
+                    run(callback);
                 }
             });
         };
@@ -103,25 +110,25 @@ define([
         };
 
         //load previous page
-        this.prevPage = function () {
+        this.prevPage = function (callback) {
             $log.debug('Loading prev page {}', state);
             state.prevPage();
-            loadResults();
+            loadResults(callback);
         };
 
         //load next page
-        this.nextPage = function () {
+        this.nextPage = function (callback) {
             $log.debug('Loading next page {}', state);
             state.nextPage();
-            loadResults();
+            loadResults(callback);
         };
 
         //load custom page
-        this.loadPage = function (page) {
+        this.loadPage = function (page, callback) {
             var pageNumber = parseInt(page, 1);
             $log.debug('Loading page {}\n{}', pageNumber, state);
             state.setCurrentPage(pageNumber);
-            loadResults();
+            loadResults(callback);
         };
 
         this.getState = function () {
@@ -157,30 +164,104 @@ define([
             replace: true,
             link: function (scope, element) {
                 element.parent().addClass('pagination-container');
+
                 scope.hasPrevPage = function () {
                     return this.state && this.state.currentPage > 1;
                 };
                 scope.hasNextPage = function () {
                     return this.state && this.state.currentPage < this.state.totalPages;
                 };
-                scope.prevPage = function () {
+                scope.prevPage = function (callback) {
                     if (this.hasPrevPage()) {
-                        PaginationService.prevPage();
+                        PaginationService.prevPage(callback);
                     }
                 };
-                scope.nextPage = function () {
+                scope.nextPage = function (callback) {
                     if (this.hasNextPage()) {
-                        PaginationService.nextPage();
+                        PaginationService.nextPage(callback);
                     }
+                };
+
+                var blockScroll = false,
+                    scrollTimeout = 150,
+                    blockScrollTimeout = 200;
+
+                var scrollToTop = function () {
+                    scrollable.animate(
+                        {scrollTop: 0},
+                        scrollTimeout,
+                        function () {
+                            setTimeout(function () {
+                                blockScroll = false;
+                            }, blockScrollTimeout);
+                        });
+                };
+
+                //scroll to bottom
+                var scrollToBottom = function () {
+                    scrollable.animate(
+                        {scrollTop: scrollable[0].scrollHeight},
+                        scrollTimeout,
+                        function () {
+                            setTimeout(function () {
+                                blockScroll = false;
+                            }, blockScrollTimeout);
+                        });
                 };
 
                 scope.currentPage = "";
                 scope.keyPressHandler = function (event) {
+                    //load page on ENTER
                     if (event.keyCode === 13) {
                         event.target.blur();
-                        PaginationService.loadPage(scope.currentPage);
+                        blockScroll = true;
+                        PaginationService.loadPage(scope.currentPage, scrollToTop);
                     }
                 };
+
+                var starts = 0,
+                    ends = 0;
+                var maxScroll = 10;
+
+                var scrollable = element.closest('section');
+                scrollable.on('mousewheel', function (evt) {
+                    if (blockScroll) {
+                        evt.preventDefault();
+                        return;
+                    }
+
+                    var scrollTop = scrollable.scrollTop();
+
+                    //if scrolled to top
+                    if (scrollTop === 0) {
+                        if (!scope.hasPrevPage()) {
+                            return;
+                        }
+                        starts += 1;
+                        if (starts === maxScroll) {
+                            blockScroll = true;
+                            scope.prevPage(scrollToBottom);
+                        }
+                        return;
+                    }
+
+                    var height = scrollable[0].scrollHeight;
+                    //if scrolled to bottom
+                    if (scrollTop + scrollable.innerHeight() >= height) {
+                        if (!scope.hasNextPage()) {
+                            return;
+                        }
+                        ends += 1;
+                        if (ends === maxScroll) {
+                            blockScroll = true;
+                            scope.nextPage(scrollToTop);
+                        }
+                        return;
+                    }
+
+                    starts = 0;
+                    ends = 0;
+                });
 
                 var cleanUp = $rootScope.$on('pagination:update', function () {
                     scope.state = PaginationService.getState();

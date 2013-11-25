@@ -1,6 +1,8 @@
 <div class="records-list" ng-controller="RecordsListCtrl">
-    <div ng-repeat="record in records" ng-click="setActive(record)"
-         class="record-item cursor-pointer" ng-class="{active: record.id == activeId}">
+    <div ng-repeat="record in records"
+         ng-click="setActive(record)"
+         class="record-item cursor-pointer"
+         ng-class="{active: record.id == activeId}">
         <h3 class="w-100 text-center title">{{ record.title }}</h3>
 
         <div class="row">
