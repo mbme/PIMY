@@ -1,5 +1,5 @@
 <div class="records-list" ng-controller="RecordsListCtrl">
-    <div ng-repeat="record in records"
+    <div ng-repeat="record in records track by record.id"
          ng-click="setActive(record)"
          class="record-item cursor-pointer"
          ng-class="{active: record.id == activeId}">
