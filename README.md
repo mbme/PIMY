@@ -48,12 +48,17 @@ x add possibility for logger to serialize cyclic dependencies
 + clojure: generate version in config file with leiningen
 + implement new pagination
 + implement pagination + scrolling, user ngRepeat track by
-
 + use codemirror :)
++ close popup on Esc
 
-- close popup on Esc
+- implement:
+    focus on title
+    tab -> tags
+    tab-> text
+
 - edit record validation
-- use markdown preprocessor
+- use markdown preprocessor (github flavored)
+? use github flavored markdown highlighting
 - edit record synchronous scroll
 
 - font colors

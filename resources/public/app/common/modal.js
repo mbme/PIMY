@@ -3,8 +3,9 @@
 define([
     '../pimy',
     'text!./modal.tpl.html',
-    'lodash'
-], function (app, modalTpl, _) {
+    'lodash',
+    'jquery'
+], function (app, modalTpl, _, $) {
     var buttons = {
         ok: {
             text: 'Ok'
@@ -35,6 +36,14 @@ define([
 
             self.config.cleanUp();
 
+            var doc = $(document);
+            var escHandler = function (evt) {
+                if (evt.keyCode === 27) { // if ESC
+                    self.config.close();
+                }
+            };
+            doc.on('keyup', escHandler);
+
             //add buttons
             _.each(options.buttons || ['ok', 'cancel'], function (item) {
                 var newButton = buttons[item];
@@ -46,7 +55,13 @@ define([
                 }
 
                 newButton.action = function () {
-                    deferred.resolve('btn:' + item);
+                    doc.off('keyup', escHandler);
+
+                    var btn = 'btn:' + item;
+                    $log.debug('Dialog button "{}"', btn);
+
+                    deferred.resolve(btn);
+
                     self.config.cleanUp();
                 };
 
@@ -59,7 +74,12 @@ define([
                 if (options.closeable === false) {
                     return;
                 }
+                $log.debug('Dialog canceled');
+
+                doc.off('keyup', escHandler);
+
                 deferred.reject('closed');
+
                 this.cleanUp();
             };
             self.config.visible = true;
