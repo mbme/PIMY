@@ -56,6 +56,8 @@ x add possibility for logger to serialize cyclic dependencies
     tab -> tags
     tab-> text
 
+- distraction-free fullscreen record viewing and editing
+
 - edit record validation
 - use markdown preprocessor (github flavored)
 ? use github flavored markdown highlighting
