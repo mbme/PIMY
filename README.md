@@ -58,6 +58,8 @@ x add possibility for logger to serialize cyclic dependencies
 
 - distraction-free fullscreen record viewing and editing
 
+- viewer/editor: add button to scroll to top; for viewer: maybe fix top menu and add button
+
 - edit record validation
 - use markdown preprocessor (github flavored)
 ? use github flavored markdown highlighting
