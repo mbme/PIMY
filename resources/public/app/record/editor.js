@@ -31,12 +31,12 @@ define([
             },
             link: function (scope, elem) {
                 var updateInterval = scope.updateInterval || 1500;
-                console.log(updateInterval);
+
                 var cm = CodeMirror(elem[0], {
                     mode: 'markdown',
                     lineWrapping: true,
                     lineNumbers: false,
-                    styleActiveLine: true
+                    styleActiveLine: false
                 });
 
                 var initialized = false;
@@ -46,7 +46,7 @@ define([
                     if (!rec) {
                         return;
                     }
-                    var val = '! ' + rec.title + '\n\n' + '! ' + rec.tags.join(', ') + '\n\n' + rec.text;
+                    var val = rec.title + '\n\n' + rec.tags.join(', ') + '\n\n' + rec.text;
                     cm.setValue(val);
 
                     initialized = true;
@@ -69,9 +69,9 @@ define([
                             console.log(header);
                             return;
                         }
-                        scope.record.title = header[0].substring(1).trim();
+                        scope.record.title = header[0].trim();
                         scope.record.tags = [];
-                        _.each(header[2].substring(1).split(','), function (val) {
+                        _.each(header[2].split(','), function (val) {
                             var res = val.trim();
                             if (res) { // skip empty tags
                                 scope.record.tags.push(res);

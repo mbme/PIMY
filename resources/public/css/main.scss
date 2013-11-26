@@ -452,6 +452,25 @@ div.modal {
 .CodeMirror {
   height: 100%;
   @extend code;
+  background-color: $color-bg-light;
+  color: $color-text;
+  line-height: 1.4;
+
+  .CodeMirror-code pre {
+    &:nth-child(-n + 4) {
+      line-height: 1;
+    }
+
+    &:first-child {
+      @extend h3;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    &:nth-child(3) {
+      font-weight: bold;
+    }
+  }
 }
 
 .records-list {
