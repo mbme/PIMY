@@ -36,7 +36,7 @@ define([
                     mode: 'markdown',
                     lineWrapping: true,
                     lineNumbers: false,
-                    styleActiveLine: false
+                    styleActiveLine: true
                 });
 
                 var initialized = false;

@@ -45,6 +45,8 @@ $sidebar-color: #CACDCF;
 
 $modal-zindex: 1050;
 
+$font-mono: "PT Mono", monospace, serif;
+
 /*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
 
 /*
@@ -213,7 +215,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: "PT Mono", monospace, serif;
+  font-family: $font-mono;
 }
 
 html {
@@ -451,20 +453,25 @@ div.modal {
 
 .CodeMirror {
   height: 100%;
-  @extend code;
+
   background-color: $color-bg-light;
   color: $color-text;
-  line-height: 1.4;
+
+  font-family: $font-mono;
 
   .CodeMirror-code pre {
     &:first-child {
-      @extend h3;
+      color: $color-headings;
+      font-weight: bold;
       text-align: center;
-      line-height: 1.4;
     }
 
     &:nth-child(3) {
       font-weight: bold;
+    }
+
+    &.CodeMirror-activeline {
+      background-color: #e8f2ff;
     }
   }
 }

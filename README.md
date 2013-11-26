@@ -51,7 +51,7 @@ x add possibility for logger to serialize cyclic dependencies
 + use codemirror :)
 + close popup on Esc
 
-- implement:
+x implement:  //should not be implemented because will be hard to use vim/emacs keybindings
     focus on title
     tab -> tags
     tab-> text
