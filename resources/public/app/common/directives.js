@@ -48,6 +48,11 @@ define([
         };
     });
 
+    marked.setOptions({
+        breaks: true,
+        smartypants: true
+    });
+
     app.directive('markdown', function ($sce) {
         return {
             restrict: 'E',

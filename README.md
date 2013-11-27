@@ -50,13 +50,12 @@ x add possibility for logger to serialize cyclic dependencies
 + implement pagination + scrolling, user ngRepeat track by
 + use codemirror :)
 + close popup on Esc
-
 x implement:  //should not be implemented because will be hard to use vim/emacs keybindings
     focus on title
     tab -> tags
     tab-> text
 + use markdown preprocessor (github flavored)
-- configure 'marked'
++ configure 'marked'
 
 - distraction-free fullscreen record viewing and editing
 
@@ -65,6 +64,7 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
 - edit record validation
 ? use github flavored markdown highlighting
 - edit record synchronous scroll
+- markdown: add custom preprocessors for tags, mentions(records) etc.
 
 - font colors
 
@@ -74,9 +74,10 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
 
 - go to element in record list
 
-- in records list retrieve records without body to save memory
 
+- in records list retrieve records without body to save memory
 - implement records cache
+
 - possibility to hide left menu
 - add drawing board to create sketches http://leimi.github.io/drawingboard.js/
 - client-side encryption
