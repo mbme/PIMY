@@ -1,8 +1,9 @@
 "use strict";
 
 define([
-    '../pimy'
-], function (app) {
+    '../pimy',
+    'marked'
+], function (app, marked) {
 
     //opens specified address after click on element; attribute only
     var addrName = 'addr';
@@ -43,6 +44,25 @@ define([
             replace: true,
             scope: {
                 name: '@'
+            }
+        };
+    });
+
+    app.directive('markdown', function ($sce) {
+        return {
+            restrict: 'E',
+            template: '<div class="text" ng-bind-html="md"></div>',
+            scope: {
+                data: '='
+            },
+            link: function (scope) {
+                scope.$watch('data', function (newVal) {
+                    if (!newVal) {
+                        return;
+                    }
+
+                    scope.md = $sce.trustAsHtml(marked(newVal));
+                });
             }
         };
     });

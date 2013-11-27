@@ -550,12 +550,8 @@ div.modal {
     margin-bottom: 0;
   }
 
-  pre.text {
+  div.text {
     margin: 0 5px;
-
-    //required for firefox to show scrollbar in parent div
-    height: 30px;
-    min-height: 31px;
 
     word-wrap: break-word;
   }

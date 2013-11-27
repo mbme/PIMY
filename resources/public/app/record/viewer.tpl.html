@@ -10,9 +10,11 @@
     </div>
     <h3 class="title w-100 text-center">{{ record.title }}</h3>
     <br>
+
     <div class="tags">
         <tag ng-repeat="tag in record.tags" name="{{ tag }}"></tag>
     </div>
     <br>
-    <pre class="text">{{ text }}</pre>
+
+    <markdown data=text></markdown>
 </div>

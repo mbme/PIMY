@@ -55,13 +55,14 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
     focus on title
     tab -> tags
     tab-> text
++ use markdown preprocessor (github flavored)
+- configure 'marked'
 
 - distraction-free fullscreen record viewing and editing
 
 - viewer/editor: add button to scroll to top; for viewer: maybe fix top menu and add button
 
 - edit record validation
-- use markdown preprocessor (github flavored)
 ? use github flavored markdown highlighting
 - edit record synchronous scroll
 

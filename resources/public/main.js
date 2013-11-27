@@ -19,7 +19,9 @@ require.config({
 
         'codemirror': 'lib/codemirror',
         'codemirror.active-line': 'lib/codemirror.active-line',
-        'codemirror.markdown': 'lib/codemirror.markdown'
+        'codemirror.markdown': 'lib/codemirror.markdown',
+
+        'marked': 'lib/marked'
     },
 
     shim: {
