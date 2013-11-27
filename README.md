@@ -57,8 +57,10 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
 + use markdown preprocessor (github flavored)
 + configure 'marked'
 
-- distraction-free fullscreen record viewing and editing
+- human readable dates in list
+- improve list styles
 
+- distraction-free fullscreen record viewing and editing
 - viewer/editor: add button to scroll to top; for viewer: maybe fix top menu and add button
 
 - edit record validation

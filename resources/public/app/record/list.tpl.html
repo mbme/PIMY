@@ -3,13 +3,12 @@
          ng-click="setActive(record)"
          class="record-item cursor-pointer"
          ng-class="{active: record.id == activeId}">
-        <h3 class="w-100 text-center title">{{ record.title }}</h3>
-
+        <div class="title" title="{{ record.title }}">
+            {{ record.title }}
+        </div>
         <div class="row">
-            <div class="left">{{ record.updated_on | date:"d MMMM, y"}}</div>
-            <div class="right text-right">
-                <tag ng-repeat="tag in record.tags" name="{{ tag }}"></tag>
-            </div>
+            <span class="date">{{ record.updated_on | date:"d MMMM, y"}}</span>
+            <tag ng-repeat="tag in record.tags" name="{{ tag }}"></tag>
         </div>
     </div>
     <pagination loader="loader(offset, limit)"></pagination>

@@ -445,6 +445,7 @@ div.modal {
   padding: 0 5px;
   border-radius: 2px;
   cursor: pointer;
+  display: inline-block;
 
   &:hover {
     color: $active-color;
@@ -487,8 +488,14 @@ div.modal {
     border-bottom: $section-border;
 
     .title {
-      margin-top: 0;
-      margin-bottom: 0;
+      // one line
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      font-size: 18px;
+
+      border-bottom: 0 none;
     }
 
     &:last-child {
@@ -500,10 +507,8 @@ div.modal {
     }
 
     .row {
-      @include row(table);
-
-      .left, .right {
-        @include span-columns(6);
+      .date {
+        font-size: 12px;
       }
     }
   }
