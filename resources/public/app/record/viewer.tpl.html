@@ -1,10 +1,13 @@
 <div class="records-viewer h-100" ng-controller="RecordsViewerCtrl" ng-show="isInitialized()">
-    <div class="details" ng-hide="isEditMode()">
+    <div class="row" ng-hide="isEditMode()">
         <div class="left">
-            #{{ record.id }} <a href="/records/{{ record.id }}/edit">Edit</a>
+            <icon type="clock"></icon>
+            <time datetime="{{ record.updated_on }}">
+                {{ record.updated_on | date:"H:mm EEE dd.MM.y"}}
+            </time>
         </div>
         <div class="right text-right">
-            <span class="record-date">{{ record.updated_on | date:"H:mm EEE dd.MM.y"}}</span>
+            <icon type="compose" addr="/records/{{ record.id }}/edit"></icon>
             <icon type="close-round" ng-click="delete()"></icon>
         </div>
     </div>

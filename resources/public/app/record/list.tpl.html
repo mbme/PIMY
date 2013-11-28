@@ -3,13 +3,19 @@
          ng-click="setActive(record)"
          class="record-item cursor-pointer"
          ng-class="{active: record.id == activeId}">
+        <div class="row">
+            <div class="left">{{ record.type }} / {{ record.id }}</div>
+            <div class="right text-right">
+                <icon type="ios7-clock-outline"></icon>
+                <time datetime="{{ record.updated_on }}"
+                      title="{{ record.updated_on | date:'H:mm EEE dd.MM.y'}}"
+                      human-readable></time>
+            </div>
+        </div>
         <div class="title" title="{{ record.title }}">
             {{ record.title }}
         </div>
-        <div class="row">
-            <time datetime="{{ record.updated_on }}" human-readable></time>
-            <tag ng-repeat="tag in record.tags" name="{{ tag }}"></tag>
-        </div>
+        <tag ng-repeat="tag in record.tags" name="{{ tag }}"></tag>
     </div>
     <pagination loader="loader(offset, limit)"></pagination>
 </div>

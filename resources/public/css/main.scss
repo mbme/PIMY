@@ -6,31 +6,12 @@ $sidebar-icon-size: 35px;
 
 $color-headings: #e69411;
 $color-text: #5a5e5f;
+$color-text-black: #232323;
+$color-tags: #34495E;
 $color-bg: #EDECE4;
 $color-bg-light: #FAFAFA;
 $color-link: #4E8EF7;
 $color-backdrop: #F6F6F6;
-
-$color-1: #5F9EA0;
-$color-2: #1dbbd6;
-// Tags, Links, Main Heading, Quote Border
-$color-3: #C0392B;
-// Hover-over color, Active Page color
-$color-4: #23defe;
-// Hover-over background color for tags
-$color-5: #34495E;
-// Sub-headings, Date Stamp
-$color-6: #ffffff;
-// Navbar Text, Tag text
-$color-7: #1ec2de;
-// Navbar
-$color-8: #2C3E50;
-// Code background
-$color-9: #E74C3C;
-// Quote Color
-// Body Text
-$color-10: #7F8C8D;
-// Footer
 
 $section-border-color: #dddddd;
 $section-border: 1px solid $section-border-color;
@@ -306,7 +287,7 @@ aside#left-col {
     $items-total-h: 20px;
     .items-total {
       height: $items-total-h;
-      color: $active-color;
+      color: $color-tags;
     }
 
     $page-h: 70px;
@@ -440,10 +421,10 @@ div.modal {
 
 .tag {
   margin: 5px;
-  background-color: $sidebar-bg-color;
-  color: $color-bg;
-  padding: 0 5px;
-  border-radius: 2px;
+
+  color: $color-tags;
+  font-family: $font-mono;
+
   cursor: pointer;
   display: inline-block;
 
@@ -468,11 +449,26 @@ div.modal {
 
     &:nth-child(3) {
       font-weight: bold;
+      color: $color-tags;
     }
 
     &.CodeMirror-activeline {
       background-color: #e8f2ff;
     }
+  }
+}
+
+.row {
+  width: 100%;
+  @include clearfix;
+
+  .left {
+    float: left;
+    width: 50%;
+  }
+  .right {
+    float: right;
+    width: 50%;
   }
 }
 
@@ -493,9 +489,10 @@ div.modal {
       overflow: hidden;
       text-overflow: ellipsis;
 
-      font-size: 18px;
+      font-size: 20px;
 
       border-bottom: 0 none;
+      margin-top: 5px;
     }
 
     &:last-child {
@@ -503,12 +500,17 @@ div.modal {
     }
 
     &.active {
-      background-color: $color-bg
+      background-color: $color-bg;
+
+      .title {
+        color: $color-text-black;
+      }
     }
 
     .row {
+      font-size: 12px;
+      padding: 5px 0;
       time {
-        font-size: 12px;
       }
     }
   }
@@ -523,28 +525,29 @@ div.modal {
   background-color: $color-bg-light;
   overflow-y: auto;
 
-  .details {
-    @include row(table);
-
-    height: 30px;
+  .row {
+    height: 25px;
     border-bottom: $section-border;
     margin: 0;
 
-    .left, .right {
-      @include span-columns(6);
-      padding-top: 5px;
-    }
-
     .left {
       padding-left: 5px;
+      padding-top: 5px;
+      font-size: 12px;
+      color: $sidebar-bg-color;
     }
 
     .right {
-      padding-right: 5px;
+      padding-top: 3px;
 
-      .record-date {
-        color: $sidebar-bg-color;
-        margin-right: 10px;
+      .icon {
+        padding-right: 5px;
+        font-size: large;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-link;
+        }
       }
     }
   }

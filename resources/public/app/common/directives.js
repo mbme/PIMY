@@ -42,7 +42,7 @@ define([
     app.directive('tag', function () {
         return {
             restrict: 'E',
-            template: '<span class="tag">{{ name }}</span>',
+            template: '<span class="tag">#{{ name }}</span>',
             replace: true,
             scope: {
                 name: '@'
@@ -76,7 +76,7 @@ define([
     });
 
     //directive with possibility to show dates in relative format
-    var timerUpdateInterval = 5000;
+    var timerUpdateInterval = 20*1000;
     app.directive('time', function ($interval) {
         return {
             restrict: 'E',

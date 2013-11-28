@@ -56,9 +56,11 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
     tab-> text
 + use markdown preprocessor (github flavored)
 + configure 'marked'
++ human readable dates in list
++ improve list styles
 
-- human readable dates in list
-- improve list styles
+- search by tag
+- affix panels
 
 - distraction-free fullscreen record viewing and editing
 - viewer/editor: add button to scroll to top; for viewer: maybe fix top menu and add button
