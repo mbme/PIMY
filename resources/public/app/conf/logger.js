@@ -20,6 +20,12 @@ define([
                         log(arguments[0]);
                         return;
                     }
+
+                    if (!angular.isString(arguments[0])) {
+                        log.apply(this, arguments);
+                        return;
+                    }
+
                     var paramsCount = arguments.length - 1;
 
                     var paramPos = 1;
