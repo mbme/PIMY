@@ -183,7 +183,7 @@ define([
                 };
 
                 var blockScroll = false,
-                    scrollTimeout = 150,
+                    scrollTimeout = 250,
                     blockScrollTimeout = 200;
 
                 var scrollToTop = function () {
@@ -224,16 +224,19 @@ define([
                 var maxScroll = 10;
 
                 var scrollable = element.closest('section');
-                scrollable.on('mousewheel', function (evt) {
+                scrollable.on('wheel mousewheel', function (evt) {
                     if (blockScroll) {
                         evt.preventDefault();
                         return;
                     }
 
+                    //check if scroll direction was to bottom
+                    var scrolledDown = evt.originalEvent.deltaY > 0;
+
                     var scrollTop = scrollable.scrollTop();
 
                     //if scrolled to top
-                    if (scrollTop === 0) {
+                    if (!scrolledDown && scrollTop === 0) {
                         if (!scope.hasPrevPage()) {
                             return;
                         }
@@ -247,7 +250,7 @@ define([
 
                     var height = scrollable[0].scrollHeight;
                     //if scrolled to bottom
-                    if (scrollTop + scrollable.innerHeight() >= height) {
+                    if (scrolledDown && scrollTop + scrollable.innerHeight() >= height) {
                         if (!scope.hasNextPage()) {
                             return;
                         }
