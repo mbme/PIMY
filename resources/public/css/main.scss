@@ -476,6 +476,10 @@ div.modal {
   border-right: $section-border;
   border-left: $section-border;
 
+  min-height: 100%;
+
+  background-color: $color-bg-light;
+
   .record-item {
     background-color: $color-bg-light;
     padding-left: 10px;
