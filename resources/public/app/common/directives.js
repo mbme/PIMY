@@ -2,8 +2,10 @@
 
 define([
     '../pimy',
-    'marked'
-], function (app, marked) {
+    'marked',
+    'humaneDate',
+    'lodash'
+], function (app, marked, humaneDate, _) {
 
     //opens specified address after click on element; attribute only
     var addrName = 'addr';
@@ -53,6 +55,7 @@ define([
         smartypants: true
     });
 
+    //markdown compiler
     app.directive('markdown', function ($sce) {
         return {
             restrict: 'E',
@@ -67,6 +70,36 @@ define([
                     }
 
                     scope.md = $sce.trustAsHtml(marked(newVal));
+                });
+            }
+        };
+    });
+
+    //directive with possibility to show dates in relative format
+    var timerUpdateInterval = 5000;
+    app.directive('time', function ($interval) {
+        return {
+            restrict: 'E',
+            scope: {
+                datetime: '@'
+            },
+            link: function (scope, elem, attrs) {
+                //if does not has attribute human-readable
+                if (_.isUndefined(attrs.humanReadable)) {
+                    return;
+                }
+
+                var update = function () {
+                    var date = new Date(parseInt(scope.datetime, 10));
+                    elem.text(humaneDate(date));
+                };
+
+                update();
+
+                var promise = $interval(update, timerUpdateInterval);
+
+                scope.$on('$destroy', function () {
+                    $interval.cancel(promise);
                 });
             }
         };

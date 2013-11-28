@@ -7,7 +7,7 @@
             {{ record.title }}
         </div>
         <div class="row">
-            <span class="date">{{ record.updated_on | date:"d MMMM, y"}}</span>
+            <time datetime="{{ record.updated_on }}" human-readable></time>
             <tag ng-repeat="tag in record.tags" name="{{ tag }}"></tag>
         </div>
     </div>
