@@ -530,24 +530,33 @@ div.modal {
   overflow-y: auto;
 
   .row {
-    height: 25px;
     border-bottom: $section-border;
+    height: 35px;
+    padding-top: 5px;
     margin: 0;
+    font-size: 15px;
 
     .left {
       padding-left: 5px;
-      padding-top: 5px;
-      font-size: 12px;
-      color: $sidebar-bg-color;
+      padding-top: 3px;
+      color: $color-text;
     }
 
     .right {
       padding-top: 3px;
+      font-size: 17px;
 
       .icon {
-        padding-right: 5px;
-        font-size: large;
+        padding-left: 6px;
+        padding-right: 10px;
+
+        border-right: $section-border;
+
         cursor: pointer;
+
+        &:last-child {
+          border-right: 0 none;
+        }
 
         &:hover {
           color: $color-link;

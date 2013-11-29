@@ -59,7 +59,9 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
 + human readable dates in list
 + improve list styles
 
+- search field
 - search by tag
+- tags cloud
 - affix panels
 
 - distraction-free fullscreen record viewing and editing
