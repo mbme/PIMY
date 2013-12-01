@@ -103,3 +103,7 @@ pre,
 samp {
   font-family: $font-mono;
 }
+
+* {
+  @include box-sizing(border-box);
+}
