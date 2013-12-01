@@ -83,7 +83,7 @@ x implement:  //should not be implemented because will be hard to use vim/emacs 
 
 - in records list retrieve records without body to save memory
 - implement records cache
-
+- use html5 semantic tags
 - possibility to hide left menu
 - add drawing board to create sketches http://leimi.github.io/drawingboard.js/
 - client-side encryption
