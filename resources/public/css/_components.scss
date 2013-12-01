@@ -1,0 +1,43 @@
+.fixed {
+  position: fixed;
+  z-index: 1000;
+}
+
+.tag {
+  margin: 5px;
+
+  color: $color-tags;
+  font-family: $font-mono;
+
+  cursor: pointer;
+  display: inline-block;
+
+  &:hover {
+    color: $active-color;
+  }
+}
+
+.CodeMirror {
+  height: 100%;
+
+  background-color: $color-bg-light;
+  color: $color-text;
+
+  font-family: $font-mono;
+
+  .CodeMirror-code pre {
+    &:first-child {
+      color: $color-headings;
+      font-weight: bold;
+    }
+
+    &:nth-child(3) {
+      font-weight: bold;
+      color: $color-tags;
+    }
+
+    &.CodeMirror-activeline {
+      background-color: #e8f2ff;
+    }
+  }
+}

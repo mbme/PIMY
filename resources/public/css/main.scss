@@ -28,181 +28,25 @@ $modal-zindex: 1050;
 
 $font-mono: "PT Mono", monospace, serif;
 
-/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
+//defaults from html5 boilerplate
+@import "_base";
 
-/*
-* What follows is the result of much research on cross-browser styling.
-* Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
-* Kroc Camen, and the H5BP dev community and team.
-*/
+//fonts, headers
+@import "_type";
 
-/* ==========================================================================
-Base styles: opinionated defaults
-========================================================================== */
+//util classes
+@import "_helpers";
 
-html,
-button,
-input,
-select,
-textarea {
-  color: #222;
-}
-
-html {
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-/*
-* Remove text-shadow in selection highlight: h5bp.com/i
-* These selection rule sets have to be separate.
-* Customize the background color to match your design.
-*/
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-/*
-* A better looking default horizontal rule
-*/
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-/*
-* Remove the gap between images, videos, audio and canvas and the bottom of
-* their containers: h5bp.com/i/440
-*/
-
-audio,
-canvas,
-img,
-svg,
-video {
-  vertical-align: middle;
-}
-
-/*
-* Remove default fieldset styles.
-*/
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/*
-* Allow only vertical resizing of textareas.
-*/
-
-textarea {
-  resize: vertical;
-}
+//component styles
+@import "_components";
 
 /* ==========================================================================
 Custom styles
 ========================================================================== */
 
-//monospaced
-@font-face {
-  font-family: 'PT Mono';
-  font-style: normal;
-  font-weight: 400;
-  src: local('PT Mono'), local('PTMono-Regular'), url(../fonts/PTM55FT.ttf);
-}
-
-//default font
-@font-face {
-  font-family: 'Istok Web';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Istok Web Regular'), local('IstokWeb-Regular'), url(../fonts/Istok_Web/IstokWeb-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Istok Web';
-  font-style: italic;
-  font-weight: 400;
-  src: local('Istok Web Italic'), local('IstokWeb-Italic'), url(../fonts/Istok_Web/IstokWeb-Italic.ttf);
-}
-
-//headers
-@font-face {
-  font-family: 'PT Serif Caption';
-  font-style: normal;
-  font-weight: 400;
-  src: local('PT Serif Caption'), local('PTSerif-Caption'), url(../fonts/PT_Serif-Caption-Web-Regular.ttf);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "PT Serif Caption", sans-serif;
-  font-weight: 400;
-  color: $color-headings;
-}
-
-h1 {
-  font-size: golden-ratio($h-base-font-size, $h-max-size);
-}
-
-h2 {
-  font-size: golden-ratio($h-base-font-size, $h-max-size - 1);
-}
-
-h3 {
-  font-size: golden-ratio($h-base-font-size, $h-max-size - 2);
-}
-
-h4 {
-  font-size: golden-ratio($h-base-font-size, $h-max-size - 3);
-}
-
-h5 {
-  font-size: golden-ratio($h-base-font-size, $h-max-size - 4);
-}
-
-h6 {
-  font-size: golden-ratio($h-base-font-size, $h-max-size - 5);
-}
-
-*:focus {
-  outline: none;
-}
-
-a, a:visited {
-  color: $color-link;
-  text-decoration: none;
-  border: 0 none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-code,
-kbd,
-pre,
-samp {
-  font-family: $font-mono;
-}
-
 html {
   overflow: hidden;
   height: 100%;
-  font-family: "Istok Web", sans-serif;
   color: $color-text;
 }
 
@@ -340,11 +184,6 @@ aside#left-col {
   }
 }
 
-.fixed {
-  position: fixed;
-  z-index: 1000;
-}
-
 div.modal {
   position: fixed;
   z-index: $modal-zindex;
@@ -416,59 +255,6 @@ div.modal {
     left: 0;
     background-color: $color-backdrop;
     opacity: 0.8;
-  }
-}
-
-.tag {
-  margin: 5px;
-
-  color: $color-tags;
-  font-family: $font-mono;
-
-  cursor: pointer;
-  display: inline-block;
-
-  &:hover {
-    color: $active-color;
-  }
-}
-
-.CodeMirror {
-  height: 100%;
-
-  background-color: $color-bg-light;
-  color: $color-text;
-
-  font-family: $font-mono;
-
-  .CodeMirror-code pre {
-    &:first-child {
-      color: $color-headings;
-      font-weight: bold;
-    }
-
-    &:nth-child(3) {
-      font-weight: bold;
-      color: $color-tags;
-    }
-
-    &.CodeMirror-activeline {
-      background-color: #e8f2ff;
-    }
-  }
-}
-
-.row {
-  width: 100%;
-  @include clearfix;
-
-  .left {
-    float: left;
-    width: 50%;
-  }
-  .right {
-    float: right;
-    width: 50%;
   }
 }
 
@@ -602,66 +388,5 @@ div.modal {
         border: 0 none;
       }
     }
-  }
-}
-
-/* ==========================================================================
-Helper classes
-========================================================================== */
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.h-100 {
-  height: 100%;
-}
-
-.wh-100 {
-  width: 100%;
-  height: 100%;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-right {
-  text-align: right;
-}
-
-/*
-* Hide from both screenreaders and browsers: h5bp.com/u
-*/
-
-.hidden {
-  display: none !important;
-  visibility: hidden;
-}
-
-/*
-* Clearfix: contain floats
-*
-* For modern browsers
-* 1. The space content is one way to avoid an Opera bug when the
-* `contenteditable` attribute is included anywhere else in the document.
-* Otherwise it causes space to appear at the top and bottom of elements
-* that receive the `clearfix` class.
-* 2. The use of `table` rather than `block` is only necessary if using
-* `:before` to contain the top-margins of child elements.
-*/
-
-.clearfix {
-  &:before, &:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
-  }
-
-  &:after {
-    clear: both;
   }
 }

@@ -1,0 +1,64 @@
+//monospaced
+@font-face {
+  font-family: 'PT Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Mono'), local('PTMono-Regular'), url(../fonts/PTM55FT.ttf);
+}
+
+//default font
+@font-face {
+  font-family: 'Istok Web';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Istok Web Regular'), local('IstokWeb-Regular'), url(../fonts/Istok_Web/IstokWeb-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Istok Web';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Istok Web Italic'), local('IstokWeb-Italic'), url(../fonts/Istok_Web/IstokWeb-Italic.ttf);
+}
+
+//headers
+@font-face {
+  font-family: 'PT Serif Caption';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif Caption'), local('PTSerif-Caption'), url(../fonts/PT_Serif-Caption-Web-Regular.ttf);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "PT Serif Caption", sans-serif;
+  font-weight: 400;
+  color: $color-headings;
+}
+
+h1 {
+  font-size: golden-ratio($h-base-font-size, $h-max-size);
+}
+
+h2 {
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 1);
+}
+
+h3 {
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 2);
+}
+
+h4 {
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 3);
+}
+
+h5 {
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 4);
+}
+
+h6 {
+  font-size: golden-ratio($h-base-font-size, $h-max-size - 5);
+}
+
+html {
+  font-family: "Istok Web", sans-serif;
+}
