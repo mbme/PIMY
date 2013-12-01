@@ -23,14 +23,14 @@
 </div>
 
 <aside id="left-col" class="h-100">
-    <ul class="menu" ng-controller="MenuCtrl">
+    <menu ng-controller="MenuCtrl">
         <li ng-class="{active: menu==='new_record'}" addr="/records/new">
             <icon type="plus"></icon>
         </li>
         <li ng-class="{active: menu==='records'}" addr="/records">
             <icon type="clipboard"></icon>
         </li>
-    </ul>
+    </menu>
 </aside>
 
 <modal></modal>
